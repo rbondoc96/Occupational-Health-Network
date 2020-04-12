@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <h1 class="text-center mb-3">Clinic Locator</h1>
+    input.
+    {% if service_list %}
+        {% for service in service_list %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <p class="lead">{{ service.name }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+
+    {% endif %}
+{% endblock %}
+
+{% block scripts %}
+<!-- <script src="/../../js/"></script> -->
+{% endblock %}
