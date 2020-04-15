@@ -98,9 +98,10 @@ class Location(models.Model):
     state = models.CharField(max_length=2)
     zipcode = models.CharField(max_length=10)
 
-    # 25 characters allows for a an extension substring "ext. #####"
+    # 25 characters allows for an extension substring "ext. #####"
     phone = models.CharField(max_length=25, default='')
     fax = models.CharField(max_length=14, default='')
+    website = models.TextField(blank=True)
 
     comments = models.TextField(blank=True)
     last_updated = models.DateTimeField('last updated')
@@ -156,12 +157,7 @@ class Contacts(models.Model):
     name = models.CharField(max_length=35)
     title = models.CharField(max_length=30, blank=True, null=True)
     email = models.CharField(max_length=320, blank=True, null=True)
-    phone = models.CharField(max_length=25, blank=True, null=True)
-
-class LocationHistory(models.Model):
-    location = models.ForeignKey(Location, on_delete=models.CASCADE)
-
-        
+    phone = models.CharField(max_length=25, blank=True, null=True)    
 
 class User(models.Model):
     location = models.ForeignKey(Location, on_delete=models.PROTECT)
