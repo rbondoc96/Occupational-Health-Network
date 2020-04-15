@@ -1,14 +1,14 @@
-<p align="center">
+<!-- <p align="center">
   <a href="" rel="noopener">
  <img width=200px height=200px src="https://i.imgur.com/6wj0hh6.jpg" alt="Project logo"></a>
 </p>
-
+ -->
 <h3 align="center">Clinic Locator and Database</h3>
 
 ---
 
 <p align="center">
-I came up with this project as a means to rework a location finder tool used at my current job to find medical clinics. The one we currently have is extremely outdated, and doesn't store enough information or have enough capability to make it as useful it could be.<br> 
+I came up with this project as a means to rework a location finder tool used at my current job to locate medical clinics. I aim to add more functionality, and allow us to track valuable information about clinics. The one we currently have is extremely outdated, and doesn't store enough information or have enough capability to make it as useful it could be.<br> 
 </p>
 
 ## 📝 Table of Contents
