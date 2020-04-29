@@ -253,7 +253,11 @@ class ServiceTimeRange(models.Model):
     )
 
     def __str__(self):
-        return f'{self.name}: {self.start_hour}:{self.start_min} {self.start_am_pm - {self.end_hour}:{self.end_min} {self.end_am_pm}}'
+        return (
+            f'{self.name}: '
+            f'{self.start_hour}:{self.start_min} {self.start_am_pm} to '
+            f'{self.end_hour}:{self.end_min} {self.end_am_pm}'
+        )
 
     class Meta:
         verbose_name = "Service Time Range"
@@ -310,7 +314,11 @@ class DayTimeRange(models.Model):
     )
 
     def __str__(self):
-        return f'{self.day}: {self.start_hour}:{self.start_min} {self.start_am_pm - {self.end_hour}:{self.end_min} {self.end_am_pm}}'
+        return (
+            f'{self.day}: '
+            f'{self.start_hour}:{self.start_min} {self.start_am_pm} to '
+            f'{self.end_hour}:{self.end_min} {self.end_am_pm}'
+        )
     
     class Meta:
         verbose_name = "Day/Time Range"
