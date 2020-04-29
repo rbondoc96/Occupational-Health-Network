@@ -1,0 +1,154 @@
+{% extends "./../base.html" %}
+
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'locator/css/new.css' %}">
+{% endblock styles %}
+
+{% block title %}
+    Add New Location
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <div class="col-md-12 m-auto">
+        <h3 class="text-center">Add a Location</h3>
+
+        <form method="POST" id="location-form">
+            {% csrf_token %}
+
+            {{ form.location_category|as_crispy_field }}
+            <div class="form-row">
+                <div class="col">
+                    {{ form.location_name|as_crispy_field }}
+                </div>
+                <div class="col">
+                    {{ form.location_branch_name|as_crispy_field }}
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col">
+                    {{ form.street_line_1|as_crispy_field }}
+                </div>
+                <div class="col">
+                    {{ form.street_line_2|as_crispy_field }}
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col-7">
+                    {{ form.city|as_crispy_field }}
+                </div>
+                <div class="col-2">
+                    {{ form.state|as_crispy_field }}
+                </div>
+                <div class="col">
+                    {{ form.zipcode|as_crispy_field }}
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col">
+                    {{ form.phone|as_crispy_field }}
+                    {{ form.is_phone_callable|as_crispy_field }}
+                </div>
+                <div class="col">
+                    {{ form.fax|as_crispy_field }}
+                </div>
+            </div>
+
+            {{ form.website|as_crispy_field }}
+
+            {% include "locator/modals/contacts-modal.html" %}
+            
+            {% include "locator/modals/oh-modal.html" %}
+
+            {% include "locator/modals/sh-modal.html" %}
+
+            <div class="form-row pb-2">
+                <div class="col-5">
+                    <div>
+                        <a 
+                        href="#" 
+                        class="modal-link"
+                        data-toggle="modal"
+                        data-target="#contacts-modal"
+                        >
+                            + Add Contacts
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="col-3">
+                    <div>
+                        <a 
+                        href="#" 
+                        class="modal-link"
+                        data-toggle="modal"
+                        data-target="#op-hours-modal"
+                        >
+                            + Add Hours of Operation
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="col-4">
+                    <div>
+                        <a 
+                        href="#" 
+                        class="modal-link"
+                        data-toggle="modal"
+                        data-target="#serv-hours-modal"
+                        >
+                            + Add Service Hours
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col-5">
+                    <ul id="contacts-list" class="list-group"></ul>
+                    <div id="contacts-inputs"></div>
+                </div>
+                <div class="col-3">
+                    <ul id="op-hours-list" class="location-sublist list-group"></ul>
+                </div>
+                <div class="col-4">
+                    <ul id="serv-hours-list" class="location-sublist list-group"></ul>
+                </div>
+            </div>
+
+            <div class="form-row pt-2">
+                <div class="col-5">
+                    {{ form.service_list|as_crispy_field }}
+                </div>
+                <div class="col-3">
+                    {{ form.ccf_category_list|as_crispy_field }}
+                </div>
+                <div class="col-4">
+                    {{ form.auth_method_list|as_crispy_field }}
+                </div>
+            </div>
+
+            <div id="tip" class="form-row"><p style="white-space: pre-wrap;"> To (de)select multiple items, hold CTRL/CMD and click.</p></div>
+
+            {{ form.comments|as_crispy_field }}
+
+            <button type="button" class="btn btn-outline-dark" form="location-form" id="submit-btn">
+                Add Location
+            </button>
+            <button type="button" class="btn btn-outline-info" form="location-form" id="clear-btn">
+                Clear Form
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+<script src="{% static 'locator/js/new.js' %}"></script>
+{% endblock scripts %}

@@ -1,0 +1,37 @@
+{% load crispy_forms_tags %}
+
+<div class="modal fade" id="contacts-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add A Contact</h5>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    {{ form.contact_name|as_crispy_field }}
+                    {{ form.contact_title|as_crispy_field }}
+                    {{ form.contact_phone|as_crispy_field }}
+                    {{ form.contact_email|as_crispy_field }}
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button 
+                type="button" 
+                class="btn btn-secondary" 
+                id="contacts-modal-close-btn"
+                data-dismiss="modal"
+                >
+                    Close
+                </button>
+                
+                <button 
+                type="button"
+                class="btn btn-primary"
+                id="contacts-modal-submit-btn"
+                >
+                    Save Contact
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
