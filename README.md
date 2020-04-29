@@ -26,4 +26,4 @@ The CLDB will allow the user(s) to:
 - ~~View up to the past 3 records of the clinic information since the current update~~ (later)
 - Rate locations and leave reviews
 
-The goal of this project is to make this information more centralized, convenient, and reliable at work, so we that we can reduce the amount of time spent calling all around asking clinics for information.
+The goal of this project is to make this information more centralized, convenient, and reliable at work, so we that we can reduce the amount of time spent calling all around asking clinics for information, and make better informed decisions about whether or not a clinic should be used.

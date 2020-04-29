@@ -11,6 +11,8 @@ pytest = "*"
 django = "*"
 psycopg2 = "*"
 pylint-django = "*"
+django-crispy-forms = "*"
+uszipcode = "*"
 
 [requires]
 python_version = "3.8"
