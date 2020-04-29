@@ -2,6 +2,8 @@
 
 from django.db import models
 
+from .vars import DayTime, Locations, ModelConstants
+
 # One-to-Many Relationships
 #   1. User <-> Rating
 #       A user will have submitted multiple ratings
@@ -31,89 +33,171 @@ from django.db import models
 #       An AuthMethod can be used at different Locations
 
 class ServiceCategory(models.Model):
-    name = models.CharField(max_length=30, unique=True)
+    name = models.CharField(
+        max_length=30, 
+        unique=True
+    )
 
     def __str__(self):
         return self.name
 
     class Meta:
+        ordering= ["name"]
         verbose_name = "Service Category"
         verbose_name_plural = "Service Categories"
 
 class LocationCategory(models.Model):
-    name = models.CharField(max_length=40, unique=True)
+    name = models.CharField(
+        max_length=40, 
+        unique=True
+    )
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        ordering= ["name"]
+        verbose_name = "Location Category"
+        verbose_name_plural = "Location Categories"
 
 # Ex. Electronic, Paper, Alter
 class CcfCategory(models.Model):
-    name = models.CharField(max_length=16, unique=True)
+    name = models.CharField(
+        max_length=16, 
+        unique=True
+    )
 
     def __str__(self):
         return self.name
 
-# Ex. Aya, EScreen, Mobile Health
+    class Meta:
+        ordering= ["name"]
+        verbose_name = "CCF Category"
+        verbose_name_plural = "CCF Categories"
+
+# Ex. EScreen, Mobile Health
 class AuthMethod(models.Model):
-    name = models.CharField(max_length=16, unique=True)
+    name = models.CharField(
+        max_length=16, 
+        unique=True
+    )
 
     def __str__(self):
         return self.name
+    
+    class Meta:
+        ordering= ["name"]
+        verbose_name = "Authorization Method"
+        verbose_name_plural = "Authorization Methods"
 
-# Ex. LabCorp(Electronic), LabCorp(Alter)
-class DrugScreenMethod(models.Model):
-    ccf_category = models.ForeignKey(CcfCategory,
-    on_delete=models.SET_NULL, blank=True, null=True)
-
-    name = models.CharField(max_length=16)
-
-    def __str__(self):
-        return self.name
-
+# Meta list of all medical services we are interested in
 class Service(models.Model):
-    # In the event a ServiceCategory is deleted, the Service itself
-    # won't be deleted, just uncategorized
-    service_category = models.ForeignKey(ServiceCategory,
-    on_delete=models.SET_NULL, blank=True, null=True)
+    service_category = models.ForeignKey(
+        ServiceCategory,
+        on_delete=models.SET_NULL, 
+        blank=True, 
+        null=True)
 
-    name = models.CharField(max_length=30, unique=True)
+    name = models.CharField(
+        max_length=50,
+        unique=True)
 
-    # Expected that cost of service will not exceed $999.99
-    cost = models.DecimalField(max_digits=5, decimal_places=2)
+    simple_name = models.CharField(
+        max_length=15,
+        blank=True,
+        null=True,
+        verbose_name="Simple Name"
+    )
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        ordering = ["name"]
 
 class Location(models.Model):
-    # If a LocationCategory is deleted, the Location will still remain,
-    # but it will be uncategorized
-    location_category = models.ForeignKey(LocationCategory,
-    on_delete=models.SET_NULL, blank=True, null=True)
+    location_category = models.ForeignKey(
+        LocationCategory,
+        on_delete=models.SET_NULL, 
+        blank=True, 
+        null=True
+    )
 
-    name = models.CharField(max_length=70)
-    branch_name = models.CharField(max_length=30)
-    street_line_1 = models.CharField(max_length=50)
-    street_line_2 = models.CharField(max_length=35)
-    city = models.CharField(max_length=45)
-    state = models.CharField(max_length=2)
-    zipcode = models.CharField(max_length=10)
+    name = models.CharField(max_length=ModelConstants.LOCATION_NAME)
+    branch_name = models.CharField(
+        max_length=ModelConstants.LOCATION_BRANCH_NAME, 
+        blank=True, 
+        null=True
+    )
+
+    street_line_1 = models.CharField(
+        max_length=ModelConstants.LOCATION_STREET_LINE_1
+    )
+    street_line_2 = models.CharField(
+        max_length=ModelConstants.LOCATION_STREET_LINE_2, 
+        blank=True, 
+        null=True
+    )
+    city = models.CharField(max_length=ModelConstants.LOCATION_CITY)
+    state = models.CharField(
+        max_length=2,  # remove this?
+        choices=Locations.US_STATES, 
+        default=""
+    )
+    zipcode = models.CharField(max_length=ModelConstants.LOCATION_ZIPCODE)
 
     # 25 characters allows for an extension substring "ext. #####"
-    phone = models.CharField(max_length=25, default='')
-    fax = models.CharField(max_length=14, default='')
-    website = models.TextField(blank=True)
+    phone = models.CharField(
+        max_length=ModelConstants.LOCATION_PHONE, 
+        default=''
+    )
+    is_phone_callable = models.BooleanField(
+        verbose_name="Is this number callable?",
+        default=True,
+        blank=True
+    )
+    fax = models.CharField(
+        max_length=ModelConstants.LOCATION_FAX, 
+        default='',
+        blank=True,
+        null=True
+    )
+    website = models.TextField(
+        blank=True, 
+        null=True
+    )
 
-    comments = models.TextField(blank=True)
-    last_updated = models.DateTimeField('last updated')
+    comments = models.TextField(blank=True, null=True)
+    last_updated = models.DateField(
+        'Last Updated',
+        auto_now=True
+    )
+    # Will be activated by press of "Verify" button
+    last_verified = models.DateField(
+        "Last Verified",
+        blank=True,
+        null=True
+    )
 
-    service_list = models.ManyToManyField(Service)
-    auth_method_list = models.ManyToManyField(AuthMethod)
-    ds_method_list = models.ManyToManyField(DrugScreenMethod)
+    service_list = models.ManyToManyField(
+        Service,
+        verbose_name="Services Offered"
+    )
+    ccf_category_list = models.ManyToManyField(
+        CcfCategory,
+        verbose_name="Chain of Custody Forms Accepted"
+    )
+    auth_method_list = models.ManyToManyField(
+        AuthMethod,
+        verbose_name="Authorization Methods Accepted"
+    )
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=['name', 'branch_name'],
-            name='location_name_branch_name_key')
+            models.UniqueConstraint(
+                fields=['name', 'branch_name'],
+                name='location_name_branch_name_key'
+            )
         ]
     
     def __str__(self):
@@ -124,48 +208,154 @@ class Location(models.Model):
     
 
 class ServiceTimeRange(models.Model):
-    location = models.ForeignKey(Location, on_delete=models.CASCADE)
+    location = models.ForeignKey(
+        Location, 
+        on_delete=models.CASCADE
+    )
 
     name = models.CharField(max_length=30)
-    start_time = models.TimeField('time start')
-    end_time = models.TimeField('time end')
+    start_hour = models.CharField(
+        max_length=2,
+        choices=DayTime.HOURS,
+        verbose_name="Starting Hour",
+        default=""
+    )
+    start_min = models.CharField(
+        max_length=2,
+        choices=DayTime.MINUTES,
+        verbose_name="Starting Minute",
+        default=""
+    )
+    start_am_pm = models.CharField(
+        max_length=2,
+        choices=DayTime.AM_PM,
+        verbose_name="AM/PM",
+        default=""
+    )
+
+    end_hour = models.CharField(
+        max_length=2,
+        choices=DayTime.HOURS,
+        verbose_name="Starting Hour",
+        default=""
+    )
+    end_min = models.CharField(
+        max_length=2,
+        choices=DayTime.MINUTES,
+        verbose_name="Starting Minute",
+        default=""
+    )
+    end_am_pm = models.CharField(
+        max_length=2,
+        choices=DayTime.AM_PM,
+        verbose_name="AM/PM",
+        default=""
+    )
 
     def __str__(self):
-        return f'{self.name}: {self.start_time} - {self.end_time}'
+        return f'{self.name}: {self.start_hour}:{self.start_min} {self.start_am_pm - {self.end_hour}:{self.end_min} {self.end_am_pm}}'
+
+    class Meta:
+        verbose_name = "Service Time Range"
+        verbose_name_plural = "Service Time Ranges"
 
 class DayTimeRange(models.Model):
-    location = models.ForeignKey(Location, on_delete=models.CASCADE)
+    location = models.ForeignKey(
+        Location, 
+        on_delete=models.CASCADE
+    )
 
-    # Only using 3 letter days (Mon/Tue/Wed/Thu/Fri/Sat/Sun)
-    day = models.CharField(max_length=3)
-    open_time = models.TimeField('time open')
-    close_time = models.TimeField('time closed')
+    day = models.CharField(
+        max_length=len(DayTime.WEDNESDAY),
+        choices=DayTime.DAYS,
+        default=DayTime.MONDAY
+    )
+
+    start_hour = models.CharField(
+        max_length=2,
+        choices=DayTime.HOURS,
+        verbose_name="Starting Hour",
+        default=""
+    )
+    start_min = models.CharField(
+        max_length=2,
+        choices=DayTime.MINUTES,
+        verbose_name="Starting Minute",
+        default=""
+    )
+    start_am_pm = models.CharField(
+        max_length=2,
+        choices=DayTime.AM_PM,
+        verbose_name="Starting AM/PM",
+        default=""
+    )
+
+    end_hour = models.CharField(
+        max_length=2,
+        choices=DayTime.HOURS,
+        verbose_name="Ending Hour",
+        default=""
+    )
+    end_min = models.CharField(
+        max_length=2,
+        choices=DayTime.MINUTES,
+        verbose_name="Ending Minute",
+        default=""
+    )
+    end_am_pm = models.CharField(
+        max_length=2,
+        choices=DayTime.AM_PM,
+        verbose_name="Ending AM/PM",
+        default=""
+    )
 
     def __str__(self):
-        return f'{self.day}: {self.open_time} - {self.close_time}'
+        return f'{self.day}: {self.start_hour}:{self.start_min} {self.start_am_pm - {self.end_hour}:{self.end_min} {self.end_am_pm}}'
+    
+    class Meta:
+        verbose_name = "Day/Time Range"
+        verbose_name_plural = "Day/Time Ranges"
 
 class Rating(models.Model):
-    location = models.ForeignKey(Location, on_delete=models.CASCADE)
+    location = models.ForeignKey(
+        Location, 
+        on_delete=models.CASCADE
+    )
 
-    rating = models.IntegerField(default=0)
-    comments = models.CharField(max_length=255, default="", blank=True)
-    datetime_submitted = models.DateTimeField('datetime submitted')
+    up_votes = models.IntegerField(default=0)
+    down_votes = models.IntegerField(default=0)
+    comments = models.CharField(
+        max_length=255, 
+        default="", 
+        blank=True
+    )
+    date_submitted = models.DateField(
+        'Date Submitted',
+        default="1900-01-01"
+    )
 
 class Contacts(models.Model):
-    location = models.ForeignKey(Location, on_delete=models.CASCADE)
+    location = models.ForeignKey(
+        Location, 
+        on_delete=models.CASCADE
+    )
 
-    name = models.CharField(max_length=35)
-    title = models.CharField(max_length=30, blank=True, null=True)
-    email = models.CharField(max_length=320, blank=True, null=True)
-    phone = models.CharField(max_length=25, blank=True, null=True)    
+    name = models.CharField(max_length=255)
+    title = models.CharField(
+        max_length=30,
+        blank=True, 
+        null=True)
+    email = models.EmailField(
+        max_length=254, 
+        blank=True, 
+        null=True)
+    phone = models.CharField(
+        max_length=25, 
+        blank=True, 
+        null=True) 
 
-class User(models.Model):
-    location = models.ForeignKey(Location, on_delete=models.PROTECT)
-    rating = models.ForeignKey(Rating, on_delete=models.PROTECT)
-
-    name = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.name
+    class Meta:
+        verbose_name = "Contact"
+        verbose_name_plural = "Contacts"   
 
 

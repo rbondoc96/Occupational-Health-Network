@@ -20,6 +20,6 @@ from django.urls import include, path
 
 # This is where the mapping between URLs and views occurs
 urlpatterns = [
-    path('locator/', include('locator.urls')),
+    path('', include('locator.urls')),
     path('admin/', admin.site.urls),
 ]
