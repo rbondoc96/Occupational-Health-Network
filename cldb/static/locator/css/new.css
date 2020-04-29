@@ -1,0 +1,11 @@
+ul {
+    padding: 0;
+}
+
+ul.location-sublist {
+    list-style-type: none;
+}
+
+.requiredField {
+    font-weight: 600;
+}

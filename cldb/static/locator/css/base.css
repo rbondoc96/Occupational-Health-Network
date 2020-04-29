@@ -1,0 +1,24 @@
+header {
+    background: #1B3B6F;
+}
+
+.border-hover:hover {
+    border: 1px solid #EEE;
+}
+
+a.modal-link {
+    font-weight: 600;
+}
+
+::-webkit-input-placeholder {
+    font-style: italic;
+ }
+ :-moz-placeholder {
+    font-style: italic;  
+ }
+ ::-moz-placeholder {
+    font-style: italic;  
+ }
+ :-ms-input-placeholder {  
+    font-style: italic; 
+ }
