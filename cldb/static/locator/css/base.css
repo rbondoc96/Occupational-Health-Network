@@ -1,24 +1,85 @@
-header {
-    background: #1B3B6F;
+a:hover {
+    color: initial;
+}
+
+#nav-logo {
+    margin-left: 20px;
+    margin-right: 37px;
+    width: 140px;
+    height: 35px;
+}
+
+.navbar {
+    padding: 0;
+}
+
+#main-nav .nav-item {
+    padding-right: 20px;
+    padding-left: 20px;
+}
+
+#main-nav .nav-item:hover {
+    background: #B8B7B4;
+}
+
+.nav-link {
+    display: inline-block;
+    color: #000;
+    font-family: "Roboto", serif;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+#nav-accent {
+    width: 100%;
+    height: 7px;
+    background-color: #666666;
+}
+
+#profile-img img {
+    margin-right: 10px;
+    width: 48px;
+    height: 48px;
+    border: 1px solid #000;
+}
+
+div#subnavbar {
+    width: 100%;
+    background: #2B2B2B;
+    border-bottom: 1px solid #000;
+
+    /* animation-name: slideIn;
+    animation-duration: 5s; */
+}
+
+/* @keyframes slideIn {
+    0% {top: 50px;}
+    50% {top: 100px;}
+    100% {top: 300px;}
+} */
+
+#subnav li.nav-item:first-child {
+    margin-left: 50px;
+}
+
+.subnav-link {
+    display: inline-block;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: #FFF;
+    font-family: "Roboto", serif;
+    font-weight: 500;
+}
+.subnav-link:hover {
+    background: #595959;
+    color: #FFF;
+    text-decoration: none;
 }
 
 .border-hover:hover {
     border: 1px solid #EEE;
 }
-
-a.modal-link {
-    font-weight: 600;
-}
-
-::-webkit-input-placeholder {
-    font-style: italic;
- }
- :-moz-placeholder {
-    font-style: italic;  
- }
- ::-moz-placeholder {
-    font-style: italic;  
- }
- :-ms-input-placeholder {  
-    font-style: italic; 
- }

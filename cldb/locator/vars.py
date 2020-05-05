@@ -25,6 +25,16 @@ class DayTime:
     SATURDAY = "Sat"
     SUNDAY = "Sun"
     
+    # DAYS = (
+    #     ("", ""),
+    #     ("Sun", SUNDAY),
+    #     ("Mon", MONDAY),
+    #     ("Tue", TUESDAY),
+    #     ("Wed", WEDNESDAY),
+    #     ("Thu", THURSDAY),
+    #     ("Fri", FRIDAY),
+    #     ("Sat", SATURDAY),
+    # )
     DAYS = (
         ("", ""),
         (0, SUNDAY),

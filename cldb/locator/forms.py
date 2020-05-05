@@ -13,11 +13,11 @@ from .vars import DayTime, ModelConstants, Locations
 class LocationForm(forms.Form):
     location_category = forms.ModelChoiceField(
         queryset=LocationCategory.objects.all(),
-        label="Location Category"
+        label="Clinic Type"
     )
     location_name = forms.CharField(
         max_length=ModelConstants.LOCATION_NAME,
-        label="Name",
+        label="Clinic Name",
     )
     location_branch_name = forms.CharField(
         max_length=ModelConstants.LOCATION_BRANCH_NAME, 
@@ -78,16 +78,46 @@ class LocationForm(forms.Form):
     )
 
     service_list = forms.ModelMultipleChoiceField(
+        widget=forms.SelectMultiple(
+            attrs={
+                "class": "multi-select",
+                "data-size": 4,
+                "data-dropup-auto": "false"
+            }
+        ),
         queryset=Service.objects.all(),
         label="Services Offered"
     )
     ccf_category_list = forms.ModelMultipleChoiceField(
+        widget=forms.SelectMultiple(
+            attrs={
+                "class": "multi-select",
+                "data-size": 4,
+                "data-dropup-auto": "false"
+            }
+        ),
         queryset=CcfCategory.objects.all(),
         label="COC Forms Accepted"
     )
     auth_method_list = forms.ModelMultipleChoiceField(
+        widget=forms.SelectMultiple(
+            attrs={
+                "class": "multi-select",
+                "data-size": 4,
+                "data-dropup-auto": "false"                
+            }
+        ),
         queryset=AuthMethod.objects.all(),
         label="Authorization Methods"
+    )
+    
+    last_verified = forms.CharField(
+        max_length=255,
+        widget=forms.TextInput(
+            attrs={
+                "type": "hidden"
+            }
+        )
     )
 
     # Modal 1: Contacts
@@ -105,7 +135,7 @@ class LocationForm(forms.Form):
         max_length=254,
         required=False,
         label="Contact Email",
-        widget=forms.EmailInput()
+        widget=forms.TextInput()
     )
     contact_phone = forms.CharField(
         max_length=25,
@@ -130,35 +160,14 @@ class LocationForm(forms.Form):
         label=" ",
         required=False,
     )
-    op_start_hour = forms.ChoiceField(
-        choices=DayTime.HOURS,
-        label="",
+    op_start_time = forms.TimeField(
+        input_formats=["%I:%M %p",],
+        label="Start Time",
         required=False
     )
-    op_start_min = forms.ChoiceField(
-        choices=DayTime.MINUTES,
-        label="",
-        required=False
-    )
-    op_start_am_pm = forms.ChoiceField(
-        choices=DayTime.AM_PM,
-        label="",
-        required=False
-    )
-
-    op_end_hour = forms.ChoiceField(
-        choices=DayTime.HOURS,
-        label="",
-        required=False
-    )
-    op_end_min = forms.ChoiceField(
-        choices=DayTime.MINUTES,
-        label="",
-        required=False
-    )
-    op_end_am_pm = forms.ChoiceField(
-        choices=DayTime.AM_PM,
-        label="",
+    op_end_time = forms.TimeField(
+        input_formats=["%I:%M %p",],
+        label="End Time",
         required=False
     )
 
@@ -169,34 +178,13 @@ class LocationForm(forms.Form):
         label="Service",
         required=False
     )
-    service_start_hour = forms.ChoiceField(
-        choices=DayTime.HOURS,
-        label="",
+    service_start_time = forms.TimeField(
+        input_formats=["%I:%M %p",],
+        label="Start Time",
         required=False
     )
-    service_start_min = forms.ChoiceField(
-        choices=DayTime.MINUTES,
-        label="",
-        required=False
-    )
-    service_start_am_pm = forms.ChoiceField(
-        choices=DayTime.AM_PM,
-        label="",
-        required=False
-    )
-
-    service_end_hour = forms.ChoiceField(
-        choices=DayTime.HOURS,
-        label="",
-        required=False
-    )
-    service_end_min = forms.ChoiceField(
-        choices=DayTime.MINUTES,
-        label="",
-        required=False
-    )
-    service_end_am_pm = forms.ChoiceField(
-        choices=DayTime.AM_PM,
-        label="",
+    service_end_time = forms.TimeField(
+        input_formats=["%I:%M %p",],
+        label="End Time",
         required=False
     )

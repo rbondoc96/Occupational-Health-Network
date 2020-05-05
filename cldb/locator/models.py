@@ -152,7 +152,7 @@ class Location(models.Model):
         default=''
     )
     is_phone_callable = models.BooleanField(
-        verbose_name="Is this number callable?",
+        verbose_name="Is this phone number callable?",
         default=True,
         blank=True
     )
@@ -214,50 +214,17 @@ class ServiceTimeRange(models.Model):
     )
 
     name = models.CharField(max_length=30)
-    start_hour = models.CharField(
-        max_length=2,
-        choices=DayTime.HOURS,
-        verbose_name="Starting Hour",
-        default=""
+    start_time = models.TimeField(
+        default="0:00 AM", 
+        verbose_name="Start Time"
     )
-    start_min = models.CharField(
-        max_length=2,
-        choices=DayTime.MINUTES,
-        verbose_name="Starting Minute",
-        default=""
-    )
-    start_am_pm = models.CharField(
-        max_length=2,
-        choices=DayTime.AM_PM,
-        verbose_name="AM/PM",
-        default=""
-    )
-
-    end_hour = models.CharField(
-        max_length=2,
-        choices=DayTime.HOURS,
-        verbose_name="Starting Hour",
-        default=""
-    )
-    end_min = models.CharField(
-        max_length=2,
-        choices=DayTime.MINUTES,
-        verbose_name="Starting Minute",
-        default=""
-    )
-    end_am_pm = models.CharField(
-        max_length=2,
-        choices=DayTime.AM_PM,
-        verbose_name="AM/PM",
-        default=""
+    end_time = models.TimeField(
+        default="0:00 AM", 
+        verbose_name="End Time"
     )
 
     def __str__(self):
-        return (
-            f'{self.name}: '
-            f'{self.start_hour}:{self.start_min} {self.start_am_pm} to '
-            f'{self.end_hour}:{self.end_min} {self.end_am_pm}'
-        )
+        return f'{self.name}: {self.start_time} to {self.end_time}'
 
     class Meta:
         verbose_name = "Service Time Range"
@@ -274,51 +241,17 @@ class DayTimeRange(models.Model):
         choices=DayTime.DAYS,
         default=DayTime.MONDAY
     )
-
-    start_hour = models.CharField(
-        max_length=2,
-        choices=DayTime.HOURS,
-        verbose_name="Starting Hour",
-        default=""
+    start_time = models.TimeField(
+        default="0:00 AM", 
+        verbose_name="Start Time"
     )
-    start_min = models.CharField(
-        max_length=2,
-        choices=DayTime.MINUTES,
-        verbose_name="Starting Minute",
-        default=""
-    )
-    start_am_pm = models.CharField(
-        max_length=2,
-        choices=DayTime.AM_PM,
-        verbose_name="Starting AM/PM",
-        default=""
-    )
-
-    end_hour = models.CharField(
-        max_length=2,
-        choices=DayTime.HOURS,
-        verbose_name="Ending Hour",
-        default=""
-    )
-    end_min = models.CharField(
-        max_length=2,
-        choices=DayTime.MINUTES,
-        verbose_name="Ending Minute",
-        default=""
-    )
-    end_am_pm = models.CharField(
-        max_length=2,
-        choices=DayTime.AM_PM,
-        verbose_name="Ending AM/PM",
-        default=""
+    end_time = models.TimeField(
+        default="0:00 AM", 
+        verbose_name="End Time"
     )
 
     def __str__(self):
-        return (
-            f'{self.day}: '
-            f'{self.start_hour}:{self.start_min} {self.start_am_pm} to '
-            f'{self.end_hour}:{self.end_min} {self.end_am_pm}'
-        )
+        return f'{self.day}: {self.start_time} to {self.end_time}'
     
     class Meta:
         verbose_name = "Day/Time Range"
@@ -361,6 +294,10 @@ class Contacts(models.Model):
         max_length=25, 
         blank=True, 
         null=True) 
+
+    def __str__(self):
+        title_str = f" - {self.title}" if self.title else ""
+        return f"{self.name}{title_str}"
 
     class Meta:
         verbose_name = "Contact"

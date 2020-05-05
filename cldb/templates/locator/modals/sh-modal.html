@@ -7,26 +7,17 @@
                 <h5 class="modal-title">Add Service Hours</h5> 
             </div>
             <div class="modal-body">
-                <div class="container">
+                <div class="container" id="service-hours-fields">
                     <div class="form-row">
                         {{ form.service_name|as_crispy_field }}
                     </div>
                     <div class="form-row">
-                        <p class="pt-1 pr-3">Start Time: </p>
-                        {{ form.service_start_hour|as_crispy_field }}
-                        <span class="pt-1 pl-1 pr-1">:</span>
-                        {{ form.service_start_min|as_crispy_field }}
-                        <span class="pr-1"></span>
-                        {{ form.service_start_am_pm|as_crispy_field }}
-                    </div>
-                    <div class="form-row">
-                        <p class="pt-1 pr-3">End Time: </p>
-                        <span class="pr-1"></span><span class="pr-0"></span>
-                        {{ form.service_end_hour|as_crispy_field }}
-                        <span class="pt-1 pl-1 pr-1">:</span>
-                        {{ form.service_end_min|as_crispy_field }}
-                        <span class="pr-1"></span>
-                        {{ form.service_end_am_pm|as_crispy_field }}
+                        <div class="col">
+                            {{ form.service_start_time|as_crispy_field }}
+                        </div>
+                        <div class="col">
+                            {{ form.service_end_time|as_crispy_field }}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -42,7 +33,7 @@
                 <button 
                 type="button"
                 class="btn btn-primary"
-                id="serv-hours-modal-submit-btn"
+                id="service-hours-submit-btn"
                 >
                     Save Hours
                 </button>

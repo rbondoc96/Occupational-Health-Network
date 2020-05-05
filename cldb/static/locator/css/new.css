@@ -9,3 +9,47 @@ ul.location-sublist {
 .requiredField {
     font-weight: 600;
 }
+
+a.modal-link {
+    font-weight: 600;
+}
+
+.list-group-item:hover .overlay {
+    opacity: 0.5;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: .3s ease;
+    background-color: rgb(245, 102, 102);
+}
+.overlay-text {
+    color: white;
+    font-weight: 600;
+    font-size: 0.6em;
+    position: absolute;
+    width: 100%;
+    top: 100%;
+    left: 50%;
+    border-top: 1px solid #fff !important;
+    background-color: rgb(129, 41, 41);
+    -webkit-transform: translate(-50%, -100%);
+    -ms-transform: translate(-50%, -100%);
+    transform: translate(-50%, -100%);
+    text-align: center;
+}
+
+.list-group-item:hover {
+    cursor: pointer;
+}
+
+.multi-select {
+    display: static;
+}

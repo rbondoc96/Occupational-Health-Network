@@ -1,18 +1,25 @@
+<!-- Have the Dashboard be the "User" view + a Home Page -->
+<!-- Have a "Keep ya posted!" section with new reminders -->
+
 {% extends './../base.html' %}
+
+{% block title %}
+Dashboard
+{% endblock title %}
 
 {% block content %}
 
     <main id="container">
         <div class="row">
             <div class="col-md-8 m-auto">
-                <h2 class="text-center">Welcome to the Locator</h2>
-                {% if services %}
+                <h2 class="text-center"></h2>
+                {% comment %} {% if services %}
                     {% for service in services %}
                         <div class="row">
                             <p>{{ service.name }}</p>
                         </div>
                     {% endfor %}
-                {% endif %}
+                {% endif %} {% endcomment %}
             </div> 
         </div>
     </main>

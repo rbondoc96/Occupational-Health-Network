@@ -7,7 +7,7 @@
                 <h5 class="modal-title">Add A Contact</h5>
             </div>
             <div class="modal-body">
-                <div class="container">
+                <div class="container" id="contact-fields">
                     {{ form.contact_name|as_crispy_field }}
                     {{ form.contact_title|as_crispy_field }}
                     {{ form.contact_phone|as_crispy_field }}
@@ -18,7 +18,7 @@
                 <button 
                 type="button" 
                 class="btn btn-secondary" 
-                id="contacts-modal-close-btn"
+                id="contacts-close-btn"
                 data-dismiss="modal"
                 >
                     Close
@@ -27,7 +27,7 @@
                 <button 
                 type="button"
                 class="btn btn-primary"
-                id="contacts-modal-submit-btn"
+                id="contacts-submit-btn"
                 >
                     Save Contact
                 </button>
