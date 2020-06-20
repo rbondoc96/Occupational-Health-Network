@@ -5,11 +5,20 @@ from .models import (
     Service, 
     LocationCategory,
     CcfCategory,
-    AuthMethod
+    AuthMethod,
+    Review,
 )
 from .vars import DayTime, ModelConstants, Locations
 
 # pylint: disable=no-member
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = [
+            "location",
+            "author",
+        ]
 class LocationForm(forms.Form):
     location_category = forms.ModelChoiceField(
         queryset=LocationCategory.objects.all(),

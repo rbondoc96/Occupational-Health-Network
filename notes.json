@@ -79,6 +79,8 @@ Location
 
 {
 	"location": {
+		"id": "8",
+		"slug": "concentra-mission-valley",
 		"location-category": "Laboratory PSC",
 		"name": "Concentra",
 		"branch_name": "Mission Valley",

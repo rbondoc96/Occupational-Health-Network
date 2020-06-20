@@ -1,0 +1,110 @@
+{% extends './base_cud.html' %}
+
+{% block modalID %}contactsModal{% endblock modalID %}
+
+{% block header %}
+<h5>{{ object.name }} - {{ object.branch_name }}</h5>
+{% endblock header %}
+
+{% block tab_list %}
+<li class="tab-link">
+    <a href="#contactCreateTab" role="tab" data-toggle="tab">
+        Add
+    </a>
+</li>
+<li class="tab-link">
+    <a href="#contactUpdateTab" role="tab" data-toggle="tab">
+        Edit
+    </a>
+</li>
+{% endblock tab_list %}
+
+{% block tab_content %}
+<div role="tabpanel" class="tab-pane active" id="contactCreateTab">
+    <section>
+        <div id="contacts-create-form">
+            <div class="created-alert">
+                <span>Contact added!</span>
+            </div>
+            <div class="form-item d-block">
+                <label>Name</label>
+                <input type="text" name="add-contact-name">
+            </div>
+            <div class="form-item d-block">
+                <label>Title</label>
+                <input type="text" name="add-contact-title">
+            </div>
+            <div class="form-item d-block">
+                <label>Phone</label>
+                <input type="text" name="add-contact-phone">
+            </div>
+            <div class="form-item d-block">
+                <label>Email</label>
+                <input type="text" name="add-contact-email">
+            </div>
+            <button type="button" class="button" id="addContact">
+                Add Contact
+            </button>            
+        </div>
+    </section>
+</div>
+
+<div role="tabpanel" class="tab-pane" id="contactUpdateTab">
+    {% if object.contacts_set.all %}
+        <section>
+            <div id="deleted-alert">
+                <span>Contact deleted!</span>
+            </div>
+            <label class="d-block" style="font-size: 0.9rem;">
+                Select a Contact
+            </label>
+            <select id="masterContactsList">
+                <option value="0">-----</option>
+            {% for contact in object.contacts_set.all %}
+                <option value="{{ contact.id }}">
+                    {{ contact.name }}
+                </option>
+            {% endfor %}
+            </select>
+            <span id="contact-buttons">
+                <button type="button" class="button" id="updateContact">
+                    Update Contact
+                </button>
+                <button type="button" class="button button-danger" id="deleteContact">
+                    Delete Contact
+                </button>
+            </span>
+        </section>
+        <div id="contacts-update-form">
+            <div class="updated-alert">
+                <span>Contact updated!</span>
+            </div>
+            <div class="form-item d-block">
+                <label>Name</label>
+                <input type="text" name="edit-contact-name">
+            </div>
+            <div class="form-item d-block">
+                <label>Title</label>
+                <input type="text" name="edit-contact-title">
+            </div>
+            <div class="form-item d-block">
+                <label>Phone</label>
+                <input type="text" name="edit-contact-phone">
+            </div>
+            <div class="form-item d-block">
+                <label>Email</label>
+                <input type="text" name="edit-contact-email">
+            </div>                
+        </div>
+    {% else %}
+
+    {% endif %}
+</div>
+
+{% endblock tab_content %}
+
+{% block modalFooter %}
+<button type="button" class="button" data-dismiss="modal" id="contactsClose">
+    Close
+</button>
+{% endblock modalFooter %}

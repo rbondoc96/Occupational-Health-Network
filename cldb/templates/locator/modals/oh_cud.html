@@ -1,0 +1,110 @@
+{% extends './base_cud.html' %}
+
+{% block modalID %}opHoursModal{% endblock modalID %}
+
+{% block header %}
+<h5>{{ object.name }} - {{ object.branch_name }}</h5>
+{% endblock header %}
+
+{% block tab_list %}
+<li class="tab-link">
+    <a href="#opHoursCreateTab" role="tab" data-toggle="tab">
+        Add
+    </a>
+</li>
+<li class="tab-link">
+    <a href="#opHoursUpdateTab" role="tab" data-toggle="tab">
+        Edit
+    </a>
+</li>
+{% endblock tab_list %}
+
+{% block tab_content %}
+<div role="tabpanel" class="tab-pane active" id="opHoursCreateTab">
+    <section>
+        <div id="op-hours-create-form">
+            <div class="created-alert">
+                <span>Contact added!</span>
+            </div>
+            <div class="form-item d-block">
+                <label>Name</label>
+                <input type="text" name="add-contact-name">
+            </div>
+            <div class="form-item d-block">
+                <label>Title</label>
+                <input type="text" name="add-contact-title">
+            </div>
+            <div class="form-item d-block">
+                <label>Phone</label>
+                <input type="text" name="add-contact-phone">
+            </div>
+            <div class="form-item d-block">
+                <label>Email</label>
+                <input type="text" name="add-contact-email">
+            </div>
+            <button type="button" class="button" id="addContact">
+                Add Contact
+            </button>            
+        </div>
+    </section>
+</div>
+
+<div role="tabpanel" class="tab-pane" id="opHoursUpdateTab">
+    {% if object.daytimerange_set.all %}
+        <section>
+            <div id="deleted-alert">
+                <span>Contact deleted!</span>
+            </div>
+            <label class="d-block" style="font-size: 0.9rem;">
+                Select a Contact
+            </label>
+            <select id="masterOpHoursList">
+                <option value="999">-----</option>
+            {% for dt_range in object.daytimerange_set.all %}
+                <option class="dayOpt" value="{{ dt_range.day }}">
+                    {{ dt_range }}
+                </option>
+            {% endfor %}
+            </select>
+            <span id="op-hours-buttons">
+                <button type="button" class="button" id="updateOpHours">
+                    Update Hours
+                </button>
+                <button type="button" class="button button-danger" id="deleteOpHours">
+                    Delete Hours
+                </button>
+            </span>
+        </section>
+        <div id="op-hours-update-form">
+            <div class="updated-alert">
+                <span>Contact updated!</span>
+            </div>
+            <div class="form-item d-block">
+                <label>Name</label>
+                <input type="text" name="edit-contact-name">
+            </div>
+            <div class="form-item d-block">
+                <label>Title</label>
+                <input type="text" name="edit-contact-title">
+            </div>
+            <div class="form-item d-block">
+                <label>Phone</label>
+                <input type="text" name="edit-contact-phone">
+            </div>
+            <div class="form-item d-block">
+                <label>Email</label>
+                <input type="text" name="edit-contact-email">
+            </div>                
+        </div>
+    {% else %}
+
+    {% endif %}
+</div>
+
+{% endblock tab_content %}
+
+{% block modalFooter %}
+<button type="button" class="button" data-dismiss="modal" id="opHoursClose">
+    Close
+</button>
+{% endblock modalFooter %}

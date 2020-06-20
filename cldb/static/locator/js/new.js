@@ -6,27 +6,27 @@
 // Or for names: name (HTML) = Django field
 
 var DayRanges = {
-    0: {
-        day: "Sun",
-    },
     1: {
-        day: "Mon"
+        day: "Monday"
     },
     2: {
-        day: "Tue"
+        day: "Tuesday"
     },
     3: {
-        day: "Wed"
+        day: "Wednesday"
     },
     4: {
-        day: "Thu"
+        day: "Thursday"
     },
     5: {
-        day: "Fri"
+        day: "Friday"
     },
     6: {
-        day: "Sat"
+        day: "Saturday"
     },
+    7: {
+        day: "Sunday"
+    }
 }
 
 // Index the object with "servName"
@@ -37,45 +37,51 @@ var ServiceRanges = {}
 // @index, can access "title", "phone", "email"
 var Contacts = {}
 
-const validateUrl = (value) => {
+// Huge regex that checks for a valid URL (i.e. can you put this in an href?)
+const validateUrl = value => {
     return /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(value);
-  }
+}
+
+// Expecting "%I:%M %p"
+const convertTimeToMinutes = time => {
+    tokens = time.split(" ")
+    hrsMin = tokens[0].split(":")
+
+    console.log(tokens)
+    console.log(hrsMin)
+    
+    inc = (tokens[1] == "PM" && hrsMin[0] != "12")? 12 : 0
+    inc = (tokens[1] == "AM" && hrsMin[0] == "12")? -12 : inc
+
+    hrs = parseInt(hrsMin[0]) + inc
+    
+    totalMin = parseInt(hrsMin[1]) + (hrs * 60)
+
+    return totalMin
+}
 
 /* Ret: true if
     - time1 is earlier than time2
-    - time1=time2="00:00AM"
-    - time1=time2="12:00AM"
+    - time1=time2="11:59 PM"
+    - time1=time2="12:00 AM"
 */
 const isValidTimeRange = (time1, time2) => {
-    // Closed and 24 hours options
-    console.log(`Function: ${time1} - ${time2}`)
-    if( (time1 == "00:00 AM" && time2 == "00:00 AM") ||
+    // Closed (11:59) and 24 hours (12:00) options
+
+    if( (time1 == "11:59 PM" && time2 == "11:59 PM") ||
         (time1 == "12:00 AM" && time2 == "12:00 AM")) 
-    {
         return true
-    }
 
     let isValid = true
-    const tokens1 = time1.split(" ")
-    const hrsMin1 = tokens1[0].split(":")
-    const tokens2 = time2.split(" ")
-    const hrsMin2 = tokens2[0].split(":")
+    const minutes1 = convertTimeToMinutes(time1)
+    const minutes2 = convertTimeToMinutes(time2)
 
-    //Compare Hours and Meridian
-    let meridianOffset1 = tokens1[1] == "AM" ? 0 : 12
-    let meridianOffset2 = tokens2[1] == "AM" ? 0 : 12
-    let hours1 = parseInt(hrsMin1[0]) + meridianOffset1
-    let hours2 = parseInt(hrsMin2[0]) + meridianOffset2
+    console.log(`Time 1: ${minutes1}`)
+    console.log(`Time 1: ${minutes2}`)
 
-    if(hours1 > hours2)
+    if(minutes1 >= minutes2)
         isValid = false
-    else if(hours1 == hours2) {
-        // Compare Minutes
-        let min1 = parseInt(hrsMin1[1])
-        let min2 = parseInt(hrsMin2[1])
-        if(min1 >= min2)
-            isValid = false
-    }
+
     console.log(`Decision: ${isValid}`)
     return isValid
 }
@@ -86,9 +92,9 @@ const renderOpHoursList = () => {
         let dayRange = DayRanges[i]
         if(dayRange["startTime"] != null && dayRange["endTime"] != null) {
             let listElem = document.createElement("li")
-            $(listElem).addClass("list-group-item border border-secondary mb-1")
-            if(dayRange["startTime"] == "00:00 AM" && 
-                dayRange["endTime"] == "00:00 AM"
+            $(listElem).addClass("list-group-item")
+            if(dayRange["startTime"] == "11:59 PM" && 
+                dayRange["endTime"] == "11:59 PM"
                 )
                 listElem.innerHTML = `${dayRange["day"]}: CLOSED`
             else if(dayRange["startTime"] == "12:00 AM" && 
@@ -122,7 +128,7 @@ const renderServHoursList = () => {
     for(key in ServiceRanges) {
         let servRange = ServiceRanges[key]
         let listElem = document.createElement("li")
-        $(listElem).addClass("list-group-item border border-secondary mb-1")
+        $(listElem).addClass("list-group-item")
         listElem.innerHTML = `${key} - ${servRange["startTime"]} to ${servRange["endTime"]}`
 
         let deleteOverlay = document.createElement("div")
@@ -150,7 +156,7 @@ const renderContactsList = () => {
         let titleStr = contact["title"] ? `- ${contact["title"]}` : ""
         let phoneStr = contact["phone"] ? `<br>Phone: ${contact["phone"]}` : ""
         let emailStr = contact["email"] ? `<br>Email: ${contact["email"]}` : ""
-        $(listElem).addClass("list-group-item border border-secondary mb-1")
+        $(listElem).addClass("list-group-item")
         listElem.innerHTML = `${key} ${titleStr}${phoneStr}${emailStr}`
 
         let deleteOverlay = document.createElement("div")
@@ -270,8 +276,10 @@ const opHoursHandler = (event) => {
         if(day2.val() != "" && $("[name='op_is_range']").prop("checked")){
             var keysToUpdate = {}
 
+            console.log(day1.val(), day2.val())
             for(day = day1.val(); day <= day2.val(); day++){
                 let range = DayRanges[day]
+                console.log(range)
 
                 if(range["startTime"] == null && range["endTime"] == null){
                     DayRanges[day]["startTime"] = startTime.val()
@@ -354,11 +362,10 @@ const serviceHoursHandler = (event) => {
             }
         }
         renderServHoursList()
-        $("#serv-hours-modal").modal("toggle")
     }
 }
 
-const exportToJSON = () => {
+var exportToJSON = () => {
     var json = {
         location: {
             location_category: $("[name='location_category']").val(),
@@ -449,7 +456,7 @@ const sendData = (event) => {
     $("input, textarea, select").each((idk, elem) => {
         if(elem.classList.contains("is-invalid")){
             areInputsValid = false
-            console.log(`Element ${elem}`)
+            console.log(`Element ${$(elem)}`)
         }
     })
 
@@ -475,7 +482,7 @@ const sendData = (event) => {
                     // Get url minus the '/'
                     url = url.substr(0, url.lastIndexOf("/"))
                     // Get url minus the 'new', append pk for API
-                    url = url.substr(0, url.lastIndexOf("/")+1) + data["id"]
+                    url = url.substr(0, url.lastIndexOf("/")+1) + data["slug"]
 
                     window.location.href = url
                 }
@@ -489,10 +496,8 @@ const sendData = (event) => {
 
 const isClosedHandler = (event) => {
     if(event.target.checked) {
-        $("[name='op_start_time']").inputmask("remove")
-        $("[name='op_end_time']").inputmask("remove")
         $("input#id_op_start_time, input#id_op_end_time")
-            .val("00:00 AM")
+            .val("11:59 PM")
         $("input#id_op_start_time, input#id_op_end_time")
             .attr("readonly", true)
         $("input#is24_7").attr("disabled", true)
@@ -502,18 +507,6 @@ const isClosedHandler = (event) => {
         $("input#is24_7").attr("disabled", false)
         $("input#id_op_start_time, input#id_op_end_time")
         .val("")
-        $("[name='op_start_time']").inputmask({
-            alias: "datetime",
-            placeholder: "__:__ AM",
-            inputFormat: "hh:MM TT",
-            hourFormat: 12,
-        })
-        $("[name='op_end_time']").inputmask({
-            alias: "datetime",
-            placeholder: "__:__ AM",
-            inputFormat: "hh:MM TT",
-            hourFormat: 12,
-        })
     }
 }
 
@@ -559,7 +552,7 @@ var init = (event) => {
     })
 
     $("[name='website']").on("change", (event) => {
-        if(!validateUrl(event.target.value)){
+        if(!validateUrl(event.target.value) && event.target.value != ""){
             $(event.target).addClass("is-invalid")
             $("#div_id_website").addClass("mb-0")
             $("#urlErrMsg").removeClass("d-none")
@@ -588,7 +581,6 @@ var init = (event) => {
     // Mask allows for phone extension to be added (min_len=2, max_len=6)
     $("[name='phone'], [name='contact_phone']").inputmask({"mask": "(999) 999-9999[ ext. 99[9[9[9[9]]]]]"})
     $("[name='fax']").inputmask({"mask": "(999) 999-9999"})
-    console.log($("[name='contact_email']"))
     $("[name='contact_email']").inputmask({alias: "email"})
     $("[name='op_start_time']").inputmask({
         alias: "datetime",

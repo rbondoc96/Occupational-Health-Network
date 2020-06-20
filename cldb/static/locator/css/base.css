@@ -1,3 +1,15 @@
+@media only screen and (max-width: 991px) {
+    #nav-logo-container {
+        margin-left: 0;
+    }
+    #nav-logo {
+        margin-left: 0;
+    }
+    #userSection {
+        margin-right: 0;
+    }
+}
+
 a:hover {
     color: initial;
 }
@@ -44,19 +56,11 @@ a:hover {
 }
 
 div#subnavbar {
+    position: absolute;
     width: 100%;
     background: #2B2B2B;
     border-bottom: 1px solid #000;
-
-    /* animation-name: slideIn;
-    animation-duration: 5s; */
 }
-
-/* @keyframes slideIn {
-    0% {top: 50px;}
-    50% {top: 100px;}
-    100% {top: 300px;}
-} */
 
 #subnav li.nav-item:first-child {
     margin-left: 50px;

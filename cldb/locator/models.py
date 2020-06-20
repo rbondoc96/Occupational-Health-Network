@@ -1,36 +1,15 @@
 #!/usr/bin/env python
 
+from django.contrib.auth.models import User
+from django.utils.text import slugify
+from django.urls import reverse
 from django.db import models
 
 from .vars import DayTime, Locations, ModelConstants
+from .utils import convert_to_time12
 
-# One-to-Many Relationships
-#   1. User <-> Rating
-#       A user will have submitted multiple ratings
-#       A rating can only have one user
-#   2. User <-> Location
-#       A user will have updated multiple locations
-#       A location can only have one person who updated it at a time
-#   3. Location <-> ServiceTimeRange
-#       A location has many ServiceTimeRanges
-#       A ServiceTimeRange can only belong to 1 location
-#   4. Location <-> DayTimeRange
-#       A location has many DayTimeRanges
-#       A DayTimeRange can only belong to 1 location
-#   5. Service <-> ServiceCategory
-#       A ServiceCategory can belong to many Services
-#       A Service can only belong to 1 ServiceCategory
-
-# Many-to-Many Relationships
-#   1. Location <-> Service
-#       Each service can be offered by more than one location
-#       Each location offers many services
-#   2. Location <-> DrugScreenMethod
-#       A Location can have many DS Auth options to authorize drug screens
-#       A DrugScreenMethod can be assigned to many Location objects
-#   3. Location <-> AuthMethod
-#       A Location may accept different AuthMethods
-#       An AuthMethod can be used at different Locations
+days = ["Monday", "Tuesday", \
+"Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
 class ServiceCategory(models.Model):
     name = models.CharField(
@@ -60,7 +39,6 @@ class LocationCategory(models.Model):
         verbose_name = "Location Category"
         verbose_name_plural = "Location Categories"
 
-# Ex. Electronic, Paper, Alter
 class CcfCategory(models.Model):
     name = models.CharField(
         max_length=16, 
@@ -75,7 +53,6 @@ class CcfCategory(models.Model):
         verbose_name = "CCF Category"
         verbose_name_plural = "CCF Categories"
 
-# Ex. EScreen, Mobile Health
 class AuthMethod(models.Model):
     name = models.CharField(
         max_length=16, 
@@ -90,7 +67,6 @@ class AuthMethod(models.Model):
         verbose_name = "Authorization Method"
         verbose_name_plural = "Authorization Methods"
 
-# Meta list of all medical services we are interested in
 class Service(models.Model):
     service_category = models.ForeignKey(
         ServiceCategory,
@@ -109,13 +85,25 @@ class Service(models.Model):
         verbose_name="Simple Name"
     )
 
+    description = models.TextField(blank=True,null=True)
+    simple_description = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+    )
+
     def __str__(self):
-        return self.name
+        return f"{self.service_category} - {self.name}"
 
     class Meta:
-        ordering = ["name"]
+        ordering = ["service_category", "name",]
 
 class Location(models.Model):
+    slug = models.SlugField(
+        unique=True,
+        blank=True,
+        null=True
+    )
     location_category = models.ForeignKey(
         LocationCategory,
         on_delete=models.SET_NULL, 
@@ -140,7 +128,7 @@ class Location(models.Model):
     )
     city = models.CharField(max_length=ModelConstants.LOCATION_CITY)
     state = models.CharField(
-        max_length=2,  # remove this?
+        max_length=2,
         choices=Locations.US_STATES, 
         default=""
     )
@@ -149,7 +137,7 @@ class Location(models.Model):
     # 25 characters allows for an extension substring "ext. #####"
     phone = models.CharField(
         max_length=ModelConstants.LOCATION_PHONE, 
-        default=''
+        default=""
     )
     is_phone_callable = models.BooleanField(
         verbose_name="Is this phone number callable?",
@@ -158,7 +146,7 @@ class Location(models.Model):
     )
     fax = models.CharField(
         max_length=ModelConstants.LOCATION_FAX, 
-        default='',
+        default="",
         blank=True,
         null=True
     )
@@ -168,13 +156,14 @@ class Location(models.Model):
     )
 
     comments = models.TextField(blank=True, null=True)
-    last_updated = models.DateField(
-        'Last Updated',
-        auto_now=True
+    date_submitted = models.DateField(
+        "Date Submitted",
+        auto_now_add=True,
     )
     # Will be activated by press of "Verify" button
     last_verified = models.DateField(
         "Last Verified",
+        auto_now=True,
         blank=True,
         null=True
     )
@@ -195,18 +184,27 @@ class Location(models.Model):
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=['name', 'branch_name'],
-                name='location_name_branch_name_key'
+                fields=["name", "branch_name"],
+                name="location_name_branch_name_key"
             )
         ]
+
+    def save(self, *args, **kwargs):
+        if self.branch_name != "" and self.branch_name != None:
+            full_name = self.name + " " + self.branch_name
+        else:
+            full_name = self.name
+        self.slug = self.slug or slugify(full_name)
+        super().save(*args, **kwargs)
+    
+    def get_absolute_url(self):
+        return reverse("location_detail", kwargs={"slug": self.slug})
     
     def __str__(self):
-        if self.branch_name == "":
+        if self.branch_name == "" or self.branch_name == None:
             return self.name
-        else:
-            return f"{self.name} - {self.branch_name}"
+        return f"{self.name} - {self.branch_name}"
     
-
 class ServiceTimeRange(models.Model):
     location = models.ForeignKey(
         Location, 
@@ -224,9 +222,12 @@ class ServiceTimeRange(models.Model):
     )
 
     def __str__(self):
-        return f'{self.name}: {self.start_time} to {self.end_time}'
+        start_12 = convert_to_time12(self.start_time)
+        end_12 = convert_to_time12(self.end_time)
+        return f'{self.name}: {start_12} to {end_12}'
 
     class Meta:
+        ordering=["name"]
         verbose_name = "Service Time Range"
         verbose_name_plural = "Service Time Ranges"
 
@@ -236,10 +237,9 @@ class DayTimeRange(models.Model):
         on_delete=models.CASCADE
     )
 
-    day = models.CharField(
-        max_length=len(DayTime.WEDNESDAY),
+    day = models.IntegerField(
         choices=DayTime.DAYS,
-        default=DayTime.MONDAY
+        default=1
     )
     start_time = models.TimeField(
         default="0:00 AM", 
@@ -251,34 +251,57 @@ class DayTimeRange(models.Model):
     )
 
     def __str__(self):
-        return f'{self.day}: {self.start_time} to {self.end_time}'
+        # Made more sense to have the 1st day of the week be 1, rather than 0
+        idx = self.day - 1
+        return days[idx]
     
     class Meta:
+        ordering = ["day"]
         verbose_name = "Day/Time Range"
         verbose_name_plural = "Day/Time Ranges"
 
-class Rating(models.Model):
+        constraints = [
+            models.UniqueConstraint(
+                fields=["location", "day"],
+                name="daytimerange_location_day_key"
+            ),
+        ]
+
+class Review(models.Model):
     location = models.ForeignKey(
         Location, 
         on_delete=models.CASCADE
     )
 
-    up_votes = models.IntegerField(default=0)
-    down_votes = models.IntegerField(default=0)
-    comments = models.CharField(
-        max_length=255, 
-        default="", 
-        blank=True
+    author = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL, 
+        blank=True, 
+        null=True
+    )
+
+    like = models.BooleanField(
+        verbose_name="Yes",
+        default=False,
+    )
+    dislike = models.BooleanField(
+        verbose_name="No",
+        default=False,
+    )
+    comments = models.TextField(blank=True, null=True)
+    date_edited = models.DateField(
+        "Last Edited",
+        auto_now=True,
     )
     date_submitted = models.DateField(
         'Date Submitted',
-        default="1900-01-01"
+        auto_now_add=True
     )
 
 class Contacts(models.Model):
     location = models.ForeignKey(
         Location, 
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
     )
 
     name = models.CharField(max_length=255)

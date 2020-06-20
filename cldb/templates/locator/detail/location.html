@@ -1,0 +1,313 @@
+{% extends './../base.html' %}
+
+{% load static %}
+
+{% block title %}
+{{ object }}
+{% endblock title %}
+
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{% static 'locator/css/location.css' %}">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+{% endblock styles %}
+
+{% block content %}
+<div class="container-fluid" id="content">
+    <div class="row">
+        <div class="col-lg-7">
+            <div id="name-container">
+                <h1 id="center-name">{{ object.name }}</h1>
+                <span id="branch-name">{{ object.branch_name }}</span><br>
+                <p id="category">{{ object.location_category }}</p>
+            </div>
+            <section id="update-info">
+                {% comment %} 
+                    day:"F j, Y" is a filter that allows the date to come out in the format: January 1, 1990
+                {% endcomment %}
+                <div class="mb-2">
+                    Date Created: 
+                    <span id="last-updated">
+                        {{ object.date_submitted|date:"F j, Y" }}
+                    </span>
+                    <span>
+                        {% if request.user.is_authenticated %}
+                        <button 
+                        type="button" 
+                        id="updateBtn" 
+                        class="button"
+                        onclick="window.location.href='{% url 'update_location' slug=object.slug %}'">
+                            <i class="fa fa-edit"></i>
+                            Update Location
+                        </button>
+                        {% endif %}
+                    </span>
+                </div>
+                <div>
+                    Last Verified: 
+                    <span id="last-verified">
+                        {{ object.last_verified|date:"F j, Y" }}
+                    </span>
+                    <span>
+                        {% if request.user.is_authenticated %}
+                        <button 
+                        type="button" 
+                        id="verifyBtn" 
+                        class="button">
+                            <i class="fa fa-check-square"></i>
+                            Verify
+                        </button>
+                        {% endif %}
+                    </span>
+                </div>
+            </section>
+            <section id="reviews">
+                <span id="likes" class="d-none">{{ likes }}</span>
+                <span id="dislikes" class="d-none">{{ dislikes }}</span>
+                <span id="totalReviews" class="d-none">{{ reviews }}</span>
+                
+                {% if object.review_set.all %}
+                    <a href="{% url 'review_list' slug=object.slug %}"><span id="percentPosReviews"></span></a>
+                {% else %}
+                    <a href="#"><span id="percentPosReviews"></span></a>
+                {% endif %}
+                <span id="posReviewsLabel"></span>
+                <span>
+                    {% if request.user.is_authenticated %}
+                        <button type="button" id="reviewBtn" class="button">
+                            <i class="fa fa-thumbs-up"></i> Submit a Review
+                        </button>
+                    {% endif %}
+                </span>
+            </section>
+            <section id="authsAndCOCs">
+                <div id="auths">
+                    <span id="authsLabel">Authorize through:</span>
+                    {% if object.auth_method_list.all %}
+                        {% for am in object.auth_method_list.all %}
+                            {% if forloop.last %}
+                                <span class="authMethodElement">
+                                    {{ am }}
+                                <span>
+                            {% else %}
+                                <span class="authMethodElement">
+                                    {{ am }},
+                                <span>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div id="cocs">
+                    <span id="cocsLabel">COC Methods Accepted:</span>
+                    {% if object.ccf_category_list.all %}
+                        {% for ccf in object.ccf_category_list.all %}
+                            {% if forloop.last %}
+                                <span class="ccfCategoryElement">
+                                    {{ ccf }}
+                                <span>
+                            {% else %}
+                                <span class="ccfCategoryElement">
+                                    {{ ccf }},
+                                <span>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </section>
+            <div id="service-info">
+                {% if object.service_list.all %}
+                    <hr/>
+                    <h4 class="info-header service-header">
+                        Services Provided
+                    </h4>
+                    <ul id="service-list">
+                        <div class="row">
+                            {% for service in object.service_list.all %}
+                                {% if forloop.first %}
+                                    <div class="col-lg-3">
+                                {% endif %}
+                                <div>
+                                    <li class="serviceListElement">
+                                        {{ service.name }}
+                                    </li>
+                                </div>
+                                {% if forloop.counter|divisibleby:9 %}
+                                    </div><div class="col-lg-3">
+                                {% endif %}
+                                {% if forloop.last %}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </ul>
+                {% endif %}
+                {% if object.servicetimerange_set.all %}
+                    <hr/>
+                    <h4 class="info-header service-header">Service Hours</h4>
+                    <ul id="service-hours-list">
+                        <div class="row">
+                            {% for str in object.servicetimerange_set.all %}
+                                {% if forloop.first %}
+                                    <div class="col-lg-3">
+                                {% endif %}
+                                <div>
+                                    <li class="serviceListElement">
+                                        {{ str|stringformat:"s" }}
+                                    </li>
+                                </div>
+                                {% if forloop.counter|divisibleby:4 %}
+                                    </div><div class="col-lg-3">
+                                {% endif %}
+                                {% if forloop.last %}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </ul>
+                {% endif %}
+                {% if object.contacts_set.all %}
+                    <hr/>
+                    <h4 class="info-header service-header">Contacts</h4>
+                    <div class="grid-container" id="contacts-section">
+                        {% for contact in object.contacts_set.all %}
+                            <div class="grid-item">
+                                {% if contact.title %}
+                                    <div class="contact-name-title">
+                                        <strong>{{ contact.name }}</strong> - {{ contact.title }}
+                                    </div>
+                                {% else %}
+                                    <div class="contact-name">
+                                        <strong>{{ contact.name }}</strong>
+                                    </div>
+                                {% endif %}
+                                <div class="contact-phone-container">
+                                    <span class="contact-phone-label">Phone: </span>
+                                    <span class="contact-phone">{{ contact.phone }}</span>
+                                </div>
+                                <div class="contact-email-contaner">
+                                    <span class="contact-email-label">Email: </span>
+                                    <span class="contact-email">{{ contact.email }}</span>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                {% if object.comments %}
+                    <hr/>
+                    <div id="comments-section">
+                        <h4 class="info-header service-header">Comments</h4>
+                        {% if request.user.is_authenticated %}
+                        <textarea id="comments" rows="8">{{ object.comments }}</textarea>
+                        {% else %}
+                        <textarea id="comments" rows="8" disabled>{{ object.comments }}</textarea>
+                        {% endif %}
+                        {% if request.user.is_authenticated %}
+                        <div>
+                            {% comment %} <label class="switch">
+                            <input type="checkbox" id="commentsAutosave">
+                            <span class="slider round"></span>
+                            </label>
+                            <span id="autosave-label">Autosave comments?</span> {% endcomment %}
+                            <span id="save-status">
+                                {% comment %} Autosave is off {% endcomment %}
+                                <button 
+                                type="button" 
+                                class="button"
+                                id="commentsBtn">
+                                    Save Comments
+                                </button>
+                            </span>
+                        </div>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-lg-3" id="sidebar">
+            <div id="map-header">Location</div>
+            <div id="map"></div>
+            <div id="location-info">
+                <div id="locationID" class="d-none">{{ object.id }}</div>
+                <div id="address">
+                    <div>
+                        <h4 class="info-header">{{ object.name }} - {{ object.branch_name }}</h4>
+                        <div id="street_line_1">
+                            {{ object.street_line_1 }}
+                        </div>
+                        <div id="street_line_2">
+                            {{ object.street_line_2 }}
+                        </div>
+                        <div>
+                            <span id="city">{{ object.city }}</span>, 
+                            <span id="state">{{ object.state }}</span> 
+                            <span id="zipcode">{{ object.zipcode }}</span>
+                        </div>
+                        <div id="numbers">
+                            <div>
+                                Phone: <span id="phone">{{ object.phone }}</span>
+                                <span id="callable-label">
+                                    Can be called?
+                                </span>
+                                <span id="callable" class="d-none">
+                                    {{ object.is_phone_callable }}
+                                </span>
+                            </div>
+                            <div>
+                                Fax: <span id="fax">{{ object.fax }}</span>
+                            </div>
+                        </div>
+                        <div id="website-container">
+                            <a 
+                            href="{{ object.website }}" 
+                            target="_blank" 
+                            id="website"
+                            >
+                            Website</a>
+                        </div>
+                    </div>
+                </div>
+                <div id="op-hours">
+                    {% if object.daytimerange_set.all %}
+                        <h4 class="info-header">Hours of Operation</h4>
+                        {% for dtr in object.daytimerange_set.all %}
+                            <div class="op-hour">
+                                <span class="dayNum">
+                                    {{ dtr }}
+                                </span>: 
+                                <span class="timeRange">
+                                    {% comment %} 
+                                        time:"g:i a" is a filter that allows the time to come out in the format: xx:xx am/pm 
+                                    {% endcomment %}
+                                    <span class="startTime">
+                                        {{ dtr.start_time|time:"g:i a" }}
+                                    </span> - 
+                                    <span class="endTime">
+                                        {{ dtr.end_time|time:"g:i a"}}
+                                    </span>
+                                </span>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div id="sidebar-footer">
+                    {% comment %} {% if request.user.is_authenticated %}
+                        <button type="button" class="button" id="deleteBtn">
+                            <a href="{% url 'delete_location' pk=object.id %}" id="deleteURL">
+                                Delete Location
+                            </a>
+                        </button>
+                    {% endif %} {% endcomment %}
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-1"></div>
+    </div>
+
+    {% include 'locator/modals/review-modal.html' %}
+</div>
+
+{% endblock content %}
+
+{% block scripts %}
+<script src="{% static 'locator/js/location.js' %}"></script>
+{% endblock scripts %}

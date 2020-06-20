@@ -1,0 +1,177 @@
+{% extends "./../base.html" %}
+
+{% load static %}
+
+{% block title %}
+Update Location
+{% endblock title %}
+
+
+{% block styles %}
+<link href="{% static 'locator/css/update_location.css' %}" type="text/css" rel="stylesheet">
+{% endblock styles %}
+
+{% block content %}
+<div class="container-fluid", id="content">
+    <div id="content-header">
+        <h4 id="location-name">
+            {{ object.name }}
+        </h4>
+        <span id="location-branch-name">
+            {{ object.branch_name }}
+        </span>
+        <div id="locationID" class="d-none">{{ object.id }}</div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 mb-5">
+            <section class="form-group">
+                <div class="form-item d-block">
+                    <label>Clinic Type</label>
+                    {{ form.location_category }}
+                </div>
+            </section>
+            <section class="form-group grid-2">
+                <div class="form-item">
+                    <label>Clinic Name</label>
+                    {{ form.name }}
+                </div>
+                <div class="form-item">
+                    <label>Branch Name</label>
+                    {{ form.branch_name }}
+                </div>
+            </section>
+            <section class="form-group grid-2">
+                <div class="form-item">
+                    <label>Street Line 1</label>
+                    {{ form.street_line_1 }}
+                </div>
+                <div class="form-item">
+                    <label>Street Line 2</label>
+                    {{ form.street_line_2 }}
+                </div>
+            </section>
+            <section class="form-group" id="city-st-zip">
+                <div class="form-item">
+                    <label>City</label>
+                    {{ form.city }}
+                </div>
+                <div class="form-item">
+                    <label>State</label>
+                    {{ form.state }}
+                </div>
+                <div class="form-item">
+                    <label>Zip</label>
+                    {{ form.zipcode }}
+                </div>
+            </section>
+            <section class="form-group grid-2">
+                <div class="form-item">
+                    <label>Phone</label>
+                    {{ form.phone }}
+                    <label class="d-inline-block">
+                        Is this phone number callable?
+                    </label>
+                    {{ form.is_phone_callable }}
+                </div>
+                <div class="form-item">
+                    <label>Fax</label>
+                    {{ form.fax }}    
+                </div> 
+            </section>
+            <section class="form-group">
+                <div class="form-item d-block">
+                    <label>Website URL</label>
+                    {{ form.website }}
+                </div>
+            </section>
+            <section class="form-group" id="selects">
+                <div class="form-item">
+                    <label>Services Offered</label>
+                    {{ form.service_list }}
+                </div>
+                <div class="form-item">
+                    <label>COC Forms Accepted</label>
+                    {{ form.ccf_category_list }}
+                </div>
+                <div class="form-item">
+                    <label>Authorization Methods</label>
+                    {{ form.auth_method_list }}
+                </div>
+            </section>
+            <section class="form-group">
+                <div class="form-item d-block">
+                    <label>Comments</label>
+                    {{ form.comments }}
+                </div>
+            </section>
+                
+            <button type="button" class="button">
+                Update Location
+            </button>
+        </div>
+
+        <div class="col-lg-3" id="sidebar">
+            <section class="sidebar">
+                <h4 class="sidebar-header">
+                    <a href="#" data-toggle="modal" data-target="#contactsModal">Contacts</a>
+                </h4>
+                {% if object.contacts_set.all %}
+                <ul id="contact-list">
+                    {% for contact in object.contacts_set.all %}
+                        <li class="list-element">
+                            {{ contact }}
+                        </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </section>
+            <section class="sidebar">
+                <h4 class="sidebar-header">
+                    <a href="#" data-toggle="modal" data-target="#opHoursModal">Hours of Operation</a>
+                </h4>
+                {% if object.contacts_set.all %}
+                <ul id="op-hours-list">
+                    {% for dt_range in object.daytimerange_set.all %}
+                        <li class="list-element time-range">
+                            <span>
+                                {{ dt_range }}
+                            </span>: 
+                            <span class="oh-start-time">
+                                {{ dt_range.start_time|time:"g:i a" }}
+                            </span> to 
+                            <span class="oh-end-time">
+                                {{ dt_range.end_time|time:"g:i a" }}
+                            </span>
+                        </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}                
+            </section>
+            <section class="sidebar">
+                <h4 class="sidebar-header">
+                    <a href="#" data-toggle="modal" data-target="#serviceHoursModal">Service Hours</a>
+                </h4>
+                {% if object.contacts_set.all %}
+                <ul id="service-hours-list">
+                    {% for st_range in object.servicetimerange_set.all %}
+                        <li class="list-element">
+                            {{ st_range }}
+                        </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}                
+            </section>
+        </div>
+    </div>
+</div>
+
+{% include 'locator/modals/contacts_cud.html' %}
+{% include 'locator/modals/oh_cud.html' %}
+{% include 'locator/modals/sh_cud.html' %}
+
+{% endblock content %}
+
+{% block scripts %}
+<script src = "{% static 'locator/js/dist/jquery.inputmask.js' %}"></script>
+<script src="{% static 'locator/js/update_location.js' %}"></script>
+{% endblock scripts %}

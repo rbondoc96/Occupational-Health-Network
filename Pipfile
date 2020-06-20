@@ -16,6 +16,9 @@ uszipcode = "*"
 djangorestframework = "*"
 django-rest-knox = "*"
 django-filter = "*"
+requests = "*"
+googlemaps = "*"
+pillow = "*"
 
 [requires]
 python_version = "3.8"

@@ -1,0 +1,68 @@
+{% load crispy_forms_tags %}
+
+<div class="modal fade" id="review-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Submit a Review
+                </h5> 
+            </div>
+            <div class="modal-body">
+                <div id="review-location-container">
+                    Location:
+                    <span id="review-location">
+                        {{ object|stringformat:"s" }}
+                    </span>
+                </div>
+                <div id="review-author-container">
+                    <div id="userID" class="d-none">{{ request.user.id }}</div>
+                    <span class="d-none" id="userID">
+                        {{ request.user.id }}
+                    </span>
+                    Author: 
+                    <span id="userName">
+                        {{ request.user.first_name }} {{ request.user.last_name }}
+                    </span>
+                </div>
+                <div class="mt-5">
+                    <span id="review-question">
+                        Did you have a good experience?
+                    </span>
+                    <label id="likeBtn" class="modal-rating">
+                        <input type="radio" name="rating" value="yes" class="d-none" id="like">
+                        <i class="fa fa-thumbs-o-up"></i> Yes
+                    </label>
+                    <label id="dislikeBtn" class="modal-rating">
+                        <input type="radio" name="rating" value="no" class="d-none" id="dislike">
+                        <i class="fa fa-thumbs-o-down"></i> No
+                    </label>
+                </div>
+                <div id="review-comments-container">
+                    <label>
+                        Please add any comments about your experience.
+                    </label>
+                    <textarea id="review-comments" rows="4"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button 
+                type="button" 
+                class="btn btn-secondary" 
+                data-dismiss="modal"
+                >
+                    Close
+                </button>
+                
+                <button 
+                type="button"
+                class="btn btn-primary"
+                id="reviewSubmitBtn"
+                >
+                    Submit Review
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+

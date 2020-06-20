@@ -1,0 +1,19 @@
+{% extends "./../base.html" %}
+
+{% load static %}
+
+{% block styles %}
+<link href="{% static 'locator/css/review_list.css' %}" rel="stylesheet" type="text/css">
+{% endblock styles %}
+
+{% block content %}
+<div class="container-fluid" id="content">
+    {% if object_list %}
+        {% for object in object_list %}
+            <div>
+                {{ object }}
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+{% endblock content %}

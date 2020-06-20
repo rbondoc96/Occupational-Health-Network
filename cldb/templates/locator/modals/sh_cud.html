@@ -1,0 +1,102 @@
+{% extends './base_cud.html' %}
+
+{% block modalID %}serviceHoursModal{% endblock modalID %}
+
+{% block header %}
+<h5>{{ object.name }} - {{ object.branch_name }}</h5>
+{% endblock header %}
+
+{% block tab_list %}
+<li class="tab-link">
+    <a href="#serviceHoursCreateTab" role="tab" data-toggle="tab">
+        Add
+    </a>
+</li>
+<li class="tab-link">
+    <a href="#serviceHoursUpdateTab" role="tab" data-toggle="tab">
+        Edit
+    </a>
+</li>
+{% endblock tab_list %}
+
+{% block tab_content %}
+<div role="tabpanel" class="tab-pane active" id="serviceHoursCreateTab">
+    <section>
+        <div id="service-hours-create-form">
+            <div class="created-alert">
+                <span>Service Time added!</span>
+            </div>
+            <div class="form-item d-block">
+                <label>Service</label>
+                <input type="text" name="add-service-name">
+            </div>
+            <div class="form-item d-block">
+                <label>Start Time</label>
+                <input type="text" name="add-service-start-time">
+            </div>
+            <div class="form-item d-block">
+                <label>End Time</label>
+                <input type="text" name="add-service-end-time">
+            </div>
+            <button type="button" class="button" id="addContact">
+                Add Service Time
+            </button>            
+        </div>
+    </section>
+</div>
+
+<div role="tabpanel" class="tab-pane" id="serviceHoursUpdateTab">
+    {% if object.servicetimerange_set.all %}
+        <section>
+            <div id="deleted-alert">
+                <span>Service Time deleted!</span>
+            </div>
+            <label class="d-block" style="font-size: 0.9rem;">
+                Select a Service
+            </label>
+            <select id="masterServiceHoursList">
+                <option value="999">-----</option>
+            {% for st_range in object.servicetimerange_set.all %}
+                <option class="dayOpt" value="{{ st_range.day }}">
+                    {{ st_range.name }}
+                </option>
+            {% endfor %}
+            </select>
+            <span id="service-hours-buttons">
+                <button type="button" class="button" id="updateServiceHours">
+                    Update Hours
+                </button>
+                <button type="button" class="button button-danger" id="deleteServiceHours">
+                    Delete Hours
+                </button>
+            </span>
+        </section>
+        <div id="service-hours-update-form">
+            <div class="updated-alert">
+                <span>Service Time updated!</span>
+            </div>
+            <div class="form-item d-block">
+                <label>Name</label>
+                <select id="serviceList"></select>
+            </div>
+            <div class="form-item d-block">
+                <label>Start Time</label>
+                <input type="text" name="edit-service-start-time">
+            </div>
+            <div class="form-item d-block">
+                <label>End Time</label>
+                <input type="text" name="edit-service-end-time">
+            </div>        
+        </div>
+    {% else %}
+
+    {% endif %}
+</div>
+
+{% endblock tab_content %}
+
+{% block modalFooter %}
+<button type="button" class="button" data-dismiss="modal" id="opHoursClose">
+    Close
+</button>
+{% endblock modalFooter %}

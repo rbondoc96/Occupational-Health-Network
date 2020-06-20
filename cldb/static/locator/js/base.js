@@ -27,10 +27,6 @@ var addToSubnav = (linkStr, href) => {
 var init = () => {
     $("#subnav").hide()
 
-    $("#dbBtn").focus((event) => {
-        $("#subnav").slideUp("fast")
-    })
-
     $("#ttBtn").hover((event) => {
         $("#subnav li.nav-item").empty()
         addToSubnav("Home", "#")

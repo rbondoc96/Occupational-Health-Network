@@ -1,28 +1,60 @@
-from rest_framework import routers
-from locator.api import LocationViewSet
-
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
 
 from . import views
+from . import api
 
-# router = routers.DefaultRouter()
-# router.register("api/location", LocationViewSet, "location")
-
-# urlpatterns = router.urls
+router = DefaultRouter()
+router.register(r"locations", api.LocationViewSet)
+router.register(r"reviews", api.ReviewViewSet)
+router.register(r"contacts", api.ContactsViewSet)
+router.register(r"op_hours", api.DayTimeRangeViewSet)
+router.register(r"service_hours", api.ServiceTimeRangeViewSet, basename="service_hours")
+router.register(r"services", api.ServiceViewSet, basename="services")
+router.register(r"service_categories", api.ServiceCategoryViewSet)
+router.register(r"location_categories", api.LocationCategoryViewSet)
+router.register(r"ccf_categories", api.CcfCategoryViewSet)
+router.register(r"auth_methods", api.AuthMethodViewSet)
 
 urlpatterns = [
-    # "index" is accessible in templates
-    # Accessed by (Example): href="{% url 'index' %}"
+    path("api/", include(router.urls)),
     path('', views.index, name='index'),
-    path('locator/service/<int:pk>/', views.service, name="service"),
-    path('locator/location/new/', views.new_location, name="new_location"),
-    # path('locator/location/<int:pk>/', views.location, name="location"),
-    path('locator/location/<int:pk>/', views.LocationDetailView.as_view(), name="location"),
-    path('locator/contacts/<int:pk>/', views.contacts, name="contacts"),
+    path('location/new/', views.new_location, name="new_location"),
     path(
-        'locator/service_hours/<int:pk>/', 
-        views.service_hours, 
-        name="service_hours"
+        'location/<slug:slug>/', 
+        views.LocationDetailView.as_view(), 
+        name="location_detail"
     ),
-    path('locator/op_hours/<int:pk>/', views.op_hours, name="op_hours"),
+    path(
+        'location/update/<slug:slug>/', 
+        views.LocationUpdateView.as_view(), 
+        name="update_location"
+    ),
+    path(
+        'location/reviews/<slug:slug>/', 
+        views.ReviewListView.as_view(), 
+        name="review_list"
+    ),
+        path(
+        'location/contacts/<slug:slug>/', 
+        views.ContactsListView.as_view(), 
+        name="contacts_list"
+    ),
+        path(
+        'location/op-hours/<slug:slug>/', 
+        views.DayTimeRangeListView.as_view(), 
+        name="op_hours_list"
+    ),
+        path(
+        'location/service-hours/<slug:slug>/', 
+        views.ServiceTimeRangeListView.as_view(), 
+        name="service_hours_list"
+    ),
+    path("locator/", views.search, name="search"),
+    path(
+        'api/location/<int:pk>/contacts/add/', 
+        api.add_contact_to_location, 
+        name="add_contact_to_location"
+    ),
+    path('api/gmapAPI/<int:pk>/', api.imgFromLocation, name="ifl"),
 ]

@@ -1,0 +1,32 @@
+{% extends "./../base.html "%}
+
+{% load static %}
+
+{% block styles %}
+<link href="{% static 'locator/css/list_base.css' %}" rel="stylesheet" type="text/css">
+{% endblock styles %}
+
+{% block content %}
+<div class="container-fluid" id="content">
+    {% if object_list %}
+        {% for object in object_list %}
+            {% if forloop.first %}
+                <section>
+                    <h4 id="content-header">Template Header</h4>
+                    <div id="location">
+                        <span id="location-label">Location: </span>
+                        <span id="location-name">{{ object.location }}</span>
+                    </div>
+                </section>
+                <ul id="list" style="padding-left: 0; list-style: none;">
+            {% endif %}
+                        <li class="list-element">
+                            <span>{{ object }}</span>
+                        </li>
+            {% if forloop.last %}
+                </ul>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+</div>
+{% endblock content %}
