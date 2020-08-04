@@ -1,0 +1,117 @@
+$sidebar-width-reg: 300px;
+$sidebar-width-sm: 72px;
+$nav-item-height-reg: 60px; 
+$nav-item-height-sm: 72px;
+
+:export {
+    sidebarWidthSm: $sidebar-width-sm;
+    sidebarWidthReg: $sidebar-width-reg;
+}
+
+nav.sidebar__wrapper {
+    position: fixed;
+    width: $sidebar-width-reg;
+    height: 100%;
+    box-shadow: -1px 0 4px;
+    background-color: #fff;
+
+    div.sidebar {
+        z-index: 999;
+        background-color: inherit;
+        div.logo__wrapper {
+            text-align: center;
+            padding: 35px 0px;
+        }
+        button.logo__wrapper--mini {
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+    
+        ul.sidebar__nav2 {
+            margin: calc(65px + 13vh) 0;
+        }
+    
+        footer.footer {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+    
+            a {
+                height: $nav-item-height-sm;
+                width: $sidebar-width-sm;
+                margin-right: 16px;
+    
+                display: flex;
+                align-items: center;
+                justify-content: center;
+    
+                button.footer__github-link {
+                    border: 0;
+                    background-color: inherit;
+                }
+                button.footer__github-link:hover {
+                    cursor: pointer;
+                }
+            }
+            a:hover {
+                background-color: #EAEAEA;
+                
+                svg path {
+                    fill: #1B8FFA;
+                }
+            }
+            div.footer__copyright {
+                text-align: center;
+            }
+        }
+    }
+
+    button.sidebar--toggle {
+        position: fixed;
+        top: 0;
+        margin-top: 50px;
+        margin-left: $sidebar-width-reg;
+        z-index: -1;
+        
+        border: 0;
+        height: 35px;
+        width: 40px;
+        background-color: #c2c2c2;
+    }
+    button.sidebar--toggle:hover {
+        cursor: pointer;
+        background-color: #E2E2E2;
+    }
+}
+
+/* Nav Button styles */
+.nav-button {
+    height: $nav-item-height-reg;
+    border: 0;
+    background-color: inherit;
+
+    display: flex;
+    align-items: center;
+
+    font-size: 20px;
+}
+.nav-button:hover {
+    cursor: pointer;
+    background-color: #EAEAEA;
+    color: #1B8FFA;
+
+    svg path {
+        fill: #1B8FFA;
+    }
+}
+
+.nav-button--collapsed {
+    width: $sidebar-width-sm;
+    height: $nav-item-height-sm;  
+    
+    font-size: 11px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
