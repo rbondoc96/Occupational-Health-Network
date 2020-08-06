@@ -1,15 +1,27 @@
 #!/usr/bin/env python
 
+import psycopg2
+
 from django.contrib.auth.models import User
 from django.utils.text import slugify
 from django.urls import reverse
-from django.db import models
+from django.db import models, IntegrityError
 
-from .vars import DayTime, Locations, ModelConstants
+from .vars import Geography, ModelConstants
 from .utils import convert_to_time12
 
-days = ["Monday", "Tuesday", \
-"Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+class Day(models.Model):
+    name = models.CharField(
+        max_length=9,
+        unique=True,
+    )
+    abbreviation = models.CharField(
+        max_length=3,
+        unique=True,
+    )
+
+    def __str__(self):
+        return self.name
 
 class ServiceCategory(models.Model):
     name = models.CharField(
@@ -55,7 +67,7 @@ class CcfCategory(models.Model):
 
 class AuthMethod(models.Model):
     name = models.CharField(
-        max_length=16, 
+        max_length=32, 
         unique=True
     )
 
@@ -79,7 +91,7 @@ class Service(models.Model):
         unique=True)
 
     simple_name = models.CharField(
-        max_length=15,
+        max_length=20,
         blank=True,
         null=True,
         verbose_name="Simple Name"
@@ -97,6 +109,12 @@ class Service(models.Model):
 
     class Meta:
         ordering = ["service_category", "name",]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["service_category", "name"],
+                name="service_service_category_name_key"
+            )
+        ]
 
 class Location(models.Model):
     slug = models.SlugField(
@@ -129,12 +147,11 @@ class Location(models.Model):
     city = models.CharField(max_length=ModelConstants.LOCATION_CITY)
     state = models.CharField(
         max_length=2,
-        choices=Locations.US_STATES, 
+        choices=Geography.US_STATES, 
         default=""
     )
     zipcode = models.CharField(max_length=ModelConstants.LOCATION_ZIPCODE)
 
-    # 25 characters allows for an extension substring "ext. #####"
     phone = models.CharField(
         max_length=ModelConstants.LOCATION_PHONE, 
         default=""
@@ -156,13 +173,12 @@ class Location(models.Model):
     )
 
     comments = models.TextField(blank=True, null=True)
-    date_submitted = models.DateField(
-        "Date Submitted",
+    date_created = models.DateField(
+        "Date Created",
         auto_now_add=True,
     )
-    # Will be activated by press of "Verify" button
-    last_verified = models.DateField(
-        "Last Verified",
+    last_updated = models.DateField(
+        "Last Updated",
         auto_now=True,
         blank=True,
         null=True
@@ -174,28 +190,22 @@ class Location(models.Model):
     )
     ccf_category_list = models.ManyToManyField(
         CcfCategory,
-        verbose_name="Chain of Custody Forms Accepted"
+        verbose_name="UDS Chain of Custody Forms Accepted",
+        blank=True,
     )
     auth_method_list = models.ManyToManyField(
         AuthMethod,
-        verbose_name="Authorization Methods Accepted"
+        verbose_name="Authorization Methods Accepted",
+        blank=True,
     )
 
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=["name", "branch_name"],
-                name="location_name_branch_name_key"
+                fields=["name", "branch_name", "street_line_1"],
+                name="location_name_branch_name_street_line_1_key"
             )
         ]
-
-    def save(self, *args, **kwargs):
-        if self.branch_name != "" and self.branch_name != None:
-            full_name = self.name + " " + self.branch_name
-        else:
-            full_name = self.name
-        self.slug = self.slug or slugify(full_name)
-        super().save(*args, **kwargs)
     
     def get_absolute_url(self):
         return reverse("location_detail", kwargs={"slug": self.slug})
@@ -221,6 +231,12 @@ class ServiceTimeRange(models.Model):
         verbose_name="End Time"
     )
 
+    days = models.ManyToManyField(
+        Day,
+        verbose_name="Days Offered",
+        blank=True,
+    )
+
     def __str__(self):
         start_12 = convert_to_time12(self.start_time)
         end_12 = convert_to_time12(self.end_time)
@@ -237,9 +253,9 @@ class DayTimeRange(models.Model):
         on_delete=models.CASCADE
     )
 
-    day = models.IntegerField(
-        choices=DayTime.DAYS,
-        default=1
+    day = models.ForeignKey(
+        Day,
+        on_delete=models.CASCADE,
     )
     start_time = models.TimeField(
         default="0:00 AM", 
@@ -251,9 +267,7 @@ class DayTimeRange(models.Model):
     )
 
     def __str__(self):
-        # Made more sense to have the 1st day of the week be 1, rather than 0
-        idx = self.day - 1
-        return days[idx]
+        return f"{self.day}"
     
     class Meta:
         ordering = ["day"]
@@ -267,10 +281,29 @@ class DayTimeRange(models.Model):
             ),
         ]
 
+class ReviewType(models.Model):
+    name = models.CharField(
+        max_length=255,
+        verbose_name="Review Type",
+    )
+
+    def __str__(self): 
+        return self.name
+        
+    class Meta:
+        verbose_name = "Review Type"
+
 class Review(models.Model):
     location = models.ForeignKey(
         Location, 
         on_delete=models.CASCADE
+    )
+
+    review_type = models.ForeignKey(
+        ReviewType,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
     )
 
     author = models.ForeignKey(
