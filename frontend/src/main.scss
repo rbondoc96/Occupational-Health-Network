@@ -1,6 +1,13 @@
 @import "./scss/sidebar";
 @import url("https://fonts.googleapis.com/css2?family=Varta&display=swap");
 
+@font-face {
+    font-family: "LeagueSpartan";
+    font-style: normal;
+    font-weight: 400;
+    src: url("assets/fonts/LeagueSpartan-Regular.woff2") format("woff2");
+}
+
 * {
     margin: 0;
     padding: 0;

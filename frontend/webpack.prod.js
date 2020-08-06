@@ -15,19 +15,18 @@ module.exports = merge(common, {
         path: path.resolve(__dirname, "dist"),
         publicPath: "/dist/"        
     },
-    optimization: {
-        minimizer: [
-            new TerserPlugin(),
-            new HtmlWebpackPlugin({
-                template: "./src/template.html",
-                minify: {
-                    removeAttributeQuotes: true,
-                    removeComments: true,
-                    collapseWhitespace: true,
-                }
-            })
-        ]
-    },
+    // optimization: {
+    //     minimizer: [
+    //         new TerserPlugin(),
+    //         new HtmlWebpackPlugin({
+    //             template: "./src/views/template.hbs",
+    //             minify: {
+    //                 removeComments: true,
+    //                 collapseWhitespace: true,
+    //             }
+    //         })
+    //     ]
+    // },
     module: {
         rules: [
             {
@@ -37,7 +36,7 @@ module.exports = merge(common, {
                     "css-loader",   // CSS to CommonJS
                     "sass-loader",  // Sass to CSS
                 ],
-            }
+            },
         ],
     },
     plugins : [

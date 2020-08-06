@@ -57,7 +57,7 @@ class Sidebar {
             }
 
             this.wrapper.style.width = variables.sidebarWidthSm
-            this.nav2.style.margin = "calc(20px + 15vh) 0"
+            this.nav2.style.margin = "calc(20px + 11vh) 0"
 
             this.footer.style.flexDirection = "column"
             this.footer.style.justifyContent = "center"
@@ -84,7 +84,7 @@ class Sidebar {
             } 
 
             this.wrapper.style.width = variables.sidebarWidthReg
-            this.nav2.style.margin = "calc(65px + 13vh) 0"
+            this.nav2.style.margin = "calc(50px + 11vh) 0"
 
             this.footer.style.flexDirection = "row"
             this.footer.style.justifyContent = "flex-start"
