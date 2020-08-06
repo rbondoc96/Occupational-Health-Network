@@ -11,22 +11,13 @@ const {CleanWebpackPlugin} = require("clean-webpack-plugin")
 module.exports = merge(common, {
     mode: "production",
     output: {
-        filename: '[name]-bundle-[contentHash].js',
-        path: path.resolve(__dirname, "dist"),
-        publicPath: "/dist/"        
+        filename: '[name]-bundle.js',
+        path: path.resolve(__dirname, "../cldb/static"),
+        publicPath: "/static/"        
     },
-    // optimization: {
-    //     minimizer: [
-    //         new TerserPlugin(),
-    //         new HtmlWebpackPlugin({
-    //             template: "./src/views/template.hbs",
-    //             minify: {
-    //                 removeComments: true,
-    //                 collapseWhitespace: true,
-    //             }
-    //         })
-    //     ]
-    // },
+    optimization: {
+        minimize: false
+    },
     module: {
         rules: [
             {
@@ -41,7 +32,7 @@ module.exports = merge(common, {
     },
     plugins : [
         new MiniCssExtractPlugin({
-            filename: "[name].[contentHash].css",
+            filename: "[name].css",
         }),
         new CleanWebpackPlugin(),
     ],

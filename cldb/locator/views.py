@@ -169,7 +169,7 @@ def convert_to_24(time_range):
     return time_range
 
 def index(request):
-    return render(request, "locator/index.html")
+    return render(request, "index.html")
 
 @api_view(["GET", "POST"])
 def new_location(request):
