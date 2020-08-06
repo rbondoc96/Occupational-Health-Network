@@ -19,6 +19,7 @@ django-filter = "*"
 requests = "*"
 googlemaps = "*"
 pillow = "*"
+faker = "*"
 
 [requires]
 python_version = "3.8"

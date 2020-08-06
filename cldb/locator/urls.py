@@ -15,11 +15,14 @@ router.register(r"service_categories", api.ServiceCategoryViewSet)
 router.register(r"location_categories", api.LocationCategoryViewSet)
 router.register(r"ccf_categories", api.CcfCategoryViewSet)
 router.register(r"auth_methods", api.AuthMethodViewSet)
+# router.register(r"search", api.SearchLocationViewSet)
 
 urlpatterns = [
     path("api/", include(router.urls)),
+    path("api/search/", api.search_location_by_zipcode),
     path('', views.index, name='index'),
     path('location/new/', views.new_location, name="new_location"),
+    path('location/search/', views.search, name="search"),
     path(
         'location/<slug:slug>/', 
         views.LocationDetailView.as_view(), 

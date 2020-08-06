@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from django.utils.translation import ugettext as _
 
-class Locations:
+class Geography:
     US_STATES = (
         ("", ""),
         ("AL", "AL"),("AK", "AK"),("AR", "AR"),("AZ", "AZ"),("CA", "CA"),

@@ -5,7 +5,7 @@ from django.dispatch import receiver
 @receiver(post_save, sender=User)
 def add_team_permission(sender, instance, created, **kwargs):
     if created:
-        group = Group.objects.get(name="team")
+        group = Group.objects.get(name="team member")
         group.user_set.add(instance)
 
 # @receiver(post_save, sender=User)

@@ -12,7 +12,7 @@ const Days = [
 var updateLocationField = (data, field) => {
     let csrftoken = getCookie("csrftoken")
     let id = String($("#locationID").html())
-    let api = window.location.origin + "/locator/api/location/" + id + "/"
+    let api = window.location.origin + "/api/locations/" + id + "/"
 
     let json = {
         [field]: data,

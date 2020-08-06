@@ -53,6 +53,18 @@ class ServiceSerializer(serializers.ModelSerializer):
             "simple_description",
         ]
 
+class MinimalServiceSerializer(serializers.ModelSerializer):
+    service_category = ServiceCategorySerializer(read_only=True)
+    class Meta:
+        model = Service
+        fields = [
+            "id",
+            "service_category",
+            "name",
+            "simple_name",
+            "simple_description",
+        ]
+
 class LocationCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = LocationCategory
@@ -131,6 +143,16 @@ class DetailedDayTimeRangeSerializer(serializers.ModelSerializer):
             "end_time",
         ]
 
+class DayTimeRangeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DayTimeRange
+        fields = [
+            "id",
+            "day",
+            "start_time",
+            "end_time",
+        ]
+
 class DetailedServiceTimeRangeSerializer(serializers.ModelSerializer):
     location = MinimalLocationSerializer(read_only=True)
     class Meta:
@@ -162,8 +184,7 @@ class LocationCreateSerializer(serializers.ModelSerializer):
             "fax",
             "website",
             "comments",
-            "date_submitted",
-            "last_verified",
+            "date_created",
             "service_list",
             "ccf_category_list",
             "auth_method_list",
@@ -209,8 +230,8 @@ class DetailedLocationSerializer(serializers.ModelSerializer):
             "fax",
             "website",
             "comments",
-            "date_submitted",
-            "last_verified",
+            "date_created",
+            "last_updated",
             "service_list",
             "ccf_category_list",
             "auth_method_list",
@@ -221,8 +242,8 @@ class DetailedLocationSerializer(serializers.ModelSerializer):
 
 class TrimmedLocationSerializer(serializers.ModelSerializer):
     location_category = LocationCategorySerializer(read_only=True)
-    service_list = ServiceSerializer(many=True, read_only=True)
-    op_hours = DetailedDayTimeRangeSerializer(
+    service_list = MinimalServiceSerializer(many=True, read_only=True)
+    op_hours = DayTimeRangeSerializer(
         source="daytimerange_set", 
         many=True
     )
@@ -244,7 +265,7 @@ class TrimmedLocationSerializer(serializers.ModelSerializer):
             "is_phone_callable",
             "fax",
             "website",    
-            "last_verified",
+            "last_updated",
             "service_list",
             "op_hours",
         ]

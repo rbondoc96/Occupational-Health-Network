@@ -14,6 +14,7 @@ import io
 import requests
 
 from django.http import Http404
+from django.utils.text import slugify
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.views.generic import DetailView, ListView, UpdateView, DeleteView
@@ -175,31 +176,40 @@ def new_location(request):
     if request.method == "POST":
         data = request.data
         ls = LocationCreateSerializer(data=data["location"])
-        c_list = data["contacts"]
-        dtr_list = data["op_hours"]
-        str_list = data["service_hours"]
+        c_list = data.get("contacts")
+        dtr_list = data.get("op_hours")
+        str_list = data.get("service_hours")
 
-        cs = ContactsCreateSerializer(data=data["contacts"])
-        dtrs = DayTimeRangeCreateSerializer(data=data["op_hours"])
-        strs = ServiceTimeRangeCreateSerializer(data=data["service_hours"])
+        cs = ContactsCreateSerializer(data=c_list)
+        dtrs = DayTimeRangeCreateSerializer(data=dtr_list)
+        strs = ServiceTimeRangeCreateSerializer(data=str_list)
 
         if(ls.is_valid()):
             location = ls.save()
             id = location.id
-            for contact in c_list:
-                cs = ContactsCreateSerializer(data=contact)
-                if(cs.is_valid()):
-                    cs.save(location_id=id)
-            for dt_range in dtr_list:
-                dt_range = convert_to_24(dt_range)
-                dtrs = DayTimeRangeCreateSerializer(data=dt_range)
-                if(dtrs.is_valid()):
-                    dtrs.save(location_id=id)
-            for st_range in str_list:
-                st_range = convert_to_24(st_range)
-                strs = ServiceTimeRangeCreateSerializer(data=st_range)
-                if(strs.is_valid()):
-                    strs.save(location_id=id)
+            if location.slug is None or location.slug == "":
+                if location.branch_name == "" or location.branch_name is None:
+                    slug = slugify(f"{location.name}-{location.id}")
+                else:
+                    slug = slugify(f"{location.name}-{location.branch_name}")
+                ls.save(slug=slug)
+            if c_list is not None:
+                for contact in c_list:
+                    cs = ContactsCreateSerializer(data=contact)
+                    if(cs.is_valid()):
+                        cs.save(location_id=id)
+            if dtr_list is not None:
+                for dt_range in dtr_list:
+                    dt_range = convert_to_24(dt_range)
+                    dtrs = DayTimeRangeCreateSerializer(data=dt_range)
+                    if(dtrs.is_valid()):
+                        dtrs.save(location_id=id)
+            if str_list is not None:
+                for st_range in str_list:
+                    st_range = convert_to_24(st_range)
+                    strs = ServiceTimeRangeCreateSerializer(data=st_range)
+                    if(strs.is_valid()):
+                        strs.save(location_id=id)
             return Response(ls.data, status=status.HTTP_201_CREATED)
         return Response(ls.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -213,8 +223,10 @@ def new_location(request):
 
 @api_view(["GET", "POST"])
 def search(request):
-
-    return HttpResponse("hi")
+    context = {
+        "form": None
+    }
+    return render(request, "locator/search.html")
 
 
 

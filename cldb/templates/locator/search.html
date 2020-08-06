@@ -1,0 +1,27 @@
+{% extends "./base.html" %}
+
+{% block content %}
+<div class="mt-4">
+    <form id="searchForm" method="GET" action="/api/search">
+        <label for="address">Address</label>
+        <input name="address" id="address"/>
+
+        <label for="state">State</label>
+        <select id="states">
+            <option value="CA">CA</option>
+        </select>
+
+        <div>
+            <label for="zipcode">Zipcode</label>
+            <input name="zipcode" id="zipcode"/>
+    
+            <label for="radius">Radius</label>
+            <input name="radius" id="radius"/>
+        </div>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <ul id="results"></ul>
+</div>
+{% endblock content %}

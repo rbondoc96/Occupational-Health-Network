@@ -42,6 +42,7 @@ class ManagerCUDAuthorizationMixin(object):
             return Response({}, status=status.HTTP_400_BAD_REQUEST)
         
         else:
+            print("in here")
             return Response({}, status=status.HTTP_403_FORBIDDEN)
 
     def update(self, request, *args, **kwargs):

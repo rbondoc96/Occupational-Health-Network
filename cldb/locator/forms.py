@@ -8,7 +8,7 @@ from .models import (
     AuthMethod,
     Review,
 )
-from .vars import DayTime, ModelConstants, Locations
+from .vars import DayTime, ModelConstants, Geography
 
 # pylint: disable=no-member
 
@@ -46,7 +46,7 @@ class LocationForm(forms.Form):
         max_length=ModelConstants.LOCATION_CITY,
         label="City"
     )
-    state = forms.ChoiceField(choices=Locations.US_STATES)
+    state = forms.ChoiceField(choices=Geography.US_STATES)
     zipcode = forms.CharField(
         max_length=ModelConstants.LOCATION_ZIPCODE,
         label="Zip"
@@ -118,15 +118,6 @@ class LocationForm(forms.Form):
         ),
         queryset=AuthMethod.objects.all(),
         label="Authorization Methods"
-    )
-    
-    last_verified = forms.CharField(
-        max_length=255,
-        widget=forms.TextInput(
-            attrs={
-                "type": "hidden"
-            }
-        )
     )
 
     # Modal 1: Contacts

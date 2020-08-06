@@ -48,9 +48,10 @@ var init = () => {
 
     $("#ceBtn").hover((event) => {
         $("#subnav li.nav-item").empty()
-        let addLink = window.location.origin + "/locator/location/new"
+        let addLink = window.location.origin + "/location/new"
+        let searchLink = window.location.origin + "/location/search"
         addToSubnav("Add a Location", addLink)
-        addToSubnav("Search for a Location", "#")
+        addToSubnav("Search for a Location", searchLink)
         $("#subnav").slideDown("fast")
         $(event.target).closest("li").css("background-color", "#B8B7B4")
     })

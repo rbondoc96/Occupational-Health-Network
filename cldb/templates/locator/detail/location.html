@@ -28,7 +28,7 @@
                 <div class="mb-2">
                     Date Created: 
                     <span id="last-updated">
-                        {{ object.date_submitted|date:"F j, Y" }}
+                        {{ object.date_created|date:"F j, Y" }}
                     </span>
                     <span>
                         {% if request.user.is_authenticated %}
@@ -46,7 +46,7 @@
                 <div>
                     Last Verified: 
                     <span id="last-verified">
-                        {{ object.last_verified|date:"F j, Y" }}
+                        {{ object.last_updated|date:"F j, Y" }}
                     </span>
                     <span>
                         {% if request.user.is_authenticated %}

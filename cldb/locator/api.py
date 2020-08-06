@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 
 import requests
+import json
+from datetime import datetime
+from uszipcode import SearchEngine
 
 from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
@@ -32,6 +35,17 @@ from locator.serializers import (
 )
 
 # pylint: disable=no-member
+
+days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+]
 
 class ServiceCategoryViewSet(
     ManagerCUDAuthorizationMixin, 
@@ -168,6 +182,45 @@ class ServiceTimeRangeViewSet(
             serializer.save(location_id=location_id)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+class SearchLocationViewSet(
+    LocationQueryParameterMixin,
+    viewsets.ModelViewSet):
+    queryset = Location.objects.all()
+    serializer_class = TrimmedLocationSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+@api_view(["GET"])
+def search_location_by_zipcode(request):
+    query_params = request.query_params
+    zipcode = query_params.get("zipcode", None)
+    radius = int(query_params.get("radius", None))
+
+    if zipcode is not None and radius is not None:
+        search = SearchEngine(simple_zipcode=True)
+        zipcode_query = search.by_zipcode(zipcode) 
+        
+        nearby_zips = search.by_coordinates(
+            zipcode_query.lat,
+            zipcode_query.lng, 
+            radius=radius, 
+            returns=1000,
+        )
+        locations = []
+        queryset = Location.objects.all()
+        for zcode in nearby_zips:
+            location = queryset.filter(zipcode=zcode.zipcode)
+            if location.exists():
+                for obj in location:
+                    serializer = TrimmedLocationSerializer(obj)
+                    data = serializer.data
+                    if data["op_hours"]:
+                        for hour in data["op_hours"]:
+                            day = days[hour["day"]]
+                            hour["day"] = day
+                    locations.append(data)
+        return Response(locations, status=status.HTTP_200_OK)
+    else:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(["POST"])
