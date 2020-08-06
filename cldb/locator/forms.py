@@ -17,7 +17,7 @@ class ReviewForm(forms.ModelForm):
         model = Review
         fields = [
             "location",
-            "author",
+            "owner",
         ]
 class LocationForm(forms.Form):
     location_category = forms.ModelChoiceField(

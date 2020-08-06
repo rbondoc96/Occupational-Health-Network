@@ -306,7 +306,7 @@ class Review(models.Model):
         blank=True,
     )
 
-    author = models.ForeignKey(
+    owner = models.ForeignKey(
         User,
         on_delete=models.SET_NULL, 
         blank=True, 
