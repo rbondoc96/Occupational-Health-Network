@@ -34,6 +34,8 @@ from locator.serializers import (
     CcfCategorySerializer, ServiceSerializer
 )
 
+import users.permissions as user_permissions
+
 # pylint: disable=no-member
 
 days = [
@@ -80,6 +82,7 @@ class LocationViewSet(viewsets.ModelViewSet):
     queryset = Location.objects.all()
     serializer_class = DetailedLocationSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+    lookup_field = "slug"
     
     def get_queryset(self):
         queryset = self.queryset
@@ -116,9 +119,12 @@ class LocationViewSet(viewsets.ModelViewSet):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def retrieve(self, request, pk=None):
+    def retrieve(self, request, pk=None, *args, **kwargs):
         queryset = self.queryset
-        location = get_object_or_404(queryset, id=pk)
+        if pk is not None:
+            location = get_object_or_404(queryset, id=pk)
+        else:
+            location = get_object_or_404(queryset, slug=kwargs["slug"])
         serializer = DetailedLocationSerializer(location)
 
         return Response(serializer.data)

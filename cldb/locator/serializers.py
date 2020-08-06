@@ -1,4 +1,3 @@
-from django.contrib.auth.models import User
 
 from rest_framework import serializers
 from locator.models import (
@@ -12,7 +11,11 @@ from locator.models import (
     AuthMethod,
     Contacts,
     Review,
+    ReviewType,
+    Day,
 )
+
+import users.serializers as user_serializers
 
 # pylint: disable=no-member
 
@@ -73,6 +76,7 @@ class LocationCategorySerializer(serializers.ModelSerializer):
             "name",
         ]
 
+
 class MinimalLocationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Location
@@ -81,7 +85,41 @@ class MinimalLocationSerializer(serializers.ModelSerializer):
             "name",
             "branch_name",
         ]
-    
+
+class ReviewTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ReviewType
+        fields = [
+            "id",
+            "name",
+        ]
+
+class ReviewSerializer(serializers.ModelSerializer):
+    owner = user_serializers.UserSerializer(read_only=True)
+    location = MinimalLocationSerializer(read_only=True)
+    review_type = ReviewTypeSerializer(read_only=True)
+
+    class Meta:
+        model = Review
+        fields = [
+            "id",
+            "location",
+            "review_type",
+            "owner",
+            "like",
+            "dislike",
+            "comments",
+        ]
+
+class DaySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Day
+        fields = [
+            "id",
+            "name",
+            "abbreviation",
+        ]
+
 class ContactsCreateSerializer(serializers.ModelSerializer):    
     class Meta:
         model = Contacts
@@ -132,6 +170,7 @@ class DetailedContactsSerializer(serializers.ModelSerializer):
 
 class DetailedDayTimeRangeSerializer(serializers.ModelSerializer):
     location = MinimalLocationSerializer(read_only=True)
+    day = DaySerializer(read_only=True)
 
     class Meta:
         model = DayTimeRange
@@ -144,6 +183,8 @@ class DetailedDayTimeRangeSerializer(serializers.ModelSerializer):
         ]
 
 class DayTimeRangeSerializer(serializers.ModelSerializer):
+    day = DaySerializer(read_only=True)
+
     class Meta:
         model = DayTimeRange
         fields = [
@@ -155,6 +196,8 @@ class DayTimeRangeSerializer(serializers.ModelSerializer):
 
 class DetailedServiceTimeRangeSerializer(serializers.ModelSerializer):
     location = MinimalLocationSerializer(read_only=True)
+    days = DaySerializer(many=True, read_only=True)
+
     class Meta:
         model = ServiceTimeRange
         fields = [
@@ -163,6 +206,7 @@ class DetailedServiceTimeRangeSerializer(serializers.ModelSerializer):
             "name",
             "start_time",
             "end_time",
+            "days",
         ]
     
 class LocationCreateSerializer(serializers.ModelSerializer):
@@ -192,10 +236,16 @@ class LocationCreateSerializer(serializers.ModelSerializer):
 
 class DetailedLocationSerializer(serializers.ModelSerializer):
     location_category = LocationCategorySerializer(read_only=True)
+
     service_list = ServiceSerializer(many=True, read_only=True)
     ccf_category_list = CcfCategorySerializer(many=True, read_only=True)
     auth_method_list = AuthMethodSerializer(many=True, read_only=True)
 
+    reviews = ReviewSerializer(
+        source="review_set",
+        many=True, 
+        read_only=True
+    )
     contacts = DetailedContactsSerializer(
         source="contacts_set", 
         many=True, 
@@ -214,6 +264,12 @@ class DetailedLocationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Location
+        lookup_field = "slug"
+        extra_kwargs = {
+            "url": {
+                "lookup_field": "slug"
+            }
+        }
         fields = [
             "id",
             "slug",
@@ -232,6 +288,7 @@ class DetailedLocationSerializer(serializers.ModelSerializer):
             "comments",
             "date_created",
             "last_updated",
+            "reviews",
             "service_list",
             "ccf_category_list",
             "auth_method_list",
@@ -268,28 +325,4 @@ class TrimmedLocationSerializer(serializers.ModelSerializer):
             "last_updated",
             "service_list",
             "op_hours",
-        ]
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = [
-            "id",
-            "first_name",
-            "last_name",
-        ]
-
-class ReviewSerializer(serializers.ModelSerializer):
-    author = UserSerializer(read_only=True)
-    location = MinimalLocationSerializer(read_only=True)
-
-    class Meta:
-        model = Review
-        fields = [
-            "id",
-            "location",
-            "author",
-            "like",
-            "dislike",
-            "comments",
         ]
