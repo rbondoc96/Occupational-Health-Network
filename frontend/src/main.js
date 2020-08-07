@@ -1,3 +1,5 @@
+import regeneratorRuntime from "regenerator-runtime"
+
 import "./main.scss"
 
 import Sidebar from "./js/sidebar"
