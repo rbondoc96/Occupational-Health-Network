@@ -49,13 +49,15 @@ from .serializers import (
     ServiceTimeRangeCreateSerializer
 )
 
-from .utils import get_ratings_by_location
+from locator.utils import get_ratings_by_location
+
+import users.permissions as user_permissions
 
 # pylint: disable=no-member
 
 class LocationDetailView(DetailView):
     model = Location
-    template_name = "locator/detail/location.html"
+    template_name = "location.html"
     slug_field = "slug"
 
     def get(self, request, *args, **kwargs):
@@ -151,7 +153,7 @@ class ReviewUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         review = self.get_object()
         user_name = self.request.user.first_name + \
             " " + self.request.user.last_name
-        if user_name == review.author:
+        if user_name == review.owner:
             return True
         return False
 

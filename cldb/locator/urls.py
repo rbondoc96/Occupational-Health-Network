@@ -24,32 +24,32 @@ urlpatterns = [
     path('location/new/', views.new_location, name="new_location"),
     path('location/search/', views.search, name="search"),
     path(
-        'location/<slug:slug>/', 
+        'locations/<slug:slug>/', 
         views.LocationDetailView.as_view(), 
         name="location_detail"
     ),
     path(
-        'location/update/<slug:slug>/', 
+        'locations/update/<slug:slug>/', 
         views.LocationUpdateView.as_view(), 
         name="update_location"
     ),
     path(
-        'location/reviews/<slug:slug>/', 
+        'locations/reviews/<slug:slug>/', 
         views.ReviewListView.as_view(), 
         name="review_list"
     ),
         path(
-        'location/contacts/<slug:slug>/', 
+        'locations/contacts/<slug:slug>/', 
         views.ContactsListView.as_view(), 
         name="contacts_list"
     ),
         path(
-        'location/op-hours/<slug:slug>/', 
+        'locations/op-hours/<slug:slug>/', 
         views.DayTimeRangeListView.as_view(), 
         name="op_hours_list"
     ),
         path(
-        'location/service-hours/<slug:slug>/', 
+        'locations/service-hours/<slug:slug>/', 
         views.ServiceTimeRangeListView.as_view(), 
         name="service_hours_list"
     ),
