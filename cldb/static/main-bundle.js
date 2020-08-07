@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 6);
+/******/ 	return __webpack_require__(__webpack_require__.s = 7);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -855,7 +855,8 @@ try {
 /***/ }),
 /* 4 */,
 /* 5 */,
-/* 6 */
+/* 6 */,
+/* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -902,7 +903,7 @@ var sidebar_Sidebar = /*#__PURE__*/function () {
     this.navButtons = wrapper.getElementsByClassName("nav-button");
     this.navItems = wrapper.getElementsByClassName("sidebar__nav-item");
     this.header = wrapper.querySelector(".sidebar__header");
-    this.footer = wrapper.querySelector(".footer");
+    this.footer = wrapper.querySelector(".sidebar__footer");
     this.nav1 = wrapper.querySelector(".sidebar__nav1");
     this.nav2 = wrapper.querySelector(".sidebar__nav2");
     this.isExpanded = isExpanded;
@@ -977,7 +978,7 @@ var sidebar_Sidebar = /*#__PURE__*/function () {
         this.footer.style.flexDirection = "column";
         this.footer.style.justifyContent = "center";
         this.footer.querySelector("a").style.marginRight = "0";
-        this.footer.querySelector(".footer__copyright").style.fontSize = "10px";
+        this.footer.querySelector(".sidebar__footer__copyright").style.fontSize = "10px";
         content.style.marginLeft = sidebar_default.a.sidebarWidthSm;
         this.toggleButton.style.left = "-40px";
         this.toggleButton.style.marginLeft = sidebar_default.a.sidebarWidthSm;
@@ -1023,7 +1024,7 @@ var sidebar_Sidebar = /*#__PURE__*/function () {
         this.footer.style.flexDirection = "row";
         this.footer.style.justifyContent = "flex-start";
         this.footer.querySelector("a").style.marginRight = "16px";
-        this.footer.querySelector(".footer__copyright").style.fontSize = "1rem";
+        this.footer.querySelector(".sidebar__footer__copyright").style.fontSize = "1rem";
         content.style.marginLeft = sidebar_default.a.sidebarWidthReg;
         this.toggleButton.style.top = "0px";
         this.toggleButton.style.left = "0px";
