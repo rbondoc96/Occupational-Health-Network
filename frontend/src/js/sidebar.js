@@ -14,7 +14,7 @@ class Sidebar {
         this.navItems = wrapper.getElementsByClassName("sidebar__nav-item")
 
         this.header = wrapper.querySelector(".sidebar__header")
-        this.footer = wrapper.querySelector(".footer")
+        this.footer = wrapper.querySelector(".sidebar__footer")
         this.nav1 = wrapper.querySelector(".sidebar__nav1")
         this.nav2 = wrapper.querySelector(".sidebar__nav2")
 
@@ -62,7 +62,7 @@ class Sidebar {
             this.footer.style.flexDirection = "column"
             this.footer.style.justifyContent = "center"
             this.footer.querySelector("a").style.marginRight = "0"
-            this.footer.querySelector(".footer__copyright").style.fontSize = "10px"
+            this.footer.querySelector(".sidebar__footer__copyright").style.fontSize = "10px"
 
             content.style.marginLeft = variables.sidebarWidthSm
             this.toggleButton.style.left = "-40px";
@@ -89,7 +89,7 @@ class Sidebar {
             this.footer.style.flexDirection = "row"
             this.footer.style.justifyContent = "flex-start"
             this.footer.querySelector("a").style.marginRight = "16px"
-            this.footer.querySelector(".footer__copyright").style.fontSize = "1rem"
+            this.footer.querySelector(".sidebar__footer__copyright").style.fontSize = "1rem"
 
             content.style.marginLeft = variables.sidebarWidthReg
             this.toggleButton.style.top = "0px"
