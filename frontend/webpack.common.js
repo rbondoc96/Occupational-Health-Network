@@ -5,8 +5,9 @@ const HtmlWebpackPartialsPlugin = require("html-webpack-partials-plugin")
 
 module.exports = {
     entry: {
-        vendor: "./src/vendor.js",
         main: "./src/main.js",
+        vendor: "./src/vendor.js",
+        location: "./src/js/location.js",
     },
     module: {
         rules: [
@@ -23,12 +24,7 @@ module.exports = {
                         loader: "html-loader",
                     }
                 ],
-            },
-            {
-                test: /\.hbs$/,
-                loader: "handlebars-loader"  
-            },
-            {
+            },{
                 test: /\.(png|svg|jpg|gif|ico|woff|woff2)$/,
                 use: [
                     {
@@ -52,12 +48,19 @@ module.exports = {
         new HtmlWebpackPlugin({
             title: "OCH Net",
             filename: "index.html",
-            template: "src/views/template.hbs"
+            template: "src/views/template.html",
+            chunks: ["main", "vendor"]
         }),
         new HtmlWebpackPlugin({
             title: "Settings",
             filename: "settings.html",
-            template: "src/views/template.hbs"
+            template: "src/views/template.html",
+            chunks: ["main", "vendor"]
+        }),
+        new HtmlWebpackPlugin({
+            filename: "location.html",
+            template: "src/views/location_template.html",
+            chunks: ["main", "location", "vendor"]
         }),
         // new FaviconsWebpackPlugin({
         //     logo: "src/assets/nav main logo mini.svg",

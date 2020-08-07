@@ -16,7 +16,10 @@ module.exports = merge(common, {
         publicPath: "/static/"        
     },
     optimization: {
-        minimize: false
+        minimize: false,
+        splitChunks: {
+            chunks: "all",
+        }
     },
     module: {
         rules: [
