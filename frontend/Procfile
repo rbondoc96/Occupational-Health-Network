@@ -1,0 +1,2 @@
+web: npm run build
+backend: python ../cldb/manage.py runserver
