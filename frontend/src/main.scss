@@ -1,22 +1,48 @@
-@import "./scss/sidebar";
-@import url("https://fonts.googleapis.com/css2?family=Varta&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Varta:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Archivo&display=swap");
 
-@font-face {
-    font-family: "LeagueSpartan";
-    font-style: normal;
-    font-weight: 400;
-    src: url("assets/fonts/LeagueSpartan-Regular.woff2") format("woff2");
+// @import "node_modules/bootstrap/scss/bootstrap";
+
+$success: #44CF6C;
+$blue: #1B8FFA;
+
+h1, h2 {
+    font-family: "Archivo Black", sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+h3 {
+    font-family: "Archivo", sans-serif;
+    font-size: 22px;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    font-size: 36px;
 }
 
 * {
     margin: 0;
     padding: 0;
 }
+html, body {
+    height: 100%;
+}
+
 button:focus {
     outline: none;
 }
 
-div#root {
-    height: 100vh;
+.blue-link {
+    color: $blue;
+    font-weight: 700;
+}
+
+main#content {
+    color: #1B242F;
     font-family: "Varta", sans-serif;
+    height: 100%;
 }
