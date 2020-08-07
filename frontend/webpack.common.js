@@ -71,5 +71,11 @@ module.exports = {
             location: "body",
             template_filename: "*",
         }),
+        new HtmlWebpackPartialsPlugin({
+            path: path.join(__dirname, "./src/views/partials/footer.html"),
+            priority: "low",
+            location: "body",
+            template_filename: "*",
+        }),
     ],
 };
