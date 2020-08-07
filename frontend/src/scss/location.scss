@@ -24,16 +24,19 @@
 }
 
 main#content {
-    padding-top: 75px;
+    padding: 75px 0;
 
     display: flex;
     flex-direction: row;
     justify-content: center;
 }
 
+h1 {
+    font-size: calc(15px + 1.5vw);
+}
+
 section.content__header {
     position: relative;
-    // padding-left: calc(20px + 5vh);
 
     .clinic-name {
         display: flex;
@@ -42,10 +45,10 @@ section.content__header {
         h3 {
             display: flex;
             font-weight: 400;
-            font-size: 22px;
+            font-size: calc(8px + 1vw);
             color: #8C8C8C;
 
-            padding-bottom: 5px;
+            padding-bottom: 8px;
             margin-left: 10px;
             
             span#branch-name {
@@ -75,6 +78,26 @@ section.content__main {
 
     h2.content__main__header {
         color: #ff7193;
+        margin: 15px 0;
+    }
+    h3.content__main__subheader {
+        font-size: 16px;
+    }
+
+    div.content__main__subsection {
+        font-size: 14px;
+    }
+
+    .content__main__list {
+        list-style: none;
+
+        .content__main__list-item {
+            margin-left: 5px;
+        }
+    }
+    .comments {
+        width: 100%;
+        height: 150px;
     }
 }
 
@@ -97,13 +120,74 @@ section.content__main {
             margin-top: 2px;
         }
     }
-    div#map {
+    #map {
         height: 220px;
+    }
+
+    .content__info__wrapper {
+        margin-top: 35px;
+        margin-left: 20px;
+
+        h3 {
+            font-size: 18px;
+        }
+
+        .address__line1 {
+            margin-top: 8px;
+        }
+    }
+
+    .contact-info-section {
+        margin: 20px 0;
+
+        .phone-section, .fax-section {
+            display: flex;
+            flex-direction: row;
+            margin: 2px 0;
+    
+            svg {
+                margin-right: 8px;
+            }
+        }
+    }
+
+    .business-hours-section {
+        margin: 20px 0;
+
+        .business-hour__list {
+            list-style: none;
+            margin-top: 8px;
+
+            .business-hour__entry {
+                margin: 5px 0;
+            }
+        }
+    }
+
+    .location-meta-data {
+        .meta-data-label {
+            font-weight: 700;
+        }
     }
 }
 
-@media only screen and (max-width: 1000px) {
+
+
+@media only screen and (max-width: 1100px) {
     main#content {
         flex-direction: column;
+        align-items: center;
+        min-width: 375px;
     }
+
+    .content__left, .content__header, .employer-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .content__header .clinic-name h3 {
+        padding-bottom: 5px !important;
+    }
+
 }
