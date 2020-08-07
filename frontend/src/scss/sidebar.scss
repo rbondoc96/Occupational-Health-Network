@@ -28,7 +28,7 @@ nav.sidebar__wrapper {
             align-items: center;
         }
     
-        footer.footer {
+        .sidebar__footer {
             display: flex;
             flex-direction: row;
             align-items: center;
@@ -42,11 +42,11 @@ nav.sidebar__wrapper {
                 align-items: center;
                 justify-content: center;
     
-                button.footer__github-link {
+                button.sidebar__footer__github-link {
                     border: 0;
                     background-color: inherit;
                 }
-                button.footer__github-link:hover {
+                button.sidebar__footer__github-link:hover {
                     cursor: pointer;
                 }
             }
@@ -57,7 +57,7 @@ nav.sidebar__wrapper {
                     fill: #1B8FFA;
                 }
             }
-            div.footer__copyright {
+            div.sidebar__footer__copyright {
                 text-align: center;
             }
         }
