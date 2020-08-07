@@ -40,28 +40,12 @@
             </section>
             <section class="content__main">
                 <div class="content__main__section services-section">
-                    <h2 class="content__main__header">Services Provided</h2>
-                    <div>
-                        
-                    </div>
                 </div>
-                <div class="content__main__section">
-                    <h2 class="content__main__header">Service Hours</h2>
-                    <div>
-                        
-                    </div>
+                <div class="content__main__section service-hours-section">
                 </div>
-                <div class="content__main__section">
-                    <h2 class="content__main__header">Contacts</h2>
-                    <div>
-                        
-                    </div>
+                <div class="content__main__section contacts-section">
                 </div>    
-                <div class="content__main__section">
-                    <h2 class="content__main__header">Comments</h2>
-                    <div>
-                        
-                    </div>
+                <div class="content__main__section comments-section">
                 </div>                                              
             </section>
         </div>
@@ -70,6 +54,43 @@
                 <span>Location</span>
             </div>
             <div id="map"></div>
+            <div class="content__info__wrapper">
+                <section class="address-section">
+                    <h3 class="content__info__subheader">Address</h3>
+                </section>
+                <section class="contact-info-section">
+                    <div class="phone-section">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M7.61011 8.38848C7.06856 7.84642 6.62103 7.26069 6.38355 6.78618C6.30558 6.63037 6.25708 6.49967 6.23578 6.40623L6.71611 5.92561C6.82148 5.82015 6.87213 5.76881 6.93761 5.7C7.07631 5.55423 7.19195 5.42102 7.29368 5.28393C7.75135 4.66719 7.92143 3.9958 7.37967 3.39123C6.35391 1.95638 5.66385 1.06892 5.22143 0.631902C4.30856 -0.269819 2.82132 -0.14902 2.02965 0.631012C1.64738 1.00766 1.51744 1.13753 1.12492 1.5362C-1.16743 3.82966 0.199732 8.57107 3.81206 12.1868C7.42377 15.8019 12.1655 17.1699 14.464 14.8703C14.8248 14.5225 15.1331 14.214 15.3771 13.9562C16.1494 13.1399 16.266 11.7168 15.3712 10.787C14.9457 10.3449 14.0995 9.68827 12.6028 8.61748C12.0553 8.13212 11.415 8.23741 10.8461 8.61061C10.5898 8.77872 10.4096 8.94313 10.0701 9.28294L9.59022 9.76302C9.4969 9.74172 9.36638 9.69326 9.21082 9.61536C8.73652 9.37783 8.15126 8.93014 7.61011 8.38848ZM10.8879 11.2925L11.484 10.6962C11.5858 10.5943 11.6663 10.5157 11.7329 10.454C12.9396 11.3239 13.6458 11.8771 13.931 12.1735C14.028 12.2742 14.0101 12.4923 13.9251 12.5821C13.7045 12.8152 13.4168 13.103 13.0633 13.4441C11.7585 14.7492 8.16101 13.7114 5.2261 10.7737C2.29007 7.83491 1.25245 4.23641 2.54395 2.94426C2.93444 2.54769 3.05725 2.42495 3.43251 2.0552C3.49209 1.9965 3.73798 1.97653 3.81673 2.05431C4.12477 2.35859 4.70154 3.09372 5.54459 4.26293C5.52729 4.28178 5.50894 4.30139 5.48954 4.32178C5.43884 4.37506 5.39612 4.41837 5.30205 4.51253L4.70642 5.10845C3.55961 6.25512 4.46967 8.07359 6.19605 9.80158C7.92143 11.5286 9.74116 12.4399 10.8879 11.2925Z" fill="#1B242F"/>
+                        </svg>
+                        <div class="phone"></div>                            
+                    </div>
+                    <div class="fax-section">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M2 4H3.00003V1H13V4H14C15.1046 4 16 4.89543 16 6V11C16 12.1046 15.1046 13 14 13H13V15H3.00002V13H2C0.89543 13 0 12.1046 0 11V6C0 4.89543 0.89543 4 2 4ZM11 4H5.00003V3H11V4ZM14 11H13V9H3.00002V11H2V6H14V11ZM11 11H5.00002V13H11V11ZM13 7.5C13 7.77615 12.7761 8 12.5 8C12.2239 8 12 7.77615 12 7.5C12 7.22386 12.2239 7 12.5 7C12.7761 7 13 7.22386 13 7.5Z" fill="#1B242F"/>
+                        </svg>         
+                        <div class="fax"></div>                   
+                    </div>
+                    <div class="website">
+                        <a class="blue-link" target="_blank">
+                            Website
+                        </a>
+                    </div>
+                </section>
+                <section class="business-hours-section">
+                    <h3 class="content__info__subheader">Business Hours</h3>
+                </section>
+                <section class="location-meta-data">
+                    <div class="meta-data__section">
+                        <span class="meta-data-label">Date Created:</span>
+                        <span id="date-created"></span>
+                    </div>
+                    <div class="meta-data__section">
+                        <span class="meta-data-label">Last Updated:</span>
+                        <span id="last-updated"></span>
+                    </div>
+                </section>
+            </div>
         </div>
     </main>
 </body>
