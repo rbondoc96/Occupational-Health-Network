@@ -53,10 +53,10 @@ In addition to the following technologies, this project also uses the Node.js ve
   <li>Python 3.8.2</li>
   <li>Django 3.1</li>
   <li>pipenv v2018.11.26</li>
-  <li>PostgreSQL</li>
+  <li>PostgreSQL 12.2</li>
 </ul>
 
-<h4>Configuring PostGreSQL</h4>
+<h4>Configuring PostgreSQL</h4>
 
 In the settings.py file, configure the DATABASES dictionary to interface with your PostgreSQL database. For example,
 
@@ -73,7 +73,7 @@ DATABASES = {
 }
 ```
 
-<h4>Configuring Backend</h4>
+<h4>Configuring the Backend</h4>
 
 In the repo root directory, create a new virtual environment with <b>pipenv</b> and install the Python project dependencies:
 
@@ -90,7 +90,7 @@ python manage.py migrate
 
 If you want to use the database with test data I'm using for development, use <b>pgAdmin4</b> to restore the database from one of the files in <b>/test_db/</b>
 
-<h4>Configuring Frontend</h4>
+<h4>Configuring the Frontend</h4>
 
 From the repo root directory, move into the <b>/frontend/</b> directory and run the following command:
 
@@ -106,6 +106,9 @@ From the <b>/frontend/</b> directory (where the Procfile) is, run the following 
 
 ```
 nf start
+# Runs:
+#   npm run build
+#   python ../cldb/manage.py runserver
 ```
 
 <h4>API</h4>
