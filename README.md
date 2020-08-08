@@ -19,7 +19,7 @@ Occupational Health Network is a community-supported network of information on m
     Search for nearby clinics in the network and filter based on services needed, business hours, etc.
   </li>
   <li>
-    Post patient or employer reviews for others to sees
+    Post patient or employer reviews for others to see
   </li>
 </ul>
 
