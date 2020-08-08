@@ -643,6 +643,8 @@ var getLocationContext = /*#__PURE__*/function () {
 
 document.addEventListener("DOMContentLoaded", function () {
   getLocationContext();
+  var box = document.querySelector(".sliding-box");
+  box.style.display = "none";
   var employerToggle = document.getElementById("employer-info--toggle");
   employerToggle.addEventListener("click", function (event) {
     var box = document.querySelector(".sliding-box");

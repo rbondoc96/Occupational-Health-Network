@@ -89,7 +89,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 // extracted by mini-css-extract-plugin
-module.exports = {"sidebarWidthSm":"72px","sidebarWidthReg":"300px"};
+module.exports = {"sidebarWidthSm":"72px","sidebarWidthReg":"275px"};
 
 /***/ }),
 /* 1 */,
@@ -895,7 +895,7 @@ var sidebar_Sidebar = /*#__PURE__*/function () {
 
     _classCallCheck(this, Sidebar);
 
-    this.breakpoint = window.matchMedia("(min-width: 1330px)");
+    this.breakpoint = window.matchMedia("(min-width: 1100px)");
     this.wrapper = wrapper;
     this.logo = wrapper.querySelector(".logo__wrapper");
     this.logoMini = wrapper.querySelector(".logo__wrapper--mini");
@@ -914,14 +914,16 @@ var sidebar_Sidebar = /*#__PURE__*/function () {
   _createClass(Sidebar, [{
     key: "toggleButtonSlideIn",
     value: function toggleButtonSlideIn(toggleButton, event) {
+      toggleButton.style.display = "none";
       toggleButton.style.left = "-270px";
-      toggleButton.style.transition = "0.3s";
+      toggleButton.style.zIndex = "-1";
     }
   }, {
     key: "toggleButtonSlideOut",
     value: function toggleButtonSlideOut(toggleButton, event) {
+      toggleButton.style.display = "initial";
       toggleButton.style.left = "0px";
-      toggleButton.style.transition = "0.3s";
+      toggleButton.style.zIndex = "9999";
     }
   }, {
     key: "setExpandedState",
@@ -974,12 +976,13 @@ var sidebar_Sidebar = /*#__PURE__*/function () {
         }
 
         this.wrapper.style.width = sidebar_default.a.sidebarWidthSm;
-        this.nav2.style.margin = "calc(20px + 11vh) 0";
+        this.nav2.style.margin = "calc(20px + 15vh) 0";
         this.footer.style.flexDirection = "column";
         this.footer.style.justifyContent = "center";
         this.footer.querySelector("a").style.marginRight = "0";
         this.footer.querySelector(".sidebar__footer__copyright").style.fontSize = "10px";
         content.style.marginLeft = sidebar_default.a.sidebarWidthSm;
+        content.style.maxWidth = "calc(100vw - ".concat(sidebar_default.a.sidebarWidthSm, ")");
         this.toggleButton.style.left = "-40px";
         this.toggleButton.style.marginLeft = sidebar_default.a.sidebarWidthSm;
         this.setExpandedState(false);
@@ -1010,7 +1013,7 @@ var sidebar_Sidebar = /*#__PURE__*/function () {
           for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
             var _item2 = _step4.value;
             _item2.style.paddingLeft = "25px";
-            _item2.querySelector("svg").style.marginRight = "40px";
+            _item2.querySelector("svg").style.marginRight = "25px";
             _item2.querySelector("p").style.marginTop = "0";
           }
         } catch (err) {
@@ -1023,9 +1026,10 @@ var sidebar_Sidebar = /*#__PURE__*/function () {
         this.nav2.style.margin = "calc(50px + 11vh) 0";
         this.footer.style.flexDirection = "row";
         this.footer.style.justifyContent = "flex-start";
-        this.footer.querySelector("a").style.marginRight = "16px";
+        this.footer.querySelector("a").style.marginRight = "1px";
         this.footer.querySelector(".sidebar__footer__copyright").style.fontSize = "1rem";
         content.style.marginLeft = sidebar_default.a.sidebarWidthReg;
+        content.style.maxWidth = "calc(100vw - ".concat(sidebar_default.a.sidebarWidthReg, ")");
         this.toggleButton.style.top = "0px";
         this.toggleButton.style.left = "0px";
         this.toggleButton.style.marginLeft = sidebar_default.a.sidebarWidthReg;
@@ -1063,7 +1067,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var sidebar = new js_sidebar(document.querySelector(".sidebar__wrapper"));
   /* Initial media query for page load */
 
-  var mediaQuery = window.matchMedia("(max-width: 1330px)");
+  var mediaQuery = window.matchMedia("(max-width: 1110px)");
   if (mediaQuery.matches) sidebar.setExpandedState(true);else sidebar.setExpandedState(false);
   sidebar.toggle();
   mediaQuery.addListener(mediaQueryHandler.bind(_this, sidebar));
