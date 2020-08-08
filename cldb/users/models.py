@@ -4,8 +4,10 @@ from django.db import models
 
 from locator.models import Location
 
-# Create your models here.
 # pylint: disable=no-member
+
+# Add a "user type" of "patient", "employer", "clinic personnel" to dictate 
+# review type. Delete other review type table
 
 class Profile(models.Model):
     user = models.OneToOneField(
