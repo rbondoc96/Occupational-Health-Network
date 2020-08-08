@@ -25,6 +25,7 @@ Occupational Health Network is a community-supported network of information on m
 
 ## Table of Contents
 - [Disclaimer](#disclaimer)
+- [UI Design](#ui)
 - [Installation](#install)
 - [Usage](#usage)
 - [Project Background](#proj-bg)
@@ -33,6 +34,9 @@ Occupational Health Network is a community-supported network of information on m
 I am not a medical professional. All content on this application should not be regarded as professional medical advice. This platform is purely for informational purposes to help find the best possible clinic for the user's needs.
 
 Users should talk to their doctor or their employer for information on the services they're interested in.
+
+## User Interface Design <a name = "ui"></a>
+To see my (in progress) designs on the app views, visit my <a href="https://www.figma.com/file/mh7KX4NzE33gT9OcMpvzYV/OCH-Net">Figma project page.</a>
 
 ## Installation <a name = "install"></a>
 This project runs on following technologies:
