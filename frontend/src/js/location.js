@@ -395,9 +395,12 @@ const getLocationContext = async function() {
 document.addEventListener("DOMContentLoaded", function() {
     getLocationContext()
 
+    let box = document.querySelector(".sliding-box")
+    box.style.display = "none"
+
     const employerToggle = document.getElementById("employer-info--toggle")
     employerToggle.addEventListener("click", function(event) {
-        var box = document.querySelector(".sliding-box")
+        let box = document.querySelector(".sliding-box")
         if(box.style.display == "none") 
             box.style.display = "block"
         else

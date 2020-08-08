@@ -23,12 +23,14 @@
     color: #C21C1C;
 }
 
+.row {
+    margin: 0;
+}
+.content__wrapper {
+    overflow-x: hidden;
+}
 main#content {
     padding: 75px 0;
-
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
 }
 
 h1 {
@@ -101,6 +103,9 @@ section.content__main {
     }
 }
 
+.content__left {
+    height: 100%;
+}
 .content__right {
     margin-left: 20px;
     height: 100%;
@@ -122,6 +127,7 @@ section.content__main {
     }
     #map {
         height: 220px;
+        background-color: #e0e0e0;
     }
 
     .content__info__wrapper {
@@ -169,25 +175,4 @@ section.content__main {
             font-weight: 700;
         }
     }
-}
-
-
-
-@media only screen and (max-width: 1100px) {
-    main#content {
-        flex-direction: column;
-        align-items: center;
-        min-width: 375px;
-    }
-
-    .content__left, .content__header, .employer-info {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .content__header .clinic-name h3 {
-        padding-bottom: 5px !important;
-    }
-
 }
