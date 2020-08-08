@@ -24,20 +24,17 @@ Occupational Health Network is a community-supported network of information on m
 </ul>
 
 ## Table of Contents
----
 - [Disclaimer](#disclaimer)
 - [Installation](#install)
 - [Usage](#usage)
 - [Project Background](#proj-bg)
 
 ## Disclaimer <a name = "disclaimer"></a>
----
 I am not a medical professional. All content on this application should not be regarded as professional medical advice. This platform is purely for informational purposes to help find the best possible clinic for the user's needs.
 
 Users should talk to their doctor or their employer for information on the services they're interested in.
 
 ## Installation <a name = "install"></a>
----
 This project runs on following technologies:
 In addition to the following technologies, this project also uses the Node.js version of <a href="https://www.npmjs.com/package/foreman" target="_blank">Foreman</a> to build the static frontend files and run the Django server at the same time.
 
@@ -102,7 +99,6 @@ npm install
 ```
 
 ## Usage <a name = "usage"></a>
----
 
 <h4>Running Foreman</h4>
 
@@ -118,7 +114,6 @@ The API endpoints for the server can be found at <b>localhost:[port_num]/api/</b
 By default, all users can view reviews and locations on the network. In order to add locations, give reviews, and bookmark locations, users must register.
 
 ## Project Background <a name = "proj-bg"></a>
-----
 I originally came up with this project as a means to rework a location finder tool used at my current job to locate medical clinics. From an employer POV, I felt that our team was wasting a lot of time independently calling the same clinics asking for the same things, and had no efficient way of sharing the information with each other. 
 
 This project was aimed to originally reduce the number of calls made to medical clinics, thereby reducing effort for both the employer and the clinic personnel. Now, it has been expanded to be a network open to everyone, and help patients and employers everywhere in the U.S. in finding the best clinic for their needs.
