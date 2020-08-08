@@ -39,7 +39,6 @@ Users should talk to their doctor or their employer for information on the servi
 To see my (in progress) designs on the app views, visit my <a href="https://www.figma.com/file/mh7KX4NzE33gT9OcMpvzYV/OCH-Net">Figma project page.</a>
 
 ## Installation <a name = "install"></a>
-This project runs on following technologies:
 In addition to the following technologies, this project also uses the Node.js version of <a href="https://www.npmjs.com/package/foreman" target="_blank">Foreman</a> to build the static frontend files and run the Django server at the same time.
 
 <h4>Front End</h4>
