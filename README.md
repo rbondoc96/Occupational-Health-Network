@@ -13,7 +13,7 @@ Occupational Health Network is a community-supported network of information on m
 </p>
 <ul>
   <li>
-    Track information such as <b>services provided</b>, <b>contact</b>, <b>business hours</b>, and <b>contact information</b>, etc.
+    Track information such as <b>services provided</b>, <b>contacts</b>, <b>business hours</b>, <b>businesss information</b>, etc.
   </li>
   <li>
     Search for nearby clinics in the network and filter based on services needed, business hours, etc.
