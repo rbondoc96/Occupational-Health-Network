@@ -9,8 +9,8 @@ module.exports = merge(common, {
     mode: "development",
     output: {
         filename: '[name]-bundle.js',
-        path: path.resolve(__dirname, "server"),
-        publicPath: "/server/"        
+        path: path.resolve(__dirname, "./server/"),
+        publicPath: ""        
     },
     devServer: {
         contentBase: path.resolve(__dirname, "./src/"),
