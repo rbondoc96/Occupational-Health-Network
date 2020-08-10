@@ -15,12 +15,30 @@ window.initMap = function() {
     }
     var map = new google.maps.Map(document.getElementById('map'), options);
 
-    const addMarker = (pos) => {
-        var marker = new google.maps.Marker({
-            position: pos,
-            map: map,
-        })
-    }
+    // const addMarker = (pos) => {
+    //     var marker = new google.maps.Marker({
+    //         position: pos,
+    //         map: map,
+    //     })
+    // }
+
+    
+    // const address = document.querySelector(".address").textContent
+    // var request = {
+    //     query: address,
+    //     fields: ['geometry'],
+    // }
+    
+    // var service = new google.maps.places.PlacesService(map);   
+    // service.findPlaceFromQuery(request, function(results, status) {
+    //     if (status === google.maps.places.PlacesServiceStatus.OK) {
+    //       for (var i = 0; i < results.length; i++) {
+    //         addMarker(results[i].geometry.location)
+    //       }
+    //       map.setCenter(results[0].geometry.location);
+    //     }
+    // })
+
 }
 document.head.appendChild(script);
 /* END Google Maps API */
@@ -112,8 +130,10 @@ const setServicesText = function(elem, objList) {
         let sortedDict = sortServicesByCategory(objList)
 
         let subSection = document.createElement("div")
-        subSection.setAttribute("class", "content__main__subsection")
+        subSection.setAttribute("class", "content__main__subsection row")
         for(let item of Object.keys(sortedDict)) {
+            let listBlock = document.createElement("div")
+            listBlock.setAttribute("class", "col-md-4")
             let subHeader = document.createElement("h3")
             subHeader.setAttribute("class", "content__main__subheader")
             subHeader.appendChild(document.createTextNode(item))
@@ -127,9 +147,10 @@ const setServicesText = function(elem, objList) {
                 listItem.append(document.createTextNode(service))
                 catList.append(listItem)
             }
-
-            subSection.appendChild(subHeader)
-            subSection.appendChild(catList)
+            
+            listBlock.append(subHeader)
+            listBlock.append(catList)
+            subSection.appendChild(listBlock)
         }
         elem.appendChild(subSection)
     }
@@ -160,14 +181,14 @@ const setServiceHoursList = function(elem, objList) {
         elem.appendChild(sectionHeader)
 
         let subSection = document.createElement("ul")
-        subSection.setAttribute("class", "content__main__list")
+        subSection.setAttribute("class", "content__main__list row")
         for(let item of objList) {
             let card = document.createElement("li")
-            card.setAttribute("class", "content__main__list-card")
+            card.setAttribute("class", "content__main__list-card col-md-4 mb-4")
             
-            let name = document.createElement("span")
+            let name = document.createElement("strong")
             name.setAttribute("class", "service-hour__service")
-            name.appendChild(document.createTextNode(item.name + ":"))
+            name.appendChild(document.createTextNode(item.name + ": "))
 
             let timeRange = document.createElement("span")
             timeRange.setAttribute("class", "service-hour__time")
@@ -181,6 +202,7 @@ const setServiceHoursList = function(elem, objList) {
                 days.setAttribute("class", "service-hour__days")
                 let daysLabel = document.createElement("span")
                 daysLabel.appendChild(document.createTextNode("Days Offered:"))
+                daysLabel.setAttribute("class", "service-hour__days-label")
 
                 let abbrevList = []
                 for(let day of item.days) {
@@ -209,12 +231,12 @@ const setContactsList = function(elem, objList) {
         elem.appendChild(sectionHeader)
 
         let subSection = document.createElement("ul")
-        subSection.setAttribute("class", "content__main__list")
+        subSection.setAttribute("class", "content__main__list row")
         for(let item of objList) {
             let card = document.createElement("li")
-            card.setAttribute("class", "content__main__list-card")
+            card.setAttribute("class", "content__main__list-card col-md-6 mb-4")
             
-            let name = document.createElement("span")
+            let name = document.createElement("strong")
             name.setAttribute("class", "contact__name")
             name.appendChild(document.createTextNode(item.name))
 
@@ -285,12 +307,14 @@ const setComments = function(elem, value) {
 const setAddress = function(elem, obj) {
     console.log(obj)
     if(obj != null) {
+        let container = document.createElement("div")
+        container.setAttribute("class", "address")
         let line1 = document.createElement("div")
         line1.appendChild(
             document.createTextNode(obj.street1)
         )
         line1.setAttribute("class", "address__line1")
-        elem.appendChild(line1)
+        container.appendChild(line1)
 
         if(obj.street2 != "" && obj.street2 != null) {
             let line2 = document.createElement("div")
@@ -299,17 +323,30 @@ const setAddress = function(elem, obj) {
                 document.createTextNode(obj.street2)
             )
 
-            elem.appendChild(line2)
+            container.appendChild(line2)
         }
 
         let line3 = document.createElement("div")
-        line3.appendChild(
-            document.createTextNode(
-                `${obj.city}, ${obj.state} ${obj.zipcode}`
-            )
-        )
+        let city = document.createElement("span")
+        city.setAttribute("class", "address__city")
+        city.appendChild(document.createTextNode(
+            ` ${obj.city} `
+        ))
+        let state = document.createElement("span")
+        state.setAttribute("class", "address__state")
+        state.appendChild(document.createTextNode(
+            `${obj.state}, `
+        ))
+        let zipcode = document.createElement("span")
+        zipcode.setAttribute("class", "address__zipcode")
+        zipcode.appendChild(document.createTextNode(
+            `${obj.zipcode}`
+        ))
+        container.appendChild(city)
+        container.appendChild(state)
+        container.appendChild(zipcode)
         line3.setAttribute("class", "address__line3")
-        elem.appendChild(line3)
+        elem.appendChild(container)
     }
 }
 
@@ -323,9 +360,9 @@ const setBusinessHoursList = function(elem, objList) {
             let entry = document.createElement("li")
             entry.setAttribute("class", "business-hour__entry")
 
-            let label = document.createElement("span")
+            let label = document.createElement("strong")
             label.setAttribute("class", "business-hour__day")
-            label.appendChild(document.createTextNode(obj.day.name + ":"))
+            label.appendChild(document.createTextNode(obj.day.name + ": "))
 
             let timeRange = document.createElement("span")
             timeRange.setAttribute("class", "business-hour__time")
@@ -406,4 +443,9 @@ document.addEventListener("DOMContentLoaded", function() {
         else
             box.style.display = "none"
     })
+
+    var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 4,
+        center: {lat: -25.363882, lng: 131.044922 }
+      });
 })
