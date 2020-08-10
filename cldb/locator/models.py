@@ -331,6 +331,18 @@ class Review(models.Model):
         auto_now_add=True
     )
 
+class ReviewComment(models.Model):
+    owner = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+    )
+
+    review = models.ForeignKey(
+        Review,
+        on_delete=models.CASCADE,
+    )
+
 class Contacts(models.Model):
     location = models.ForeignKey(
         Location, 
