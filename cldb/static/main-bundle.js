@@ -1,6 +1,66 @@
 /******/ (function(modules) { // webpackBootstrap
+/******/ 	// install a JSONP callback for chunk loading
+/******/ 	function webpackJsonpCallback(data) {
+/******/ 		var chunkIds = data[0];
+/******/ 		var moreModules = data[1];
+/******/ 		var executeModules = data[2];
+/******/
+/******/ 		// add "moreModules" to the modules object,
+/******/ 		// then flag all "chunkIds" as loaded and fire callback
+/******/ 		var moduleId, chunkId, i = 0, resolves = [];
+/******/ 		for(;i < chunkIds.length; i++) {
+/******/ 			chunkId = chunkIds[i];
+/******/ 			if(Object.prototype.hasOwnProperty.call(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 				resolves.push(installedChunks[chunkId][0]);
+/******/ 			}
+/******/ 			installedChunks[chunkId] = 0;
+/******/ 		}
+/******/ 		for(moduleId in moreModules) {
+/******/ 			if(Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
+/******/ 				modules[moduleId] = moreModules[moduleId];
+/******/ 			}
+/******/ 		}
+/******/ 		if(parentJsonpFunction) parentJsonpFunction(data);
+/******/
+/******/ 		while(resolves.length) {
+/******/ 			resolves.shift()();
+/******/ 		}
+/******/
+/******/ 		// add entry modules from loaded chunk to deferred list
+/******/ 		deferredModules.push.apply(deferredModules, executeModules || []);
+/******/
+/******/ 		// run deferred modules when all chunks ready
+/******/ 		return checkDeferredModules();
+/******/ 	};
+/******/ 	function checkDeferredModules() {
+/******/ 		var result;
+/******/ 		for(var i = 0; i < deferredModules.length; i++) {
+/******/ 			var deferredModule = deferredModules[i];
+/******/ 			var fulfilled = true;
+/******/ 			for(var j = 1; j < deferredModule.length; j++) {
+/******/ 				var depId = deferredModule[j];
+/******/ 				if(installedChunks[depId] !== 0) fulfilled = false;
+/******/ 			}
+/******/ 			if(fulfilled) {
+/******/ 				deferredModules.splice(i--, 1);
+/******/ 				result = __webpack_require__(__webpack_require__.s = deferredModule[0]);
+/******/ 			}
+/******/ 		}
+/******/
+/******/ 		return result;
+/******/ 	}
+/******/
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
+/******/
+/******/ 	// object to store loaded and loading chunks
+/******/ 	// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 	// Promise = chunk loading, 0 = chunk loaded
+/******/ 	var installedChunks = {
+/******/ 		2: 0
+/******/ 	};
+/******/
+/******/ 	var deferredModules = [];
 /******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
@@ -79,9 +139,18 @@
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "/static/";
 /******/
+/******/ 	var jsonpArray = window["webpackJsonp"] = window["webpackJsonp"] || [];
+/******/ 	var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
+/******/ 	jsonpArray.push = webpackJsonpCallback;
+/******/ 	jsonpArray = jsonpArray.slice();
+/******/ 	for(var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
+/******/ 	var parentJsonpFunction = oldJsonpFunction;
 /******/
-/******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 7);
+/******/
+/******/ 	// add entry module to deferred list
+/******/ 	deferredModules.push([7,0]);
+/******/ 	// run deferred modules when ready
+/******/ 	return checkDeferredModules();
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -873,6 +942,9 @@ var main = __webpack_require__(3);
 var scss_sidebar = __webpack_require__(0);
 var sidebar_default = /*#__PURE__*/__webpack_require__.n(scss_sidebar);
 
+// EXTERNAL MODULE: ./node_modules/jquery/dist/jquery.js
+var jquery = __webpack_require__(1);
+
 // CONCATENATED MODULE: ./src/js/sidebar.js
 function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
@@ -885,6 +957,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 
 
 
@@ -909,21 +982,21 @@ var sidebar_Sidebar = /*#__PURE__*/function () {
     this.isExpanded = isExpanded;
     this.wrapper.addEventListener("mouseenter", this.toggleButtonSlideOut.bind(this, this.toggleButton), false);
     this.wrapper.addEventListener("mouseleave", this.toggleButtonSlideIn.bind(this, this.toggleButton), false);
+    this.toggleButton.addEventListener("mouseenter", this.toggleButtonSlideOut.bind(this, this.toggleButton), false);
+    this.toggleButton.style.left = "-40px !important";
   }
 
   _createClass(Sidebar, [{
     key: "toggleButtonSlideIn",
     value: function toggleButtonSlideIn(toggleButton, event) {
-      toggleButton.style.display = "none";
-      toggleButton.style.left = "-270px";
+      toggleButton.style.left = "-40px";
       toggleButton.style.zIndex = "-1";
     }
   }, {
     key: "toggleButtonSlideOut",
     value: function toggleButtonSlideOut(toggleButton, event) {
-      toggleButton.style.display = "initial";
       toggleButton.style.left = "0px";
-      toggleButton.style.zIndex = "9999";
+      toggleButton.style.zIndex = "99";
     }
   }, {
     key: "setExpandedState",
@@ -936,104 +1009,113 @@ var sidebar_Sidebar = /*#__PURE__*/function () {
       return this.isExpanded;
     }
   }, {
+    key: "collapse",
+    value: function collapse() {
+      var content = document.getElementById("content");
+      this.logo.style.display = "none";
+      this.logoMini.style.display = "flex";
+
+      var _iterator = _createForOfIteratorHelper(this.navButtons),
+          _step;
+
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var btn = _step.value;
+          btn.classList.add("nav-button--collapsed");
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+
+      var _iterator2 = _createForOfIteratorHelper(this.navItems),
+          _step2;
+
+      try {
+        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+          var item = _step2.value;
+          item.style.paddingLeft = "0";
+          item.querySelector("svg").style.marginRight = "0";
+          item.querySelector("p").style.marginTop = "5px";
+        }
+      } catch (err) {
+        _iterator2.e(err);
+      } finally {
+        _iterator2.f();
+      }
+
+      this.wrapper.style.width = sidebar_default.a.sidebarWidthSm;
+      this.nav2.style.margin = "calc(20px + 10vh) 0";
+      this.nav2.querySelector(".disclaimer__wrapper p").style.display = "none";
+      this.footer.style.flexDirection = "column";
+      this.footer.style.justifyContent = "center";
+      this.footer.querySelector("a").style.marginRight = "0";
+      this.footer.querySelector(".sidebar__footer__copyright").style.fontSize = "10px";
+      content.style.marginLeft = sidebar_default.a.sidebarWidthSm;
+      content.style.maxWidth = "calc(100vw - ".concat(sidebar_default.a.sidebarWidthSm, ")");
+      this.toggleButton.style.left = "-40px";
+      this.toggleButton.style.marginLeft = sidebar_default.a.sidebarWidthSm;
+      this.setExpandedState(false);
+    }
+  }, {
+    key: "expand",
+    value: function expand() {
+      var content = document.getElementById("content");
+      this.logo.style.display = "block";
+      this.logoMini.style.display = "none";
+
+      var _iterator3 = _createForOfIteratorHelper(this.navButtons),
+          _step3;
+
+      try {
+        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+          var item = _step3.value;
+          item.classList.remove("nav-button--collapsed");
+        }
+      } catch (err) {
+        _iterator3.e(err);
+      } finally {
+        _iterator3.f();
+      }
+
+      var _iterator4 = _createForOfIteratorHelper(this.navItems),
+          _step4;
+
+      try {
+        for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+          var _item = _step4.value;
+          _item.style.paddingLeft = "25px";
+          _item.querySelector("svg").style.marginRight = "25px";
+          _item.querySelector("p").style.marginTop = "0";
+        }
+      } catch (err) {
+        _iterator4.e(err);
+      } finally {
+        _iterator4.f();
+      }
+
+      this.wrapper.style.width = sidebar_default.a.sidebarWidthReg;
+      this.nav2.style.margin = "calc(50px + 11vh) 0";
+      this.nav2.querySelector(".disclaimer__wrapper p").style.display = "block";
+      this.footer.style.flexDirection = "row";
+      this.footer.style.justifyContent = "flex-start";
+      this.footer.querySelector("a").style.marginRight = "1px";
+      this.footer.querySelector(".sidebar__footer__copyright").style.fontSize = "1rem";
+      content.style.marginLeft = sidebar_default.a.sidebarWidthReg;
+      content.style.maxWidth = "calc(100vw - ".concat(sidebar_default.a.sidebarWidthReg, ")");
+      this.toggleButton.style.top = "0px";
+      this.toggleButton.style.left = "0px";
+      this.toggleButton.style.marginLeft = sidebar_default.a.sidebarWidthReg;
+      this.setExpandedState(true);
+    }
+  }, {
     key: "toggle",
     value: function toggle() {
-      var content = document.getElementById("content");
-
       if (this.getExpandedState() == true) {
-        /* Collapse sidebar */
-        this.logo.style.display = "none";
-        this.logoMini.style.display = "flex";
-
-        var _iterator = _createForOfIteratorHelper(this.navButtons),
-            _step;
-
-        try {
-          for (_iterator.s(); !(_step = _iterator.n()).done;) {
-            var btn = _step.value;
-            btn.classList.add("nav-button--collapsed");
-          }
-        } catch (err) {
-          _iterator.e(err);
-        } finally {
-          _iterator.f();
-        }
-
-        var _iterator2 = _createForOfIteratorHelper(this.navItems),
-            _step2;
-
-        try {
-          for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-            var item = _step2.value;
-            item.style.paddingLeft = "0";
-            item.querySelector("svg").style.marginRight = "0";
-            item.querySelector("p").style.marginTop = "5px";
-          }
-        } catch (err) {
-          _iterator2.e(err);
-        } finally {
-          _iterator2.f();
-        }
-
-        this.wrapper.style.width = sidebar_default.a.sidebarWidthSm;
-        this.nav2.style.margin = "calc(20px + 15vh) 0";
-        this.footer.style.flexDirection = "column";
-        this.footer.style.justifyContent = "center";
-        this.footer.querySelector("a").style.marginRight = "0";
-        this.footer.querySelector(".sidebar__footer__copyright").style.fontSize = "10px";
-        content.style.marginLeft = sidebar_default.a.sidebarWidthSm;
-        content.style.maxWidth = "calc(100vw - ".concat(sidebar_default.a.sidebarWidthSm, ")");
-        this.toggleButton.style.left = "-40px";
-        this.toggleButton.style.marginLeft = sidebar_default.a.sidebarWidthSm;
-        this.setExpandedState(false);
+        this.collapse();
       } else {
-        /* Expand Sidebar */
-        this.logo.style.display = "block";
-        this.logoMini.style.display = "none";
-
-        var _iterator3 = _createForOfIteratorHelper(this.navButtons),
-            _step3;
-
-        try {
-          for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-            var _item = _step3.value;
-
-            _item.classList.remove("nav-button--collapsed");
-          }
-        } catch (err) {
-          _iterator3.e(err);
-        } finally {
-          _iterator3.f();
-        }
-
-        var _iterator4 = _createForOfIteratorHelper(this.navItems),
-            _step4;
-
-        try {
-          for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
-            var _item2 = _step4.value;
-            _item2.style.paddingLeft = "25px";
-            _item2.querySelector("svg").style.marginRight = "25px";
-            _item2.querySelector("p").style.marginTop = "0";
-          }
-        } catch (err) {
-          _iterator4.e(err);
-        } finally {
-          _iterator4.f();
-        }
-
-        this.wrapper.style.width = sidebar_default.a.sidebarWidthReg;
-        this.nav2.style.margin = "calc(50px + 11vh) 0";
-        this.footer.style.flexDirection = "row";
-        this.footer.style.justifyContent = "flex-start";
-        this.footer.querySelector("a").style.marginRight = "1px";
-        this.footer.querySelector(".sidebar__footer__copyright").style.fontSize = "1rem";
-        content.style.marginLeft = sidebar_default.a.sidebarWidthReg;
-        content.style.maxWidth = "calc(100vw - ".concat(sidebar_default.a.sidebarWidthReg, ")");
-        this.toggleButton.style.top = "0px";
-        this.toggleButton.style.left = "0px";
-        this.toggleButton.style.marginLeft = sidebar_default.a.sidebarWidthReg;
-        this.setExpandedState(true);
+        this.expand();
       }
     }
   }]);
@@ -1068,8 +1150,7 @@ document.addEventListener("DOMContentLoaded", function () {
   /* Initial media query for page load */
 
   var mediaQuery = window.matchMedia("(max-width: 1110px)");
-  if (mediaQuery.matches) sidebar.setExpandedState(true);else sidebar.setExpandedState(false);
-  sidebar.toggle();
+  if (mediaQuery.matches) sidebar.collapse();else sidebar.expand();
   mediaQuery.addListener(mediaQueryHandler.bind(_this, sidebar));
   sidebarToggle.addEventListener("click", toggleSidebar.bind(_this, sidebar), false);
 });

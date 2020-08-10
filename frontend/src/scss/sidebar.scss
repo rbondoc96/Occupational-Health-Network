@@ -27,12 +27,13 @@ nav.sidebar__wrapper {
     height: 100%;
     box-shadow: -1px 0 4px;
     background-color: #fff;
+    z-index: 9999;
 
     /* FireFox Scroll Bar Styles */
     scrollbar-width: thin;
 
     div.sidebar {
-        z-index: 999;
+        // z-index: 999;
         background-color: inherit;
         div.logo__wrapper {
             text-align: center;

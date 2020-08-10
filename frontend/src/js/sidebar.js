@@ -24,15 +24,18 @@ class Sidebar {
         this.wrapper.addEventListener("mouseenter", this.toggleButtonSlideOut.bind(this, this.toggleButton), false)
         this.wrapper.addEventListener("mouseleave", this.toggleButtonSlideIn.bind(this, this.toggleButton), false)
 
-        this.toggleButtonSlideIn(this.toggleButton, null)
+        this.toggleButton.addEventListener("mouseenter", this.toggleButtonSlideOut.bind(this, this.toggleButton), false)
+
+        this.toggleButton.style.left = "-40px !important"
     }
 
     toggleButtonSlideIn(toggleButton, event) {
         toggleButton.style.left = "-40px"
+        toggleButton.style.zIndex = "-1"
     }
     toggleButtonSlideOut(toggleButton, event) {
         toggleButton.style.left = "0px"
-        toggleButton.style.transition = "0.3s"
+        toggleButton.style.zIndex = "99"
     }
 
     setExpandedState(bool) {

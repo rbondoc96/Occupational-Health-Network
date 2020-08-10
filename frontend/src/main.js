@@ -23,10 +23,9 @@ document.addEventListener("DOMContentLoaded", () => {
     /* Initial media query for page load */
     const mediaQuery = window.matchMedia("(max-width: 1110px)")
     if(mediaQuery.matches)
-        sidebar.setExpandedState(true)
+        sidebar.collapse()
     else
-        sidebar.setExpandedState(false)
-    sidebar.toggle()
+        sidebar.expand()
     mediaQuery.addListener(mediaQueryHandler.bind(this, sidebar))
 
     sidebarToggle.addEventListener("click", toggleSidebar.bind(this, sidebar), false)
