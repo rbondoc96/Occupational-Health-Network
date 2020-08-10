@@ -2,46 +2,28 @@ import "../scss/location.scss"
 import AjaxApiHandler from "./ajax-api-handler"
 import {timestrConvert} from "./utils"
 
-/* START Google Maps API */
 var script = document.createElement('script')
 script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyC8i4Dw9T0XlIaLrF7-RpIV7yYkXaJLAso&callback=initMap&libraries=places'
 script.defer = true
 script.async = true
+
+var map
 
 window.initMap = function() {
     var options = {
         zoom: 12,
         center: {lat: 32.7785, lng: -117.1306}
     }
-    var map = new google.maps.Map(document.getElementById('map'), options);
-
-    // const addMarker = (pos) => {
-    //     var marker = new google.maps.Marker({
-    //         position: pos,
-    //         map: map,
-    //     })
-    // }
-
-    
-    // const address = document.querySelector(".address").textContent
-    // var request = {
-    //     query: address,
-    //     fields: ['geometry'],
-    // }
-    
-    // var service = new google.maps.places.PlacesService(map);   
-    // service.findPlaceFromQuery(request, function(results, status) {
-    //     if (status === google.maps.places.PlacesServiceStatus.OK) {
-    //       for (var i = 0; i < results.length; i++) {
-    //         addMarker(results[i].geometry.location)
-    //       }
-    //       map.setCenter(results[0].geometry.location);
-    //     }
-    // })
-
+    map = new google.maps.Map(document.getElementById('map'), options);
 }
 document.head.appendChild(script);
-/* END Google Maps API */
+
+const addMarker = function(pos) {
+    var marker = new google.maps.Marker({
+        position: pos,
+        map: map,
+    })
+}
 
 const setText = function(elem, text, list=false) {
     var textNode = document.createTextNode(text)
@@ -255,7 +237,7 @@ const setContactsList = function(elem, objList) {
                 block.setAttribute("class", "contact__phone__section")
 
                 let label = document.createElement("span")
-                label.appendChild(document.createTextNode("Phone:"))
+                label.appendChild(document.createTextNode("Phone: "))
 
                 let phone = document.createElement("span")
                 phone.setAttribute("class", "contact__phone")
@@ -271,7 +253,7 @@ const setContactsList = function(elem, objList) {
                 block.setAttribute("class", "contact__email__section")
 
                 let label = document.createElement("span")
-                label.appendChild(document.createTextNode("Email:"))
+                label.appendChild(document.createTextNode("Email: "))
 
                 let email = document.createElement("span")
                 email.setAttribute("class", "contact__email")
@@ -416,6 +398,9 @@ const getLocationContext = async function() {
             zipcode: location.zipcode,
         })
 
+        let directionsLink = document.querySelector(".content__directions-link")
+        directionsLink.setAttribute("href", `https://www.google.com/maps/dir/Current+Location/${location.street_line_1}+${location.street_line_2}+${location.city}+${location.state}+${location.zipcode}`)
+
         document.querySelector(".phone").textContent = location.phone
         document.querySelector(".fax").textContent = location.fax
         document.querySelector(".website a").setAttribute("href", location.website)
@@ -424,6 +409,22 @@ const getLocationContext = async function() {
         
         document.getElementById("date-created").textContent = location.date_created
         document.getElementById("last-updated").textContent = location.last_updated
+
+        const address = document.querySelector(".address").textContent
+        var request = {
+            query: address,
+            fields: ['geometry'],
+        }
+        
+        var service = new google.maps.places.PlacesService(map);   
+        service.findPlaceFromQuery(request, function(results, status) {
+            if (status === google.maps.places.PlacesServiceStatus.OK) {
+            for (var i = 0; i < results.length; i++) {
+                addMarker(results[i].geometry.location)
+            }
+            map.setCenter(results[0].geometry.location);
+            }
+        })
     } else {
         // Failure to 404 - redirect?
     }
@@ -443,9 +444,4 @@ document.addEventListener("DOMContentLoaded", function() {
         else
             box.style.display = "none"
     })
-
-    var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 4,
-        center: {lat: -25.363882, lng: 131.044922 }
-      });
 })

@@ -35,21 +35,21 @@ main#content {
     padding: 75px 0;
 }
 
-h1 {
-    font-size: calc(15px + 1.5vw);
-}
-
 section.content__header {
     position: relative;
 
     .clinic-name {
         display: flex;
         flex-direction: row;
-    
+        
+        h1 {
+            font-size: calc(15px + 1.2vw);
+        }   
+
         h3 {
             display: flex;
             font-weight: 400;
-            font-size: calc(8px + 1vw);
+            font-size: calc(8px + 0.8vw);
             color: #8C8C8C;
 
             padding-bottom: 8px;
@@ -139,6 +139,7 @@ section.content__main {
         display: flex;
         align-items: center;
         justify-content: center;
+        max-width: 300px;
 
         background-color: #ff7193;
         color: #e9e9e9;
@@ -149,7 +150,8 @@ section.content__main {
         }
     }
     #map {
-        height: 220px;
+        height: 250px;
+        max-width: 300px;
         background-color: #e0e0e0;
     }
 
@@ -200,12 +202,27 @@ section.content__main {
     }
 }
 
-@media only screen and (max-width: 990px) {
+@media only screen and (max-width: 992px) {
     .comments {
         margin-bottom: 20px;
     }
     .content__right {
         text-align: center;
         margin: 0 auto;
+    }
+    .phone-section, .fax-section {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .clinic-name {
+        display: flex;
+        justify-content: center;
+    }
+    
+    .content__left {
+        text-align: center;
     }
 }

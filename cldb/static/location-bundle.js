@@ -185,12 +185,11 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 
 
-/* START Google Maps API */
-
 var script = document.createElement('script');
 script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyC8i4Dw9T0XlIaLrF7-RpIV7yYkXaJLAso&callback=initMap&libraries=places';
 script.defer = true;
 script.async = true;
+var map;
 
 window.initMap = function () {
   var options = {
@@ -200,34 +199,17 @@ window.initMap = function () {
       lng: -117.1306
     }
   };
-  var map = new google.maps.Map(document.getElementById('map'), options);
-
-  var addMarker = function addMarker(pos) {
-    var marker = new google.maps.Marker({
-      position: pos,
-      map: map
-    });
-  };
-
-  var address = document.querySelector(".address").textContent;
-  var request = {
-    query: address,
-    fields: ['geometry']
-  };
-  var service = new google.maps.places.PlacesService(map);
-  service.findPlaceFromQuery(request, function (results, status) {
-    if (status === google.maps.places.PlacesServiceStatus.OK) {
-      for (var i = 0; i < results.length; i++) {
-        addMarker(results[i].geometry.location);
-      }
-
-      map.setCenter(results[0].geometry.location);
-    }
-  });
+  map = new google.maps.Map(document.getElementById('map'), options);
 };
 
 document.head.appendChild(script);
-/* END Google Maps API */
+
+var addMarker = function addMarker(pos) {
+  var marker = new google.maps.Marker({
+    position: pos,
+    map: map
+  });
+};
 
 var setText = function setText(elem, text) {
   var list = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
@@ -487,7 +469,7 @@ var setContactsList = function setContactsList(elem, objList) {
           var block = document.createElement("div");
           block.setAttribute("class", "contact__phone__section");
           var label = document.createElement("span");
-          label.appendChild(document.createTextNode("Phone:"));
+          label.appendChild(document.createTextNode("Phone: "));
           var phone = document.createElement("span");
           phone.setAttribute("class", "contact__phone");
           phone.appendChild(document.createTextNode(item.phone));
@@ -503,7 +485,7 @@ var setContactsList = function setContactsList(elem, objList) {
 
           var _label = document.createElement("span");
 
-          _label.appendChild(document.createTextNode("Email:"));
+          _label.appendChild(document.createTextNode("Email: "));
 
           var email = document.createElement("span");
           email.setAttribute("class", "contact__email");
@@ -614,7 +596,7 @@ var setBusinessHoursList = function setBusinessHoursList(elem, objList) {
 
 var getLocationContext = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-    var apiUrl, apiHandler, location;
+    var apiUrl, apiHandler, location, directionsLink, address, request, service;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
@@ -652,12 +634,29 @@ var getLocationContext = /*#__PURE__*/function () {
                 state: location.state,
                 zipcode: location.zipcode
               });
+              directionsLink = document.querySelector(".content__directions-link");
+              directionsLink.setAttribute("href", "https://www.google.com/maps/dir/Current+Location/".concat(location.street_line_1, "+").concat(location.street_line_2, "+").concat(location.city, "+").concat(location.state, "+").concat(location.zipcode));
               document.querySelector(".phone").textContent = location.phone;
               document.querySelector(".fax").textContent = location.fax;
               document.querySelector(".website a").setAttribute("href", location.website);
               setBusinessHoursList(document.querySelector(".business-hours-section"), location.op_hours);
               document.getElementById("date-created").textContent = location.date_created;
               document.getElementById("last-updated").textContent = location.last_updated;
+              address = document.querySelector(".address").textContent;
+              request = {
+                query: address,
+                fields: ['geometry']
+              };
+              service = new google.maps.places.PlacesService(map);
+              service.findPlaceFromQuery(request, function (results, status) {
+                if (status === google.maps.places.PlacesServiceStatus.OK) {
+                  for (var i = 0; i < results.length; i++) {
+                    addMarker(results[i].geometry.location);
+                  }
+
+                  map.setCenter(results[0].geometry.location);
+                }
+              });
             } else {// Failure to 404 - redirect?
             }
 

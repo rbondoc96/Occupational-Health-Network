@@ -1149,7 +1149,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var sidebar = new js_sidebar(document.querySelector(".sidebar__wrapper"));
   /* Initial media query for page load */
 
-  var mediaQuery = window.matchMedia("(max-width: 1110px)");
+  var mediaQuery = window.matchMedia("(max-width: 1200px)");
   if (mediaQuery.matches) sidebar.collapse();else sidebar.expand();
   mediaQuery.addListener(mediaQueryHandler.bind(_this, sidebar));
   sidebarToggle.addEventListener("click", toggleSidebar.bind(_this, sidebar), false);

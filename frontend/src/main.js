@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const sidebar = new Sidebar(document.querySelector(".sidebar__wrapper"))
 
     /* Initial media query for page load */
-    const mediaQuery = window.matchMedia("(max-width: 1110px)")
+    const mediaQuery = window.matchMedia("(max-width: 1200px)")
     if(mediaQuery.matches)
         sidebar.collapse()
     else
