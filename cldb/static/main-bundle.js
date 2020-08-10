@@ -1046,7 +1046,7 @@ var sidebar_Sidebar = /*#__PURE__*/function () {
       }
 
       this.wrapper.style.width = sidebar_default.a.sidebarWidthSm;
-      this.nav2.style.margin = "calc(20px + 7vh) 0";
+      this.nav2.style.margin = "calc(16px + 4vh) 0";
       this.nav2.querySelector(".disclaimer__wrapper p").style.display = "none";
       this.footer.style.flexDirection = "column";
       this.footer.style.justifyContent = "center";
@@ -1096,7 +1096,7 @@ var sidebar_Sidebar = /*#__PURE__*/function () {
       }
 
       this.wrapper.style.width = sidebar_default.a.sidebarWidthReg;
-      this.nav2.style.margin = "calc(50px + 8vh) 0";
+      this.nav2.style.margin = "calc(35px + 5vh) 0";
       this.nav2.querySelector(".disclaimer__wrapper p").style.display = "block";
       this.footer.style.flexDirection = "row";
       this.footer.style.justifyContent = "flex-start";

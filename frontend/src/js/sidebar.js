@@ -60,7 +60,7 @@ class Sidebar {
         }
 
         this.wrapper.style.width = variables.sidebarWidthSm
-        this.nav2.style.margin = "calc(20px + 7vh) 0"
+        this.nav2.style.margin = "calc(16px + 4vh) 0"
         this.nav2.querySelector(".disclaimer__wrapper p").style.display = "none"
 
         this.footer.style.flexDirection = "column"
@@ -91,7 +91,7 @@ class Sidebar {
         } 
 
         this.wrapper.style.width = variables.sidebarWidthReg
-        this.nav2.style.margin = "calc(50px + 8vh) 0"
+        this.nav2.style.margin = "calc(35px + 5vh) 0"
         this.nav2.querySelector(".disclaimer__wrapper p").style.display = "block"
 
         this.footer.style.flexDirection = "row"
