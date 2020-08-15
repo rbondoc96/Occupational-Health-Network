@@ -106,8 +106,7 @@ class ReviewSerializer(serializers.ModelSerializer):
             "location",
             "review_type",
             "owner",
-            "like",
-            "dislike",
+            "rating",
             "comments",
         ]
 

@@ -20,6 +20,7 @@ requests = "*"
 googlemaps = "*"
 pillow = "*"
 faker = "*"
+djangorestframework-simplejwt = "*"
 
 [requires]
 python_version = "3.8"

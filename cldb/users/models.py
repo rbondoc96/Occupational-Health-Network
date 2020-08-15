@@ -33,13 +33,12 @@ class Profile(models.Model):
         null=True,
         blank=True,
     )
-    image = models.ImageField(
-        default="default_user.jpg",
-        upload_to="profile_pics"
-    )
 
     def __str__(self):
         return f"{self.user.username} - Profile"
+
+    class Meta:
+        ordering = ["user"]
 
 class Bookmark(models.Model):
     owner = models.ForeignKey(

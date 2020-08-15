@@ -60,26 +60,6 @@ class LocationDetailView(DetailView):
     template_name = "location.html"
     slug_field = "slug"
 
-    def get(self, request, *args, **kwargs):
-        try:
-            self.object = self.get_object()
-        except Http404:
-            return render(request, "locator/404/location.html")
-
-        context = self.get_context_data(object=self.object)
-
-        # Get location ratings stats, then pass to view
-        ratings = get_ratings_by_location(self.object)
-        review_form = {
-            "review_form": ReviewForm()
-        }
-
-        context.update(ratings)
-        context.update(review_form)
-        print(context)
-
-        return self.render_to_response(context)
-
 class LocationListView(ListView):
     model = Location
 
@@ -156,6 +136,9 @@ class ReviewUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         if user_name == review.owner:
             return True
         return False
+
+
+
 
 def convert_to_24(time_range):
     time1 = time_range["start_time"]

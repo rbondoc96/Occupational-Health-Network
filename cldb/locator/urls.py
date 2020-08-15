@@ -4,22 +4,7 @@ from rest_framework.routers import DefaultRouter
 from . import views
 from . import api
 
-router = DefaultRouter()
-router.register(r"locations", api.LocationViewSet)
-router.register(r"reviews", api.ReviewViewSet)
-router.register(r"contacts", api.ContactsViewSet)
-router.register(r"op_hours", api.DayTimeRangeViewSet)
-router.register(r"service_hours", api.ServiceTimeRangeViewSet, basename="service_hours")
-router.register(r"services", api.ServiceViewSet, basename="services")
-router.register(r"service_categories", api.ServiceCategoryViewSet)
-router.register(r"location_categories", api.LocationCategoryViewSet)
-router.register(r"ccf_categories", api.CcfCategoryViewSet)
-router.register(r"auth_methods", api.AuthMethodViewSet)
-# router.register(r"search", api.SearchLocationViewSet)
-
 urlpatterns = [
-    path("api/", include(router.urls)),
-    path("api/search/", api.search_location_by_zipcode),
     path('', views.index, name='index'),
     path('location/new/', views.new_location, name="new_location"),
     path('location/search/', views.search, name="search"),
@@ -59,5 +44,4 @@ urlpatterns = [
         api.add_contact_to_location, 
         name="add_contact_to_location"
     ),
-    path('api/gmapAPI/<int:pk>/', api.imgFromLocation, name="ifl"),
 ]

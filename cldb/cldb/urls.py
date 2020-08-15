@@ -13,15 +13,31 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
+# pylint: disable=import-error
+
 from django.contrib import admin
 from django.urls import include, path
+from rest_framework_simplejwt import views as jwt_views
+
+from .router import router
+
 from users import views as user_views
 
-# include(module_name) allows referencing other URLconfs.
-
-# This is where the mapping between URLs and views occurs
 urlpatterns = [
     path("", include("locator.urls")),
+    path("api/", include(router.urls)),
     path("admin/", admin.site.urls),
-    path("register/", user_views.register, name="register")
+    path("login/", user_views.login_register, name="login_register"),
+    path("dashboard/", user_views.dashboard, name="dashboard"),
+    path(
+        "api/token/", 
+        jwt_views.TokenObtainPairView.as_view(), 
+        name="token_obtain_pair"
+    ),
+    path(
+        "api/token/refresh/", 
+        jwt_views.TokenRefreshView.as_view(), 
+        name="token_refresh_pair"
+    ),
 ]

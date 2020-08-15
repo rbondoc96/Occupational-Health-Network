@@ -3,6 +3,7 @@
 import psycopg2
 
 from django.contrib.auth.models import User
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils.text import slugify
 from django.urls import reverse
 from django.db import models, IntegrityError
@@ -313,13 +314,13 @@ class Review(models.Model):
         null=True
     )
 
-    like = models.BooleanField(
-        verbose_name="Yes",
-        default=False,
-    )
-    dislike = models.BooleanField(
-        verbose_name="No",
-        default=False,
+    rating = models.IntegerField(
+        "On a Scale of 1 (bad) to 5 (best), how was your experience?",
+        validators=[
+            MinValueValidator(1),
+            MaxValueValidator(5)
+        ],
+        default=1,
     )
     comments = models.TextField(blank=True, null=True)
     date_edited = models.DateField(
