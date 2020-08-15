@@ -81,19 +81,19 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 6);
+/******/ 	return __webpack_require__(__webpack_require__.s = 12);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 5:
+/***/ 11:
 /***/ (function(module, exports, __webpack_require__) {
 
 // extracted by mini-css-extract-plugin
 
 /***/ }),
 
-/***/ 6:
+/***/ 12:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -101,76 +101,15 @@
 __webpack_require__.r(__webpack_exports__);
 
 // EXTERNAL MODULE: ./src/scss/location.scss
-var scss_location = __webpack_require__(5);
+var scss_location = __webpack_require__(11);
 
-// CONCATENATED MODULE: ./src/js/ajax-api-handler.js
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+// EXTERNAL MODULE: ./src/js/utils.js
+var utils = __webpack_require__(2);
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-var AjaxApiHandler = /*#__PURE__*/function () {
-  function AjaxApiHandler(url) {
-    var method = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "GET";
-
-    _classCallCheck(this, AjaxApiHandler);
-
-    this.url = url;
-    this.method = method;
-    this.xhr = new XMLHttpRequest();
-    this.xhr.responseType = "json";
-    this.xhr.open(method, this.url, true);
-  }
-
-  _createClass(AjaxApiHandler, [{
-    key: "execute",
-    value: function execute() {
-      var _this = this;
-
-      return new Promise(function (resolve, reject) {
-        // Set up any headers and body
-        if (_this.method == "POST" || _this.method == "PATCH") {} else {}
-
-        _this.xhr.onload = function (event) {
-          resolve(this.xhr);
-        }.bind(_this);
-
-        _this.xhr.onerror = function (event) {
-          reject(this.xhr);
-        }.bind(_this);
-
-        _this.xhr.send();
-      });
-    }
-  }, {
-    key: "config",
-    value: function config(url, method) {
-      this.url = url;
-      this.method = method;
-      this.xhr.open(method, this.url, true);
-    }
-  }]);
-
-  return AjaxApiHandler;
-}();
-
-/* harmony default export */ var ajax_api_handler = (AjaxApiHandler);
-// CONCATENATED MODULE: ./src/js/utils.js
-var timestrConvert = function timestrConvert(timeStr) {
-  var tokens = timeStr.split(":");
-  var hour = parseInt(tokens[0]);
-  var meridian = "AM";
-
-  if (hour >= 12) {
-    meridian = "PM";
-    if (hour > 12) hour -= 12;
-  }
-
-  return "".concat(hour, ":").concat(tokens[1], " ").concat(meridian);
-};
-
-
+// CONCATENATED MODULE: ./src/assets/icon-valid.svg
+/* harmony default export */ var icon_valid = (__webpack_require__.p + "assets/icon-valid.svg");
+// CONCATENATED MODULE: ./src/assets/icon-invalid.svg
+/* harmony default export */ var icon_invalid = (__webpack_require__.p + "assets/icon-invalid.svg");
 // CONCATENATED MODULE: ./src/js/location.js
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -181,6 +120,7 @@ function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symb
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 
 
 
@@ -240,9 +180,8 @@ var setObjectListText = function setObjectListText(elem, objList) {
   }
 };
 
-var getReviewStats = function getReviewStats(reviews) {
-  var likes = 0;
-  var dislikes = 0;
+var setReviewsText = function setReviewsText(elem, reviews) {
+  var sum = 0;
   var length = Object.keys(reviews).length;
 
   if (length > 0) {
@@ -252,43 +191,22 @@ var getReviewStats = function getReviewStats(reviews) {
     try {
       for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
         var rev = _step2.value;
-        if (rev.like == true) likes++;else dislikes++;
+        sum += rev.rating;
       }
     } catch (err) {
       _iterator2.e(err);
     } finally {
       _iterator2.f();
     }
-  }
 
-  return {
-    likes: likes,
-    dislikes: dislikes,
-    total: Object.keys(reviews).length
-  };
-};
-
-var setReviewsText = function setReviewsText(elem, reviews) {
-  var reviewStats = getReviewStats(reviews);
-  var percentPosReviews = (reviewStats.likes * 100 / reviewStats.total).toFixed(2);
-  var formattedText = document.createElement("span");
-  var label = " had positive reviews out of ".concat(reviewStats.total);
-  var link = document.createElement("a");
-  var slug = window.location.pathname.split("/")[2];
-  link.setAttribute("href", "/locations/reviews/".concat(slug));
-  link.appendChild(document.createTextNode("".concat(percentPosReviews, "%")));
-  formattedText.appendChild(link);
-
-  if (percentPosReviews >= 75) {
-    formattedText.setAttribute("class", "good-reviews");
-  } else if (percentPosReviews >= 40) {
-    formattedText.setAttribute("class", "okay-reviews");
+    var avg = (sum / length).toFixed(2);
+    var slug = window.location.pathname.split("/")[2];
+    var markup = "\n            <span>Average rating: </span>\n            <span\n            class=\"".concat(avg > 4 ? 'good-reviews' : avg > 2 ? 'okay-reviews' : 'bad-reviews', "\"\n            >").concat(avg, "</span>\n            <span> out of <a href=\"/locations/reviews/").concat(slug, "\">").concat(length, "</a> reviews</span>\n        ");
+    elem.innerHTML = markup;
   } else {
-    formattedText.setAttribute("class", "bad-reviews");
+    var _markup = "<span>No reviews yet!</span>";
+    elem.innerHTML = _markup;
   }
-
-  elem.appendChild(formattedText);
-  elem.appendChild(document.createTextNode(label));
 };
 
 var sortServicesByCategory = function sortServicesByCategory(objList) {
@@ -361,8 +279,8 @@ var setServicesText = function setServicesText(elem, objList) {
 
 var location_setTimeRangeText = function setTimeRangeText(elem, range1, range2) {
   var rangeText;
-  range1 = timestrConvert(range1);
-  range2 = timestrConvert(range2);
+  range1 = Object(utils["a" /* timestrConvert */])(range1);
+  range2 = Object(utils["a" /* timestrConvert */])(range2);
   if (range1 == "00:00:00" && range2 == "00:00:00") rangeText = "CLOSED";else if (range1 == "12:00:00" && range2 == "12:00:00") rangeText = "Open 24 Hours";else {
     rangeText = "".concat(range1, " to ").concat(range2);
   }
@@ -596,22 +514,20 @@ var setBusinessHoursList = function setBusinessHoursList(elem, objList) {
 
 var getLocationContext = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-    var apiUrl, apiHandler, location, directionsLink, address, request, service;
+    var apiUrl, location, directionsLink, phone, phoneIcon, address, request, service;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            apiUrl = "/api" + window.location.pathname;
-            apiHandler = new ajax_api_handler(apiUrl, "GET");
-            _context.next = 4;
-            return apiHandler.execute().then(function (xhr) {
-              return xhr.response;
-            })["catch"](function (xhr) {
-              console.log(xhr.error);
-              return null;
+            apiUrl = window.origin + "/api" + window.location.pathname;
+            _context.next = 3;
+            return fetch(apiUrl, {
+              method: "GET"
+            }).then(function (response) {
+              return response.json();
             });
 
-          case 4:
+          case 3:
             location = _context.sent;
 
             if (location != null) {
@@ -636,7 +552,22 @@ var getLocationContext = /*#__PURE__*/function () {
               });
               directionsLink = document.querySelector(".content__directions-link");
               directionsLink.setAttribute("href", "https://www.google.com/maps/dir/Current+Location/".concat(location.street_line_1, "+").concat(location.street_line_2, "+").concat(location.city, "+").concat(location.state, "+").concat(location.zipcode));
-              document.querySelector(".phone").textContent = location.phone;
+              phone = document.querySelector(".phone");
+              phone.textContent = location.phone;
+              phoneIcon = document.createElement("img");
+              phoneIcon.setAttribute("class", "is-phone-callable");
+
+              if (location.is_phone_callable == true) {
+                phoneIcon.setAttribute("src", icon_valid);
+                phoneIcon.setAttribute("alt", "A human will answer this phone");
+                phoneIcon.setAttribute("title", "A human will answer this phone");
+              } else {
+                phoneIcon.setAttribute("src", icon_invalid);
+                phoneIcon.setAttribute("alt", "Unlikely/not likely that a human will answer this phone");
+                phoneIcon.setAttribute("title", "Unlikely/not likely that a human will answer this phone");
+              }
+
+              phone.appendChild(phoneIcon);
               document.querySelector(".fax").textContent = location.fax;
               document.querySelector(".website a").setAttribute("href", location.website);
               setBusinessHoursList(document.querySelector(".business-hours-section"), location.op_hours);
@@ -660,7 +591,7 @@ var getLocationContext = /*#__PURE__*/function () {
             } else {// Failure to 404 - redirect?
             }
 
-          case 6:
+          case 5:
           case "end":
             return _context.stop();
         }
@@ -683,6 +614,48 @@ document.addEventListener("DOMContentLoaded", function () {
     if (box.style.display == "none") box.style.display = "block";else box.style.display = "none";
   });
 });
+
+/***/ }),
+
+/***/ 2:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return timestrConvert; });
+/* unused harmony export getCookie */
+var timestrConvert = function timestrConvert(timeStr) {
+  var tokens = timeStr.split(":");
+  var hour = parseInt(tokens[0]);
+  var meridian = "AM";
+
+  if (hour >= 12) {
+    meridian = "PM";
+    if (hour > 12) hour -= 12;
+  }
+
+  return "".concat(hour, ":").concat(tokens[1], " ").concat(meridian);
+};
+
+var getCookie = function getCookie(name) {
+  var cookieValue;
+
+  if (document.cookie && document.cookie !== '') {
+    var cookies = document.cookie.split(';');
+
+    for (var i = 0; i < cookies.length; i++) {
+      var cookie = cookies[i].trim();
+
+      if (cookie.substring(0, name.length + 1) === name + '=') {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+
+  return cookieValue;
+};
+
+
 
 /***/ })
 

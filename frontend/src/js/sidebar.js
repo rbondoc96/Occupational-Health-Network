@@ -15,7 +15,6 @@ class Sidebar {
         this.navItems = wrapper.getElementsByClassName("sidebar__nav-item")
 
         this.header = wrapper.querySelector(".sidebar__header")
-        this.footer = wrapper.querySelector(".sidebar__footer")
         this.nav1 = wrapper.querySelector(".sidebar__nav1")
         this.nav2 = wrapper.querySelector(".sidebar__nav2")
 
@@ -46,6 +45,7 @@ class Sidebar {
     }
     collapse() {
         const content = document.getElementById("content")
+        const footer = document.querySelector("footer")
 
         this.logo.style.display = "none";
         this.logoMini.style.display = "flex";
@@ -63,13 +63,10 @@ class Sidebar {
         this.nav2.style.margin = "calc(16px + 4vh) 0"
         this.nav2.querySelector(".disclaimer__wrapper p").style.display = "none"
 
-        this.footer.style.flexDirection = "column"
-        this.footer.style.justifyContent = "center"
-        this.footer.querySelector("a").style.marginRight = "0"
-        this.footer.querySelector(".sidebar__footer__copyright").style.fontSize = "10px"
-
         content.style.marginLeft = variables.sidebarWidthSm
         content.style.maxWidth = `calc(100vw - ${variables.sidebarWidthSm})`
+        footer.style.marginLeft = variables.sidebarWidthSm
+        footer.style.maxWidth = `calc(100vw - ${variables.sidebarWidthSm})`
         this.toggleButton.style.left = "-40px"
         this.toggleButton.style.marginLeft = variables.sidebarWidthSm
         
@@ -77,6 +74,7 @@ class Sidebar {
     }
     expand() {
         const content = document.getElementById("content")
+        const footer = document.querySelector("footer")
 
         this.logo.style.display = "block";
         this.logoMini.style.display = "none";
@@ -94,13 +92,10 @@ class Sidebar {
         this.nav2.style.margin = "calc(35px + 5vh) 0"
         this.nav2.querySelector(".disclaimer__wrapper p").style.display = "block"
 
-        this.footer.style.flexDirection = "row"
-        this.footer.style.justifyContent = "flex-start"
-        this.footer.querySelector("a").style.marginRight = "1px"
-        this.footer.querySelector(".sidebar__footer__copyright").style.fontSize = "1rem"
-
         content.style.marginLeft = variables.sidebarWidthReg
         content.style.maxWidth = `calc(100vw - ${variables.sidebarWidthReg})`
+        footer.style.marginLeft = variables.sidebarWidthReg
+        footer.style.maxWidth = `calc(100vw - ${variables.sidebarWidthReg})`
         this.toggleButton.style.top = "0px"
         this.toggleButton.style.left = "0px"
         this.toggleButton.style.marginLeft = variables.sidebarWidthReg

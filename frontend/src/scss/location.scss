@@ -31,8 +31,8 @@
 .content__wrapper {
     overflow-x: hidden;
 }
-main#content {
-    padding: 75px 0;
+#content {
+    padding: 75px 0 !important;
 }
 
 section.content__header {
@@ -41,10 +41,6 @@ section.content__header {
     .clinic-name {
         display: flex;
         flex-direction: row;
-        
-        h1 {
-            font-size: calc(15px + 1.2vw);
-        }   
 
         h3 {
             display: flex;
@@ -174,10 +170,17 @@ section.content__main {
         .phone-section, .fax-section {
             display: flex;
             flex-direction: row;
+            align-items: center;
             margin: 2px 0;
     
             svg {
                 margin-right: 8px;
+            }
+
+            img {
+                position: relative;
+                top: 3px;
+                left: 5px;
             }
         }
     }

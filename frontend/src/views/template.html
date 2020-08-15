@@ -3,12 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ object }}</title>
+    <title>OCH Net</title>
 </head>
 <body>
-    <div id="root">
-        <main id="content">
-            Hi there
+    <div class="row">
+        <main id="content" class="col-12">
+            <div class="row">
+                <section class="col-12 content__hero">
+                    <h1 class="content__hero-tagline">Find care you need, where you need, and with information you can trust.</h1>
+                    <p class="content__hero-caption">Occupational Health Network (or OCH Net for short) is an open-source, community-supported library of information on clinics that offer occupational health services. Share your experiences and help others find the care they need.</p>
+                    <a href="/get-started">
+                        <button class="button button-primary--pink content__hero-button" type="button">Get Started</button>
+                    </a>
+                </section>
+            </div>
+            <section class="row content__card-wrapper">
+                <div class="col-md-6 content__card mr-5">
+                    <h3>Care Near You</h3>
+                    <p>Use the explore tool to find nearby occupational health clinics. Various filters are available to help you find the best location for your specific needs.</p>
+                    <a href="/explore">
+                        <button class="button button-secondary--pink content__card-button">Find a Location</button>
+                    </a>
+                </div>
+                <div class="col-md-6 content__card ml-5">
+                    <h3>Community Support</h3>
+                    <p>Help others in finding care in their area by adding location information to the network or reviewing your experience as a patient or employer.</p>
+                    <a href="/login">
+                        <button class="button button-secondary--pink content__card-button">Contribute</button>
+                    </a>
+                </div>
+            </section>            
         </main>
     </div>
 </body>

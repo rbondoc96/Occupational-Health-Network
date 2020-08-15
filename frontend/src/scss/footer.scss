@@ -1,0 +1,19 @@
+footer {
+    margin-top: 20px;
+    padding-top: 30px;
+    padding-bottom: 15px;
+    background-color: #EDEDED;
+    text-align: center;
+
+    p {
+        margin-bottom: 10px;
+    }
+
+    button {
+        border: 0;
+    }
+    button:hover {
+        cursor: pointer;
+    }
+
+}

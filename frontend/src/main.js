@@ -1,6 +1,7 @@
 import regeneratorRuntime from "regenerator-runtime"
 
 import "./main.scss"
+import "./scss/footer.scss"
 
 import Sidebar from "./js/sidebar"
 

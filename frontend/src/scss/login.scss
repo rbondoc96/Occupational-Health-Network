@@ -1,0 +1,52 @@
+@import "./forms.scss";
+
+h2 {
+    text-align: center;
+}
+
+.content__header {
+
+    p {
+        margin: 40px 0;
+    }
+}
+
+label {
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+#login-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .login-buttons__wrapper {
+        display: flex;
+        flex-direction: column;
+        
+    }
+
+    .login-section, .register-section {
+        margin-top: 25px;
+
+    }
+}
+
+#register-form {
+
+    .input__checkbox-wrapper {
+        margin: 15px 0;
+    }
+}
+
+#forgot-pw-button, #register-button {
+    width: 100%;
+}
+
+@media only screen and (max-width: 767px) {
+    .register-section {
+        margin-top: 40px;
+    }
+}
+

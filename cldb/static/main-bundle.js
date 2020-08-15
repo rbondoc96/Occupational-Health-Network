@@ -57,7 +57,7 @@
 /******/ 	// undefined = chunk not loaded, null = chunk preloaded/prefetched
 /******/ 	// Promise = chunk loading, 0 = chunk loaded
 /******/ 	var installedChunks = {
-/******/ 		2: 0
+/******/ 		4: 0
 /******/ 	};
 /******/
 /******/ 	var deferredModules = [];
@@ -148,7 +148,7 @@
 /******/
 /******/
 /******/ 	// add entry module to deferred list
-/******/ 	deferredModules.push([7,0]);
+/******/ 	deferredModules.push([13,0]);
 /******/ 	// run deferred modules when ready
 /******/ 	return checkDeferredModules();
 /******/ })
@@ -162,7 +162,8 @@ module.exports = {"sidebarWidthSm":"72px","sidebarWidthReg":"275px"};
 
 /***/ }),
 /* 1 */,
-/* 2 */
+/* 2 */,
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -916,16 +917,26 @@ try {
 
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // extracted by mini-css-extract-plugin
 
 /***/ }),
-/* 4 */,
-/* 5 */,
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
 /* 6 */,
-/* 7 */
+/* 7 */,
+/* 8 */,
+/* 9 */,
+/* 10 */,
+/* 11 */,
+/* 12 */,
+/* 13 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -933,10 +944,13 @@ try {
 __webpack_require__.r(__webpack_exports__);
 
 // EXTERNAL MODULE: ./node_modules/regenerator-runtime/runtime.js
-var runtime = __webpack_require__(2);
+var runtime = __webpack_require__(3);
 
 // EXTERNAL MODULE: ./src/main.scss
-var main = __webpack_require__(3);
+var main = __webpack_require__(4);
+
+// EXTERNAL MODULE: ./src/scss/footer.scss
+var scss_footer = __webpack_require__(5);
 
 // EXTERNAL MODULE: ./src/scss/sidebar.scss
 var scss_sidebar = __webpack_require__(0);
@@ -976,7 +990,6 @@ var sidebar_Sidebar = /*#__PURE__*/function () {
     this.navButtons = wrapper.getElementsByClassName("nav-button");
     this.navItems = wrapper.getElementsByClassName("sidebar__nav-item");
     this.header = wrapper.querySelector(".sidebar__header");
-    this.footer = wrapper.querySelector(".sidebar__footer");
     this.nav1 = wrapper.querySelector(".sidebar__nav1");
     this.nav2 = wrapper.querySelector(".sidebar__nav2");
     this.isExpanded = isExpanded;
@@ -1012,6 +1025,7 @@ var sidebar_Sidebar = /*#__PURE__*/function () {
     key: "collapse",
     value: function collapse() {
       var content = document.getElementById("content");
+      var footer = document.querySelector("footer");
       this.logo.style.display = "none";
       this.logoMini.style.display = "flex";
 
@@ -1048,12 +1062,10 @@ var sidebar_Sidebar = /*#__PURE__*/function () {
       this.wrapper.style.width = sidebar_default.a.sidebarWidthSm;
       this.nav2.style.margin = "calc(16px + 4vh) 0";
       this.nav2.querySelector(".disclaimer__wrapper p").style.display = "none";
-      this.footer.style.flexDirection = "column";
-      this.footer.style.justifyContent = "center";
-      this.footer.querySelector("a").style.marginRight = "0";
-      this.footer.querySelector(".sidebar__footer__copyright").style.fontSize = "10px";
       content.style.marginLeft = sidebar_default.a.sidebarWidthSm;
       content.style.maxWidth = "calc(100vw - ".concat(sidebar_default.a.sidebarWidthSm, ")");
+      footer.style.marginLeft = sidebar_default.a.sidebarWidthSm;
+      footer.style.maxWidth = "calc(100vw - ".concat(sidebar_default.a.sidebarWidthSm, ")");
       this.toggleButton.style.left = "-40px";
       this.toggleButton.style.marginLeft = sidebar_default.a.sidebarWidthSm;
       this.setExpandedState(false);
@@ -1062,6 +1074,7 @@ var sidebar_Sidebar = /*#__PURE__*/function () {
     key: "expand",
     value: function expand() {
       var content = document.getElementById("content");
+      var footer = document.querySelector("footer");
       this.logo.style.display = "block";
       this.logoMini.style.display = "none";
 
@@ -1098,12 +1111,10 @@ var sidebar_Sidebar = /*#__PURE__*/function () {
       this.wrapper.style.width = sidebar_default.a.sidebarWidthReg;
       this.nav2.style.margin = "calc(35px + 5vh) 0";
       this.nav2.querySelector(".disclaimer__wrapper p").style.display = "block";
-      this.footer.style.flexDirection = "row";
-      this.footer.style.justifyContent = "flex-start";
-      this.footer.querySelector("a").style.marginRight = "1px";
-      this.footer.querySelector(".sidebar__footer__copyright").style.fontSize = "1rem";
       content.style.marginLeft = sidebar_default.a.sidebarWidthReg;
       content.style.maxWidth = "calc(100vw - ".concat(sidebar_default.a.sidebarWidthReg, ")");
+      footer.style.marginLeft = sidebar_default.a.sidebarWidthReg;
+      footer.style.maxWidth = "calc(100vw - ".concat(sidebar_default.a.sidebarWidthReg, ")");
       this.toggleButton.style.top = "0px";
       this.toggleButton.style.left = "0px";
       this.toggleButton.style.marginLeft = sidebar_default.a.sidebarWidthReg;
@@ -1126,6 +1137,7 @@ var sidebar_Sidebar = /*#__PURE__*/function () {
 /* harmony default export */ var js_sidebar = (sidebar_Sidebar);
 // CONCATENATED MODULE: ./src/main.js
 var _this = undefined;
+
 
 
 

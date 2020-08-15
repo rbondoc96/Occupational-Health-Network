@@ -7,6 +7,8 @@ module.exports = {
     entry: {
         main: "./src/main.js",
         vendor: "./src/vendor.js",
+        home: "./src/js/home.js",
+        login: "./src/js/login-register.js",
         location: "./src/js/location.js",
     },
     module: {
@@ -31,7 +33,7 @@ module.exports = {
                         loader: "file-loader",
                         options: {
                             name: "[name].[ext]",
-                            outputPath: "imgs",
+                            outputPath: "assets",
                         }
                     },
                 ],
@@ -49,22 +51,43 @@ module.exports = {
             title: "OCH Net",
             filename: "index.html",
             template: "src/views/template.html",
-            chunks: ["main", "vendor"]
+            favicon: "./src/assets/favicon.ico",
+            chunks: ["main", "vendor", "home"]
         }),
+        new HtmlWebpackPlugin({
+            title: "Explore the Network",
+            filename: "explorer.html",
+            template: "src/views/explorer.html",
+            favicon: "./src/assets/favicon.ico",
+            chunks: ["main", "vendor"]
+        }), 
+        new HtmlWebpackPlugin({
+            title: "Dashboard",
+            filename: "views/dashboard.html",
+            template: "src/views/dashboard.html",
+            favicon: "./src/assets/favicon.ico",
+            chunks: ["main", "vendor"]
+        }),                  
+        new HtmlWebpackPlugin({
+            title: "Sign In or Register",
+            filename: "login-register.html",
+            template: "src/views/login_register.html",
+            favicon: "./src/assets/favicon.ico",
+            chunks: ["main", "vendor", "login"]
+        }),       
         new HtmlWebpackPlugin({
             title: "Settings",
             filename: "settings.html",
             template: "src/views/template.html",
+            favicon: "./src/assets/favicon.ico",
             chunks: ["main", "vendor"]
         }),
         new HtmlWebpackPlugin({
             filename: "location.html",
             template: "src/views/location_template.html",
+            favicon: "./src/assets/favicon.ico",
             chunks: ["main", "location", "vendor"]
         }),
-        // new FaviconsWebpackPlugin({
-        //     logo: "src/assets/nav main logo mini.svg",
-        // }),
         new HtmlWebpackPartialsPlugin({
             path: path.join(__dirname, "./src/views/partials/sidebar.html"),
             priority: "high",

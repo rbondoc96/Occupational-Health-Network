@@ -1,6 +1,8 @@
 import "../scss/location.scss"
-import AjaxApiHandler from "./ajax-api-handler"
 import {timestrConvert} from "./utils"
+
+import CallableIcon from "../assets/icon-valid.svg"
+import UncallableIcon from "../assets/icon-invalid.svg"
 
 var script = document.createElement('script')
 script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyC8i4Dw9T0XlIaLrF7-RpIV7yYkXaJLAso&callback=initMap&libraries=places'
@@ -42,48 +44,28 @@ const setObjectListText = function(elem, objList) {
     }
 }
 
-const getReviewStats = function(reviews) {
-    var likes = 0
-    var dislikes = 0
-    var length = Object.keys(reviews).length
-    if(length > 0) {
-        for(let rev of reviews) {
-            if(rev.like == true)
-                likes++
-            else
-                dislikes++
-        }
-    }
-    return {
-        likes: likes,
-        dislikes: dislikes,
-        total: Object.keys(reviews).length
-    }
-}
-
 const setReviewsText = function(elem, reviews) {
-    var reviewStats = getReviewStats(reviews)
+    let sum = 0
+    let length = Object.keys(reviews).length
+    if(length > 0) {
+        for(let rev of reviews) 
+            sum += rev.rating
 
-    var percentPosReviews = (reviewStats.likes * 100 / reviewStats.total).toFixed(2)
+        let avg = (sum / length).toFixed(2)
+        let slug = window.location.pathname.split("/")[2]
 
-    var formattedText = document.createElement("span")
-    var label = ` had positive reviews out of ${reviewStats.total}`
-    var link = document.createElement("a")
-    var slug = window.location.pathname.split("/")[2]
-    link.setAttribute("href", `/locations/reviews/${slug}`)
-
-    link.appendChild(document.createTextNode(`${percentPosReviews}%`))
-    formattedText.appendChild(link)
-
-    if(percentPosReviews >= 75) {
-        formattedText.setAttribute("class", "good-reviews")
-    } else if (percentPosReviews >= 40) {
-        formattedText.setAttribute("class", "okay-reviews")
+        const markup = `
+            <span>Average rating: </span>
+            <span
+            class="${avg > 4 ? 'good-reviews' : avg > 2 ? 'okay-reviews' : 'bad-reviews'}"
+            >${avg}</span>
+            <span> out of <a href="/locations/reviews/${slug}">${length}</a> reviews</span>
+        `       
+        elem.innerHTML = markup
     } else {
-        formattedText.setAttribute("class", "bad-reviews")
+        const markup = `<span>No reviews yet!</span>`
+        elem.innerHTML = markup
     }
-    elem.appendChild(formattedText)
-    elem.appendChild(document.createTextNode(label))
 }
 
 const sortServicesByCategory = function(objList) {
@@ -359,17 +341,13 @@ const setBusinessHoursList = function(elem, objList) {
 }
 
 const getLocationContext = async function() {
-    var apiUrl = "/api" + window.location.pathname
-    var apiHandler = new AjaxApiHandler(apiUrl, "GET")
+    var apiUrl = window.origin + "/api" + window.location.pathname
 
-    var location = await apiHandler.execute()
-        .then(xhr => {
-            return xhr.response
-        })
-        .catch(xhr => {
-            console.log(xhr.error)
-            return null
-        })
+    var location = await fetch(apiUrl, {
+        method: "GET",
+    }).then(response => {
+        return response.json()
+    })
 
     if(location != null) {
         console.log(location)
@@ -401,7 +379,22 @@ const getLocationContext = async function() {
         let directionsLink = document.querySelector(".content__directions-link")
         directionsLink.setAttribute("href", `https://www.google.com/maps/dir/Current+Location/${location.street_line_1}+${location.street_line_2}+${location.city}+${location.state}+${location.zipcode}`)
 
-        document.querySelector(".phone").textContent = location.phone
+        let phone = document.querySelector(".phone")
+        phone.textContent = location.phone
+        
+        let phoneIcon = document.createElement("img")
+        phoneIcon.setAttribute("class", "is-phone-callable")
+        if(location.is_phone_callable == true) {
+            phoneIcon.setAttribute("src", CallableIcon)
+            phoneIcon.setAttribute("alt", "A human will answer this phone")
+            phoneIcon.setAttribute("title", "A human will answer this phone")
+        } else {
+            phoneIcon.setAttribute("src", UncallableIcon)
+            phoneIcon.setAttribute("alt", "Unlikely/not likely that a human will answer this phone")
+            phoneIcon.setAttribute("title", "Unlikely/not likely that a human will answer this phone")
+        }
+
+        phone.appendChild(phoneIcon)
         document.querySelector(".fax").textContent = location.fax
         document.querySelector(".website a").setAttribute("href", location.website)
 
