@@ -50,4 +50,5 @@ button:focus {
 main#content {
     padding: 80px calc(50px + 5vw);
     overflow-x: hidden;
+    min-height: 100vh;
 }

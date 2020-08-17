@@ -1,0 +1,71 @@
+@import "./forms.scss";
+
+.content__header {
+    p {
+        margin-top: calc(30px + 0.5vh);
+        font-size: 1.2rem;
+    }
+} 
+
+#location-form {
+    margin-top: calc(30px + 2vh);
+}
+
+.sliding-form {
+    display: none;
+}
+
+#service-hours-form, #business-hours-form, #contacts-form {
+    margin-top: 15px;
+    border-radius: 0.25em;
+    // display: none;
+    padding-left: 30px;
+    padding-right: 30px;
+    background-color: #e6e6e6;
+    h4 {
+        margin: 20px 0;
+        font-size: 1.2rem;
+    }
+    label {
+        font-size: 0.9rem;
+    }
+    input, option {
+        font-size: 0.9rem;
+    }
+}
+
+.hidden-list {
+    border-radius: 0.25em;
+    background-color: #e6e6e6;
+    display: none;
+    margin-top: 15px;
+    padding-left: 30px;
+    padding-right: 30px;
+
+    h4 {
+        margin: 20px 0;
+        font-size: 1.2rem;
+    }
+
+    ul {
+        list-style-type: none;
+        margin-left: 10px;
+        margin-bottom: 15px;
+    }
+
+    .sublist-entry {
+        margin-left: 10px;
+        margin-bottom: 5px;
+
+        .sublist-entry-line1 {
+
+        }
+        .sublist-entry-line2, .sublist-entry-line3{
+            margin-left: 7px;
+        }
+    }
+}
+
+[name="is-closed"], [name="is-24hours"], [for="is-closed"], [for="is-24hours"] {
+    margin-top: -15px;
+}

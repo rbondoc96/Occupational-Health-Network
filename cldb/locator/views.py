@@ -12,6 +12,7 @@ __status__ = "Development"
 
 import io
 import requests
+import json
 
 from django.http import Http404
 from django.utils.text import slugify
@@ -137,8 +138,28 @@ class ReviewUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             return True
         return False
 
+def index(request):
+    return render(request, "index.html")
 
+def explore(request):
+    return render(request, "views/explore.html")
 
+def add_location(request):
+    if request.method == "POST":
+        data = request.POST
+        # print(data)
+        print(data["service-hours-input"])
+        print(data.getlist("service-hours-input"))
+        service_hours_list = data.getlist("service-hours-input")
+        
+        for item in service_hours_list:
+            obj = json.loads(item)
+            print(obj)
+            print(obj.get("end_time"))
+        # return redirect("location_detail", slug=location.slug)
+        return redirect("add_location")
+    else: 
+        return render(request, "views/add_location.html")
 
 def convert_to_24(time_range):
     time1 = time_range["start_time"]
@@ -152,9 +173,6 @@ def convert_to_24(time_range):
 
     print(time_range)
     return time_range
-
-def index(request):
-    return render(request, "index.html")
 
 @api_view(["GET", "POST"])
 def new_location(request):
@@ -205,15 +223,6 @@ def new_location(request):
         "form": form
     }
     return render(request, "locator/new.html", context) 
-
-@api_view(["GET", "POST"])
-def search(request):
-    context = {
-        "form": None
-    }
-    return render(request, "locator/search.html")
-
-
 
 
 

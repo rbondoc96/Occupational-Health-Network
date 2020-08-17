@@ -13,6 +13,14 @@ class UserSerializer(serializers.ModelSerializer):
             "last_name",
         ]
 
+class UserTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserType
+        fields = [
+            "id",
+            "name",
+        ]
+
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile

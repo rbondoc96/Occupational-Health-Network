@@ -81,19 +81,61 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 12);
+/******/ 	return __webpack_require__(__webpack_require__.s = 27);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 11:
+/***/ 2:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return timestrConvert; });
+/* unused harmony export getCookie */
+var timestrConvert = function timestrConvert(timeStr) {
+  var tokens = timeStr.split(":");
+  var hour = parseInt(tokens[0]);
+  var meridian = "AM";
+
+  if (hour >= 12) {
+    meridian = "PM";
+    if (hour > 12) hour -= 12;
+  }
+
+  return "".concat(hour, ":").concat(tokens[1], " ").concat(meridian);
+};
+
+var getCookie = function getCookie(name) {
+  var cookieValue;
+
+  if (document.cookie && document.cookie !== '') {
+    var cookies = document.cookie.split(';');
+
+    for (var i = 0; i < cookies.length; i++) {
+      var cookie = cookies[i].trim();
+
+      if (cookie.substring(0, name.length + 1) === name + '=') {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+
+  return cookieValue;
+};
+
+
+
+/***/ }),
+
+/***/ 26:
 /***/ (function(module, exports, __webpack_require__) {
 
 // extracted by mini-css-extract-plugin
 
 /***/ }),
 
-/***/ 12:
+/***/ 27:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -101,7 +143,7 @@
 __webpack_require__.r(__webpack_exports__);
 
 // EXTERNAL MODULE: ./src/scss/location.scss
-var scss_location = __webpack_require__(11);
+var scss_location = __webpack_require__(26);
 
 // EXTERNAL MODULE: ./src/js/utils.js
 var utils = __webpack_require__(2);
@@ -614,48 +656,6 @@ document.addEventListener("DOMContentLoaded", function () {
     if (box.style.display == "none") box.style.display = "block";else box.style.display = "none";
   });
 });
-
-/***/ }),
-
-/***/ 2:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return timestrConvert; });
-/* unused harmony export getCookie */
-var timestrConvert = function timestrConvert(timeStr) {
-  var tokens = timeStr.split(":");
-  var hour = parseInt(tokens[0]);
-  var meridian = "AM";
-
-  if (hour >= 12) {
-    meridian = "PM";
-    if (hour > 12) hour -= 12;
-  }
-
-  return "".concat(hour, ":").concat(tokens[1], " ").concat(meridian);
-};
-
-var getCookie = function getCookie(name) {
-  var cookieValue;
-
-  if (document.cookie && document.cookie !== '') {
-    var cookies = document.cookie.split(';');
-
-    for (var i = 0; i < cookies.length; i++) {
-      var cookie = cookies[i].trim();
-
-      if (cookie.substring(0, name.length + 1) === name + '=') {
-        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-        break;
-      }
-    }
-  }
-
-  return cookieValue;
-};
-
-
 
 /***/ })
 

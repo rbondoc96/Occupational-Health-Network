@@ -4,7 +4,7 @@ import locator.api as locator_api
 import users.api as user_api
 
 router = DefaultRouter()
-router.register(r"users", user_api.UserProfileViewSet)
+router.register(r"user_types", user_api.UserTypesViewSet)
 router.register(r"locations", locator_api.LocationViewSet)
 router.register(r"reviews", locator_api.ReviewViewSet)
 router.register(r"contacts", locator_api.ContactsViewSet)

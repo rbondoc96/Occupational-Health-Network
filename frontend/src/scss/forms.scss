@@ -1,8 +1,39 @@
+label.input-header {
+    margin-bottom: 10px;
+    
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
 input, select {
     border-radius: 0.25em;
-    padding: 0.4em 0.8em;
+    padding: 0.4em 0.6em;
+    border: 1px solid #2e2e2e;
 
     font-size: 1rem;
+}
+
+textarea {
+    padding: 0.4em 0.6em;
+    min-height: 150px;
+    resize: vertical;
+
+    font-size: 1rem;
+    font-family: "Varta", sans-serif;
+}
+
+.required:after {
+    content: " *";
+    color: #ff0000;
+}
+
+.checkbox-field {
+    display: flex;
+    align-items: center;
+
+    label {
+        margin-left: 10px;
+    }
 }
 
 .button {
@@ -14,6 +45,9 @@ input, select {
     text-align: center;
     padding: 0.6rem 1.5rem;
 }
+.button:hover {
+    cursor: pointer;
+}
 
 .button-primary--blue {
     color: #fff;
@@ -21,7 +55,16 @@ input, select {
 }
 .button-primary--blue:hover {
     background-color: #1a78d1;
-    cursor: pointer;
+}
+.button-secondary--blue {
+    color: #1B8FFA;
+    border: 1px solid #1B8FFA;
+    background-color: #fff;
+}
+.button-secondary--blue:hover {
+    background-color: #1B8FFA;
+    color: #fff;
+    transition: 0.2s;
 }
 
 .button-primary--pink {
@@ -30,7 +73,6 @@ input, select {
     color: #FFF;
 }
 .button-primary--pink:hover {
-    cursor: pointer;
     border: 1px solid #ff5980;
     background-color: #ff5980;
     transition: 0.2s;
@@ -41,7 +83,6 @@ input, select {
     background-color: #FFF;
 }
 .button-secondary--pink:hover {
-    cursor: pointer;
     background-color: #f7f7f7;
     transition: 0.2s;
 }
@@ -50,4 +91,25 @@ input, select {
     display: flex;
     flex-direction: column;
     margin-bottom: 25px;
+
+    .error-message {
+        color: #e63e3e;
+    }
+}
+
+.invalid--blank {
+    border-color: #e63e3e;
+    background-color: #f3b0b0;
+}
+
+select[multiple] {
+    border-radius: 0.25em;
+    min-height: 200px;
+    padding: 0;
+    
+}
+option {
+    padding: 0.7rem 0.8rem;
+    border-bottom: 1px solid #2e2e2e;
+    font-family: "Varta", sans-serif;
 }

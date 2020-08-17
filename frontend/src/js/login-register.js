@@ -2,52 +2,73 @@ import "../scss/login.scss"
 
 import {getCookie} from "./utils"
 
-const getJwtToken = async function() {
-    let username = document.getElementById("login-username").value
-    let password = document.getElementById("login-password").value
+const validateRegisterForm = function(form) {
+    let requiredFields = form.querySelectorAll(".required + input")
+    let isFormValid = true
+    for(let input of requiredFields) {
+        let error = input.nextElementSibling
+        if(input.value == "") {
+            isFormValid = false
+            input.classList.add("invalid--blank")
+            error.style.display = "block"
+        } else if (input.classList.contains("invalid--blank"))  {
+            isFormValid = true
+            input.classList.remove("invalid--blank")
+            error.style.display = "none"
+        }
+    }
 
-    let apiUrl = window.origin + "/api/token/"
-    var token = await fetch(apiUrl, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            username: username,
-            password: password,
-        })
-    }).then(response => {
-        return response.json()
-    })
+    let password = form.querySelector("[name='reg-password']")
+    let confirmPassword = form.querySelector("[name='reg-confirm-password']")
+    let errorWrapper = confirmPassword.nextElementSibling
 
-    console.log(token)
-}
+    console.log(password)
+    console.log(confirmPassword)
+    if(password.value !== confirmPassword.value) {
+        isFormValid = false
 
-const restoreJwtToken = async function() {
+        let errorMessage = errorWrapper.querySelector(".error-message")
+        errorMessage.textContent = "The passwords must match."
+        
+        errorWrapper.style.display = "block"
+    } else {
+        isFormValid = true
+        errorWrapper.style.display = "none"
+    }
 
-    let apiUrl = window.origin + "/api/token/refresh/"
-    var token = await fetch(apiUrl, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            refresh: refresh,
-        })
-    }).then(response => {
-        return response.json()
-    })
-
-    console.log(token)
+    return isFormValid
 }
 
 document.addEventListener("DOMContentLoaded", function() {
     const loginForm = document.getElementById("login-form")
-    const loginButton = document.getElementById("login-button")
+    const regForm = document.getElementById("register-form")
+    
+    let apiUrl = "http://127.0.0.1:8000/api/user_types/"
+    fetch(apiUrl, {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    .then(response => response.json())
+    .then(json => {
+        let userTypeSelect = document.getElementById("user-type")
+        for(let obj of json) {
+            let markup = `<option value="${obj.id}">${obj.name}</option>`
 
-    loginForm.addEventListener("submit", function(event) {
+            userTypeSelect.innerHTML += markup
+        }
+    })
+
+    regForm.addEventListener("submit", event => {
         event.preventDefault()
 
-        getJwtToken()
+        let regDisclaimer = event.target.querySelector("#disclaimer-ack")
+
+        if(!regDisclaimer.checked) {
+            alert("Please acknowledge that you've read the disclaimer")
+        }
+        else if(validateRegisterForm(event.target) == true) {
+            event.target.submit()
+        }
     })
 })

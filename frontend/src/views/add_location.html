@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add a New Location</title>
+</head>
+<body>
+    <div class="row">
+        <main id="content" class="col-12">
+            <div class="row">
+                <section class="col-12 content__header">
+                    <h1>Add a New Location</h1>
+                    <p>Found a great clinic not in the network? Use the form below to add it in and let others know about your experiences!</p>
+                </section>
+            </div>
+            <div class="row">
+                <section class="col-md-12">
+                    <form id="location-form" method="POST">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="form-field col-md-8">
+                                <label for="clinic-type" class="required input-header">Clinic Type</label>
+                                <select id="clinic-type" name="clinic-type"></select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-field col-md-4">
+                                <label for="clinic-name" class="required input-header">Clinic Name</label>
+                                <input id="clinic-name" name="clinic-name" type="text">
+                            </div>
+                            <div class="form-field col-md-4">
+                                <label for="branch-name" class="input-header">Branch Name</label>
+                                <input id="branch-name" name="branch-name" type="text">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-field col-md-4">
+                                <label for="street-line-1" class="required input-header">Street Line 1</label>
+                                <input id="street-line-1" name="street-line-1" type="text">
+                            </div>
+                            <div class="form-field col-md-4">
+                                <label for="street-line-2" class="input-header">Street Line 2</label>
+                                <input id="street-line-2" name="street-line-2" type="text">
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="form-field col-md-4">
+                                <label for="city" class="required input-header">City</label>
+                                <input id="city" name="city" type="text">
+                            </div>
+                            <div class="form-field col-md-1">
+                                <label for="state" class="required input-header">State</label>
+                                <select id="state" name="state">
+                                    <option value="AL">AL</option>
+                                    <option value="AK">AK</option>
+                                    <option value="AR">AR</option>	
+                                    <option value="AZ">AZ</option>
+                                    <option value="CA">CA</option>
+                                    <option value="CO">CO</option>
+                                    <option value="CT">CT</option>
+                                    <option value="DC">DC</option>
+                                    <option value="DE">DE</option>
+                                    <option value="FL">FL</option>
+                                    <option value="GA">GA</option>
+                                    <option value="HI">HI</option>
+                                    <option value="IA">IA</option>	
+                                    <option value="ID">ID</option>
+                                    <option value="IL">IL</option>
+                                    <option value="IN">IN</option>
+                                    <option value="KS">KS</option>
+                                    <option value="KY">KY</option>
+                                    <option value="LA">LA</option>
+                                    <option value="MA">MA</option>
+                                    <option value="MD">MD</option>
+                                    <option value="ME">ME</option>
+                                    <option value="MI">MI</option>
+                                    <option value="MN">MN</option>
+                                    <option value="MO">MO</option>	
+                                    <option value="MS">MS</option>
+                                    <option value="MT">MT</option>
+                                    <option value="NC">NC</option>	
+                                    <option value="NE">NE</option>
+                                    <option value="NH">NH</option>
+                                    <option value="NJ">NJ</option>
+                                    <option value="NM">NM</option>			
+                                    <option value="NV">NV</option>
+                                    <option value="NY">NY</option>
+                                    <option value="ND">ND</option>
+                                    <option value="OH">OH</option>
+                                    <option value="OK">OK</option>
+                                    <option value="OR">OR</option>
+                                    <option value="PA">PA</option>
+                                    <option value="RI">RI</option>
+                                    <option value="SC">SC</option>
+                                    <option value="SD">SD</option>
+                                    <option value="TN">TN</option>
+                                    <option value="TX">TX</option>
+                                    <option value="UT">UT</option>
+                                    <option value="VT">VT</option>
+                                    <option value="VA">VA</option>
+                                    <option value="WA">WA</option>
+                                    <option value="WI">WI</option>	
+                                    <option value="WV">WV</option>
+                                    <option value="WY">WY</option>
+                                </select>
+                            </div>
+                            <div class="form-field col-md-3">
+                                <label for="zipcode" class="required input-header">Zip Code</label>
+                                <input id="zipcode" name="zipcode" type="text">
+                            </div>                            
+                        </div>     
+                        <div class="row">
+                            <div class="form-field col-md-4">
+                                <label for="phone" class="input-header">Phone #</label>
+                                <input id="phone" name="phone" type="text">
+                            </div>
+                            <div class="form-field col-md-4">
+                                <label for="fax" class="input-header">Fax #</label>
+                                <input id="fax" name="fax" type="text">
+                            </div>
+                        </div>            
+                        <div class="row">
+                            <div class="form-field col-md-8">
+                                <label for="website" class="input-header">Website</label>
+                                <input id="website" name="website" type="url">
+                            </div>
+                        </div>        
+                        <div class="row">
+                            <div class="form-field col-md-8">
+                                <label for="services" class="required input-header">Services Offered</label>
+                                <select id="services" name="services" multiple></select>
+                            </div>
+                        </div> 
+                        <!-- Service Hours -->        
+                        <div class="row">
+                            <div class="form-field col-md-8">
+                                <label class="input-header">Service Hours</label>
+                                <button type="button" id="service-hours-toggle"class="button button-primary--blue">
+                                    Add a Service
+                                </button>
+
+                                <div class="sliding-form" id="service-hours-form">
+                                    <div class="row">
+                                       <div class="col-md-12">
+                                            <h4>Add a Service Hour</h4>
+                                       </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 form-field">
+                                            <label class="input-header" for="simple-services">Select a Service</label>
+                                            <select name="simple-services" class="no-send"></select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 form-field">
+                                            <label class="input-header" for="service-start-time">Start Time</label>
+                                            <input type="text" name="service-start-time"class="time no-send">
+                                        </div>
+                                        <div class="col-md-6 form-field">
+                                            <label class="input-header" for="service-end-time">End Time</label>
+                                            <input type="text" name="service-end-time" class="time no-send">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 form-field">
+                                            <label class="input-header">Days Offered</label>
+                                            <select name="service-days-offered" 
+                                            class="no-send"
+                                            multiple>
+                                                <option value="1">Monday</option>
+                                                <option value="2">Tuesday</option>
+                                                <option value="3">Wednesday</option>
+                                                <option value="4">Thursday</option>
+                                                <option value="5">Friday</option>
+                                                <option value="6">Saturday</option>
+                                                <option value="7">Sunday</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 form-field">
+                                            <button type="button" id="service-hours-submit"
+                                            class="button button-secondary--blue">Add Entry</button>
+                                        </div>
+                                    </div>                                    
+                                </div>
+                                <div class="hidden-list service-hours__list-wrapper">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h4>Entries:</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <ul id="service-hours__list">
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>   
+                        <!-- Business Hours -->          
+                        <div class="row">
+                            <div class="form-field col-md-8">
+                                <label class="input-header">Business Hours</label>
+                                <button type="button" id="business-hours-toggle"
+                                class="button button-primary--blue">
+                                    Add a Day
+                                </button>
+                                <div class="sliding-form" id="business-hours-form">
+                                    <div class="row">
+                                       <div class="col-md-12">
+                                            <h4>Add a Day</h4>
+                                       </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 form-field">
+                                            <label class="input-header" for="business-day">Select a Day</label>
+                                            <select name="business-day"
+                                            class="no-send">
+                                                <option value="1">Monday</option>
+                                                <option value="2">Tuesday</option>
+                                                <option value="3">Wednesday</option>
+                                                <option value="4">Thursday</option>
+                                                <option value="5">Friday</option>
+                                                <option value="6">Saturday</option>
+                                                <option value="7">Sunday</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 form-field">
+                                            <label class="input-header" for="business-start-time">Start Time</label>
+                                            <input type="text" name="business-start-time" class="time no-send">
+                                        </div>
+                                        <div class="col-md-6 form-field">
+                                            <label class="input-header" for="business-end-time">End Time</label>
+                                            <input type="text" name="business-end-time"class="time no-send">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class='col-md-6 checkbox-field'>
+                                            <input type="checkbox" name="is-closed" id="is-closed" class="no-send">
+                                            <label for="is-closed">Closed</label>
+                                        </div>     
+                                        <div class='col-md-6 checkbox-field'>
+                                            <input type="checkbox" name="is-24hours" id="is-24hours" class="no-send">
+                                            <label for="is-24hours">Open 24 Hours</label>
+                                        </div> 
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 form-field">
+                                            <button type="button" id="business-hours-submit"
+                                            class="button button-secondary--blue">Add Entry</button>
+                                        </div>
+                                    </div>                                    
+                                </div>   
+                                <div class="hidden-list business-hours__list-wrapper">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h4>Entries:</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <ul id="business-hours__list">
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+                        <!-- Contacts -->        
+                        <div class="row">
+                            <div class="form-field col-md-8">
+                                <label class="input-header">Contacts</label>
+                                <button type="button" id="contacts-toggle"
+                                class="button button-primary--blue">
+                                    Add a Contact
+                                </button>
+                                <div class="sliding-form" id="contacts-form">
+                                    <div class="row">
+                                       <div class="col-md-12">
+                                            <h4>Add a Contact</h4>
+                                       </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 form-field">
+                                            <label class="input-header" for="contact-name">Contact Name</label>
+                                            <input type="text" name="contact-name"
+                                            class="no-send">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 form-field">
+                                            <label class="input-header" for="contact-title">Title/Position</label>
+                                            <input type="text" name="contact-title"
+                                            class="no-send">
+                                        </div>
+                                    </div>                                    
+                                    <div class="row">
+                                        <div class="col-md-12 form-field">
+                                            <label class="input-header" for="contact-email">Contact Email</label>
+                                            <input type="text" name="contact-email"
+                                            class="no-send">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 form-field">
+                                            <label class="input-header" for="contact-phone">Contact Phone</label>
+                                            <input type="text" name="contact-phone"
+                                            class="no-send">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 form-field">
+                                            <button type="button" id="contacts-submit"
+                                            class="button button-secondary--blue">Add Entry</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="hidden-list contacts__list-wrapper">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h4>Entries:</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <ul id="contacts-hours__list">
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>                                
+                            </div>
+                        </div>  
+                        <div class="row">
+                            <div class="form-field col-md-8">
+                                <label class="input-header">Authorization Methods</label>
+                                <div id="auth-methods__wrapper">
+
+                                </div>
+                            </div>
+                        </div>  
+                        <div class="row">
+                            <div class="form-field col-md-8">
+                                <label class="input-header">Chain of Custody Forms Accepted</label>
+                                <div id="coc-forms__wrapper">
+
+                                </div>
+                            </div>
+                        </div>  
+                        <div class="row">
+                            <div class="form-field col-md-8">
+                                <label for="comments" class="input-header">Comments</label>
+                                <textarea id="comments" name="comments"></textarea>
+                            </div>
+                        </div>      
+                        <div class="row">
+                            <div class="form-field col-md-8">
+                                <button type="submit" class="button button-primary--pink" id="submit-button">Add Location</button>
+                            </div>
+                        </div>   
+                    </form>
+                </section>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

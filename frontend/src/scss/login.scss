@@ -1,13 +1,14 @@
 @import "./forms.scss";
 
 h2 {
-    text-align: center;
+    margin: 20px 0;
 }
 
 .content__header {
 
     p {
         margin: 40px 0;
+        font-size: 1.2rem;
     }
 }
 
@@ -16,29 +17,42 @@ label {
     font-size: 1.1rem;
 }
 
-#login-form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
 
-    .login-buttons__wrapper {
+
+.login-section {
+    max-width: 400px; 
+    margin-right: 50px;
+
+    #login-form {
         display: flex;
         flex-direction: column;
-        
+        justify-content: center;
+    
+        .login-buttons__wrapper {
+            display: flex;
+            flex-direction: column;
+            
+        }
     }
+}
 
-    .login-section, .register-section {
-        margin-top: 25px;
+.register-section {
+    max-width: 400px;
+    #register-form {
+        .input__checkbox-wrapper {
+            display: flex;
+            margin: 15px 0;
 
+            label {
+                margin-top: -3px;
+                margin-left: 10px;
+
+                font-weight: 400;
+            }
+        }
     }
 }
 
-#register-form {
-
-    .input__checkbox-wrapper {
-        margin: 15px 0;
-    }
-}
 
 #forgot-pw-button, #register-button {
     width: 100%;

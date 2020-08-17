@@ -57,7 +57,7 @@
 /******/ 	// undefined = chunk not loaded, null = chunk preloaded/prefetched
 /******/ 	// Promise = chunk loading, 0 = chunk loaded
 /******/ 	var installedChunks = {
-/******/ 		4: 0
+/******/ 		9: 0
 /******/ 	};
 /******/
 /******/ 	var deferredModules = [];
@@ -148,22 +148,255 @@
 /******/
 /******/
 /******/ 	// add entry module to deferred list
-/******/ 	deferredModules.push([13,0]);
+/******/ 	deferredModules.push([28,0]);
 /******/ 	// run deferred modules when ready
 /******/ 	return checkDeferredModules();
 /******/ })
 /************************************************************************/
-/******/ ([
-/* 0 */
+/******/ ({
+
+/***/ 0:
 /***/ (function(module, exports, __webpack_require__) {
 
 // extracted by mini-css-extract-plugin
 module.exports = {"sidebarWidthSm":"72px","sidebarWidthReg":"275px"};
 
 /***/ }),
-/* 1 */,
-/* 2 */,
-/* 3 */
+
+/***/ 28:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+// ESM COMPAT FLAG
+__webpack_require__.r(__webpack_exports__);
+
+// EXTERNAL MODULE: ./node_modules/regenerator-runtime/runtime.js
+var runtime = __webpack_require__(4);
+
+// EXTERNAL MODULE: ./src/main.scss
+var main = __webpack_require__(5);
+
+// EXTERNAL MODULE: ./src/scss/footer.scss
+var scss_footer = __webpack_require__(6);
+
+// EXTERNAL MODULE: ./src/scss/sidebar.scss
+var scss_sidebar = __webpack_require__(0);
+var sidebar_default = /*#__PURE__*/__webpack_require__.n(scss_sidebar);
+
+// EXTERNAL MODULE: ./node_modules/jquery/dist/jquery.js
+var jquery = __webpack_require__(1);
+
+// CONCATENATED MODULE: ./src/js/sidebar.js
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+
+
+var sidebar_Sidebar = /*#__PURE__*/function () {
+  function Sidebar(wrapper) {
+    var isExpanded = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+    _classCallCheck(this, Sidebar);
+
+    this.breakpoint = window.matchMedia("(min-width: 1100px)");
+    this.wrapper = wrapper;
+    this.logo = wrapper.querySelector(".logo__wrapper");
+    this.logoMini = wrapper.querySelector(".logo__wrapper--mini");
+    this.toggleButton = wrapper.querySelector(".sidebar--toggle");
+    this.navButtons = wrapper.getElementsByClassName("nav-button");
+    this.navItems = wrapper.getElementsByClassName("sidebar__nav-item");
+    this.header = wrapper.querySelector(".sidebar__header");
+    this.nav1 = wrapper.querySelector(".sidebar__nav1");
+    this.nav2 = wrapper.querySelector(".sidebar__nav2");
+    this.isExpanded = isExpanded;
+    this.wrapper.addEventListener("mouseenter", this.toggleButtonSlideOut.bind(this, this.toggleButton), false);
+    this.wrapper.addEventListener("mouseleave", this.toggleButtonSlideIn.bind(this, this.toggleButton), false);
+    this.toggleButton.addEventListener("mouseenter", this.toggleButtonSlideOut.bind(this, this.toggleButton), false);
+    this.toggleButton.style.left = "-40px !important";
+  }
+
+  _createClass(Sidebar, [{
+    key: "toggleButtonSlideIn",
+    value: function toggleButtonSlideIn(toggleButton, event) {
+      toggleButton.style.left = "-40px";
+      toggleButton.style.zIndex = "-1";
+    }
+  }, {
+    key: "toggleButtonSlideOut",
+    value: function toggleButtonSlideOut(toggleButton, event) {
+      toggleButton.style.left = "0px";
+      toggleButton.style.zIndex = "99";
+    }
+  }, {
+    key: "setExpandedState",
+    value: function setExpandedState(bool) {
+      this.isExpanded = bool;
+    }
+  }, {
+    key: "getExpandedState",
+    value: function getExpandedState() {
+      return this.isExpanded;
+    }
+  }, {
+    key: "collapse",
+    value: function collapse() {
+      var content = document.getElementById("content");
+      var footer = document.querySelector("footer");
+      this.logo.style.display = "none";
+      this.logoMini.style.display = "flex";
+
+      var _iterator = _createForOfIteratorHelper(this.navButtons),
+          _step;
+
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var btn = _step.value;
+          btn.classList.add("nav-button--collapsed");
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+
+      var _iterator2 = _createForOfIteratorHelper(this.navItems),
+          _step2;
+
+      try {
+        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+          var item = _step2.value;
+          item.style.paddingLeft = "0";
+          item.querySelector("svg").style.marginRight = "0";
+          item.querySelector("p").style.marginTop = "5px";
+        }
+      } catch (err) {
+        _iterator2.e(err);
+      } finally {
+        _iterator2.f();
+      }
+
+      this.wrapper.style.width = sidebar_default.a.sidebarWidthSm;
+      this.nav2.style.margin = "calc(16px + 4vh) 0";
+      this.nav2.querySelector(".disclaimer__wrapper p").style.display = "none";
+      content.style.marginLeft = sidebar_default.a.sidebarWidthSm;
+      content.style.maxWidth = "calc(100vw - ".concat(sidebar_default.a.sidebarWidthSm, ")");
+      footer.style.marginLeft = sidebar_default.a.sidebarWidthSm;
+      footer.style.maxWidth = "calc(100vw - ".concat(sidebar_default.a.sidebarWidthSm, ")");
+      this.toggleButton.style.left = "-40px";
+      this.toggleButton.style.marginLeft = sidebar_default.a.sidebarWidthSm;
+      this.setExpandedState(false);
+    }
+  }, {
+    key: "expand",
+    value: function expand() {
+      var content = document.getElementById("content");
+      var footer = document.querySelector("footer");
+      this.logo.style.display = "block";
+      this.logoMini.style.display = "none";
+
+      var _iterator3 = _createForOfIteratorHelper(this.navButtons),
+          _step3;
+
+      try {
+        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+          var item = _step3.value;
+          item.classList.remove("nav-button--collapsed");
+        }
+      } catch (err) {
+        _iterator3.e(err);
+      } finally {
+        _iterator3.f();
+      }
+
+      var _iterator4 = _createForOfIteratorHelper(this.navItems),
+          _step4;
+
+      try {
+        for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+          var _item = _step4.value;
+          _item.style.paddingLeft = "25px";
+          _item.querySelector("svg").style.marginRight = "25px";
+          _item.querySelector("p").style.marginTop = "0";
+        }
+      } catch (err) {
+        _iterator4.e(err);
+      } finally {
+        _iterator4.f();
+      }
+
+      this.wrapper.style.width = sidebar_default.a.sidebarWidthReg;
+      this.nav2.style.margin = "calc(35px + 5vh) 0";
+      this.nav2.querySelector(".disclaimer__wrapper p").style.display = "block";
+      content.style.marginLeft = sidebar_default.a.sidebarWidthReg;
+      content.style.maxWidth = "calc(100vw - ".concat(sidebar_default.a.sidebarWidthReg, ")");
+      footer.style.marginLeft = sidebar_default.a.sidebarWidthReg;
+      footer.style.maxWidth = "calc(100vw - ".concat(sidebar_default.a.sidebarWidthReg, ")");
+      this.toggleButton.style.top = "0px";
+      this.toggleButton.style.left = "0px";
+      this.toggleButton.style.marginLeft = sidebar_default.a.sidebarWidthReg;
+      this.setExpandedState(true);
+    }
+  }, {
+    key: "toggle",
+    value: function toggle() {
+      if (this.getExpandedState() == true) {
+        this.collapse();
+      } else {
+        this.expand();
+      }
+    }
+  }]);
+
+  return Sidebar;
+}();
+
+/* harmony default export */ var js_sidebar = (sidebar_Sidebar);
+// CONCATENATED MODULE: ./src/main.js
+var _this = undefined;
+
+
+
+
+
+
+var toggleSidebar = function toggleSidebar(sidebarObject, event) {
+  sidebarObject.toggle();
+};
+
+var mediaQueryHandler = function mediaQueryHandler(sidebar, event) {
+  if (event.matches && sidebar.getExpandedState() == true) {
+    /* Viewport is 1330px or less */
+    sidebar.toggle();
+  } else if (!(event.matches || sidebar.getExpandedState() == true)) {
+    sidebar.toggle();
+  }
+};
+
+document.addEventListener("DOMContentLoaded", function () {
+  var sidebarToggle = document.querySelector(".sidebar--toggle");
+  var sidebar = new js_sidebar(document.querySelector(".sidebar__wrapper"));
+  /* Initial media query for page load */
+
+  var mediaQuery = window.matchMedia("(max-width: 1200px)");
+  if (mediaQuery.matches) sidebar.collapse();else sidebar.expand();
+  mediaQuery.addListener(mediaQueryHandler.bind(_this, sidebar));
+  sidebarToggle.addEventListener("click", toggleSidebar.bind(_this, sidebar), false);
+});
+
+/***/ }),
+
+/***/ 4:
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -917,255 +1150,19 @@ try {
 
 
 /***/ }),
-/* 4 */
+
+/***/ 5:
 /***/ (function(module, exports, __webpack_require__) {
 
 // extracted by mini-css-extract-plugin
 
 /***/ }),
-/* 5 */
+
+/***/ 6:
 /***/ (function(module, exports, __webpack_require__) {
 
 // extracted by mini-css-extract-plugin
-
-/***/ }),
-/* 6 */,
-/* 7 */,
-/* 8 */,
-/* 9 */,
-/* 10 */,
-/* 11 */,
-/* 12 */,
-/* 13 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-// ESM COMPAT FLAG
-__webpack_require__.r(__webpack_exports__);
-
-// EXTERNAL MODULE: ./node_modules/regenerator-runtime/runtime.js
-var runtime = __webpack_require__(3);
-
-// EXTERNAL MODULE: ./src/main.scss
-var main = __webpack_require__(4);
-
-// EXTERNAL MODULE: ./src/scss/footer.scss
-var scss_footer = __webpack_require__(5);
-
-// EXTERNAL MODULE: ./src/scss/sidebar.scss
-var scss_sidebar = __webpack_require__(0);
-var sidebar_default = /*#__PURE__*/__webpack_require__.n(scss_sidebar);
-
-// EXTERNAL MODULE: ./node_modules/jquery/dist/jquery.js
-var jquery = __webpack_require__(1);
-
-// CONCATENATED MODULE: ./src/js/sidebar.js
-function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-
-
-
-
-var sidebar_Sidebar = /*#__PURE__*/function () {
-  function Sidebar(wrapper) {
-    var isExpanded = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-
-    _classCallCheck(this, Sidebar);
-
-    this.breakpoint = window.matchMedia("(min-width: 1100px)");
-    this.wrapper = wrapper;
-    this.logo = wrapper.querySelector(".logo__wrapper");
-    this.logoMini = wrapper.querySelector(".logo__wrapper--mini");
-    this.toggleButton = wrapper.querySelector(".sidebar--toggle");
-    this.navButtons = wrapper.getElementsByClassName("nav-button");
-    this.navItems = wrapper.getElementsByClassName("sidebar__nav-item");
-    this.header = wrapper.querySelector(".sidebar__header");
-    this.nav1 = wrapper.querySelector(".sidebar__nav1");
-    this.nav2 = wrapper.querySelector(".sidebar__nav2");
-    this.isExpanded = isExpanded;
-    this.wrapper.addEventListener("mouseenter", this.toggleButtonSlideOut.bind(this, this.toggleButton), false);
-    this.wrapper.addEventListener("mouseleave", this.toggleButtonSlideIn.bind(this, this.toggleButton), false);
-    this.toggleButton.addEventListener("mouseenter", this.toggleButtonSlideOut.bind(this, this.toggleButton), false);
-    this.toggleButton.style.left = "-40px !important";
-  }
-
-  _createClass(Sidebar, [{
-    key: "toggleButtonSlideIn",
-    value: function toggleButtonSlideIn(toggleButton, event) {
-      toggleButton.style.left = "-40px";
-      toggleButton.style.zIndex = "-1";
-    }
-  }, {
-    key: "toggleButtonSlideOut",
-    value: function toggleButtonSlideOut(toggleButton, event) {
-      toggleButton.style.left = "0px";
-      toggleButton.style.zIndex = "99";
-    }
-  }, {
-    key: "setExpandedState",
-    value: function setExpandedState(bool) {
-      this.isExpanded = bool;
-    }
-  }, {
-    key: "getExpandedState",
-    value: function getExpandedState() {
-      return this.isExpanded;
-    }
-  }, {
-    key: "collapse",
-    value: function collapse() {
-      var content = document.getElementById("content");
-      var footer = document.querySelector("footer");
-      this.logo.style.display = "none";
-      this.logoMini.style.display = "flex";
-
-      var _iterator = _createForOfIteratorHelper(this.navButtons),
-          _step;
-
-      try {
-        for (_iterator.s(); !(_step = _iterator.n()).done;) {
-          var btn = _step.value;
-          btn.classList.add("nav-button--collapsed");
-        }
-      } catch (err) {
-        _iterator.e(err);
-      } finally {
-        _iterator.f();
-      }
-
-      var _iterator2 = _createForOfIteratorHelper(this.navItems),
-          _step2;
-
-      try {
-        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-          var item = _step2.value;
-          item.style.paddingLeft = "0";
-          item.querySelector("svg").style.marginRight = "0";
-          item.querySelector("p").style.marginTop = "5px";
-        }
-      } catch (err) {
-        _iterator2.e(err);
-      } finally {
-        _iterator2.f();
-      }
-
-      this.wrapper.style.width = sidebar_default.a.sidebarWidthSm;
-      this.nav2.style.margin = "calc(16px + 4vh) 0";
-      this.nav2.querySelector(".disclaimer__wrapper p").style.display = "none";
-      content.style.marginLeft = sidebar_default.a.sidebarWidthSm;
-      content.style.maxWidth = "calc(100vw - ".concat(sidebar_default.a.sidebarWidthSm, ")");
-      footer.style.marginLeft = sidebar_default.a.sidebarWidthSm;
-      footer.style.maxWidth = "calc(100vw - ".concat(sidebar_default.a.sidebarWidthSm, ")");
-      this.toggleButton.style.left = "-40px";
-      this.toggleButton.style.marginLeft = sidebar_default.a.sidebarWidthSm;
-      this.setExpandedState(false);
-    }
-  }, {
-    key: "expand",
-    value: function expand() {
-      var content = document.getElementById("content");
-      var footer = document.querySelector("footer");
-      this.logo.style.display = "block";
-      this.logoMini.style.display = "none";
-
-      var _iterator3 = _createForOfIteratorHelper(this.navButtons),
-          _step3;
-
-      try {
-        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-          var item = _step3.value;
-          item.classList.remove("nav-button--collapsed");
-        }
-      } catch (err) {
-        _iterator3.e(err);
-      } finally {
-        _iterator3.f();
-      }
-
-      var _iterator4 = _createForOfIteratorHelper(this.navItems),
-          _step4;
-
-      try {
-        for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
-          var _item = _step4.value;
-          _item.style.paddingLeft = "25px";
-          _item.querySelector("svg").style.marginRight = "25px";
-          _item.querySelector("p").style.marginTop = "0";
-        }
-      } catch (err) {
-        _iterator4.e(err);
-      } finally {
-        _iterator4.f();
-      }
-
-      this.wrapper.style.width = sidebar_default.a.sidebarWidthReg;
-      this.nav2.style.margin = "calc(35px + 5vh) 0";
-      this.nav2.querySelector(".disclaimer__wrapper p").style.display = "block";
-      content.style.marginLeft = sidebar_default.a.sidebarWidthReg;
-      content.style.maxWidth = "calc(100vw - ".concat(sidebar_default.a.sidebarWidthReg, ")");
-      footer.style.marginLeft = sidebar_default.a.sidebarWidthReg;
-      footer.style.maxWidth = "calc(100vw - ".concat(sidebar_default.a.sidebarWidthReg, ")");
-      this.toggleButton.style.top = "0px";
-      this.toggleButton.style.left = "0px";
-      this.toggleButton.style.marginLeft = sidebar_default.a.sidebarWidthReg;
-      this.setExpandedState(true);
-    }
-  }, {
-    key: "toggle",
-    value: function toggle() {
-      if (this.getExpandedState() == true) {
-        this.collapse();
-      } else {
-        this.expand();
-      }
-    }
-  }]);
-
-  return Sidebar;
-}();
-
-/* harmony default export */ var js_sidebar = (sidebar_Sidebar);
-// CONCATENATED MODULE: ./src/main.js
-var _this = undefined;
-
-
-
-
-
-
-var toggleSidebar = function toggleSidebar(sidebarObject, event) {
-  sidebarObject.toggle();
-};
-
-var mediaQueryHandler = function mediaQueryHandler(sidebar, event) {
-  if (event.matches && sidebar.getExpandedState() == true) {
-    /* Viewport is 1330px or less */
-    sidebar.toggle();
-  } else if (!(event.matches || sidebar.getExpandedState() == true)) {
-    sidebar.toggle();
-  }
-};
-
-document.addEventListener("DOMContentLoaded", function () {
-  var sidebarToggle = document.querySelector(".sidebar--toggle");
-  var sidebar = new js_sidebar(document.querySelector(".sidebar__wrapper"));
-  /* Initial media query for page load */
-
-  var mediaQuery = window.matchMedia("(max-width: 1200px)");
-  if (mediaQuery.matches) sidebar.collapse();else sidebar.expand();
-  mediaQuery.addListener(mediaQueryHandler.bind(_this, sidebar));
-  sidebarToggle.addEventListener("click", toggleSidebar.bind(_this, sidebar), false);
-});
 
 /***/ })
-/******/ ]);
+
+/******/ });

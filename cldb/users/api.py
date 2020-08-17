@@ -8,16 +8,25 @@ from rest_framework.permissions import (
 )
 
 from .models import Profile, Bookmark, UserType
-from .serializers import UserSerializer, ProfileSerializer, BookmarkSerializer
+from .serializers import (
+    UserSerializer, ProfileSerializer, BookmarkSerializer, UserTypeSerializer,
+)
 from .permissions import IsOwnerOnly
 
 # pylint: disable=no-member
+
+class UserTypesViewSet(viewsets.ModelViewSet):
+    queryset = UserType.objects.all()
+    serializer_class = UserTypeSerializer
+    permission_classes = [
+        IsAuthenticatedOrReadOnly,
+    ]
 
 class UserProfileViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [
-        "IsAuthenticated"
+        IsAuthenticated
     ]
 
     def create(self, request):

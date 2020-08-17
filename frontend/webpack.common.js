@@ -8,7 +8,13 @@ module.exports = {
         main: "./src/main.js",
         vendor: "./src/vendor.js",
         home: "./src/js/home.js",
+        dashboard: "./src/js/dashboard.js",
+        explore: "./src/js/explore.js",
+        addLocation: "./src/js/add-location.js",
+        settings: "./src/js/settings.js",
+        contact: "./src/js/contact.js",
         login: "./src/js/login-register.js",
+        logout: "./src/js/logout.js",
         location: "./src/js/location.js",
     },
     module: {
@@ -50,44 +56,71 @@ module.exports = {
         new HtmlWebpackPlugin({
             title: "OCH Net",
             filename: "index.html",
-            template: "src/views/template.html",
+            template: "src/views/home.html",
             favicon: "./src/assets/favicon.ico",
             chunks: ["main", "vendor", "home"]
         }),
         new HtmlWebpackPlugin({
             title: "Explore the Network",
-            filename: "explorer.html",
-            template: "src/views/explorer.html",
+            filename: "views/explore.html",
+            template: "src/views/explore.html",
             favicon: "./src/assets/favicon.ico",
-            chunks: ["main", "vendor"]
+            chunks: ["main", "vendor", "explore"]
         }), 
         new HtmlWebpackPlugin({
             title: "Dashboard",
             filename: "views/dashboard.html",
             template: "src/views/dashboard.html",
             favicon: "./src/assets/favicon.ico",
-            chunks: ["main", "vendor"]
-        }),                  
+            chunks: ["main", "vendor", "dashboard"]
+        }),           
+        new HtmlWebpackPlugin({
+            title: "Bookmarks",
+            filename: "views/bookmarks.html",
+            template: "src/views/bookmarks.html",
+            favicon: "./src/assets/favicon.ico",
+            chunks: ["main", "vendor", "dashboard"]
+        }),                 
         new HtmlWebpackPlugin({
             title: "Sign In or Register",
             filename: "login-register.html",
             template: "src/views/login_register.html",
             favicon: "./src/assets/favicon.ico",
             chunks: ["main", "vendor", "login"]
-        }),       
+        }),
+        new HtmlWebpackPlugin({
+            title: "Logged Out",
+            filename: "views/logout.html",
+            template: "src/views/logout.html",
+            favicon: "./src/assets/favicon.ico",
+            chunks: ["main", "vendor", "logout"]
+        }),          
         new HtmlWebpackPlugin({
             title: "Settings",
-            filename: "settings.html",
-            template: "src/views/template.html",
+            filename: "views/settings.html",
+            template: "src/views/settings.html",
             favicon: "./src/assets/favicon.ico",
-            chunks: ["main", "vendor"]
+            chunks: ["main", "vendor", "settings"]
         }),
+        new HtmlWebpackPlugin({
+            title: "Contact and Disclaimer",
+            filename: "views/contact.html",
+            template: "src/views/contact.html",
+            favicon: "./src/assets/favicon.ico",
+            chunks: ["main", "vendor", "contact"]
+        }),        
         new HtmlWebpackPlugin({
             filename: "location.html",
             template: "src/views/location_template.html",
             favicon: "./src/assets/favicon.ico",
             chunks: ["main", "location", "vendor"]
         }),
+        new HtmlWebpackPlugin({
+            filename: "views/add_location.html",
+            template: "src/views/add_location.html",
+            favicon: "./src/assets/favicon.ico",
+            chunks: ["main", "vendor", "addLocation"]
+        }),        
         new HtmlWebpackPartialsPlugin({
             path: path.join(__dirname, "./src/views/partials/sidebar.html"),
             priority: "high",

@@ -81,17 +81,10 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 9);
+/******/ 	return __webpack_require__(__webpack_require__.s = 22);
 /******/ })
 /************************************************************************/
 /******/ ({
-
-/***/ 10:
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
 
 /***/ 2:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -135,108 +128,116 @@ var getCookie = function getCookie(name) {
 
 /***/ }),
 
-/***/ 9:
+/***/ 22:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _scss_login_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
+/* harmony import */ var _scss_login_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(23);
 /* harmony import */ var _scss_login_scss__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_scss_login_scss__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 
 
 
-var getJwtToken = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-    var username, password, apiUrl, token;
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            username = document.getElementById("login-username").value;
-            password = document.getElementById("login-password").value;
-            apiUrl = window.origin + "/api/token/";
-            _context.next = 5;
-            return fetch(apiUrl, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json"
-              },
-              body: JSON.stringify({
-                username: username,
-                password: password
-              })
-            }).then(function (response) {
-              return response.json();
-            });
+var validateRegisterForm = function validateRegisterForm(form) {
+  var requiredFields = form.querySelectorAll(".required + input");
+  var isFormValid = true;
 
-          case 5:
-            token = _context.sent;
-            console.log(token);
+  var _iterator = _createForOfIteratorHelper(requiredFields),
+      _step;
 
-          case 7:
-          case "end":
-            return _context.stop();
-        }
+  try {
+    for (_iterator.s(); !(_step = _iterator.n()).done;) {
+      var input = _step.value;
+      var error = input.nextElementSibling;
+
+      if (input.value == "") {
+        isFormValid = false;
+        input.classList.add("invalid--blank");
+        error.style.display = "block";
+      } else if (input.classList.contains("invalid--blank")) {
+        isFormValid = true;
+        input.classList.remove("invalid--blank");
+        error.style.display = "none";
       }
-    }, _callee);
-  }));
+    }
+  } catch (err) {
+    _iterator.e(err);
+  } finally {
+    _iterator.f();
+  }
 
-  return function getJwtToken() {
-    return _ref.apply(this, arguments);
-  };
-}();
+  var password = form.querySelector("[name='reg-password']");
+  var confirmPassword = form.querySelector("[name='reg-confirm-password']");
+  var errorWrapper = confirmPassword.nextElementSibling;
+  console.log(password);
+  console.log(confirmPassword);
 
-var restoreJwtToken = /*#__PURE__*/function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-    var apiUrl, token;
-    return regeneratorRuntime.wrap(function _callee2$(_context2) {
-      while (1) {
-        switch (_context2.prev = _context2.next) {
-          case 0:
-            apiUrl = window.origin + "/api/token/refresh/";
-            _context2.next = 3;
-            return fetch(apiUrl, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json"
-              },
-              body: JSON.stringify({
-                refresh: refresh
-              })
-            }).then(function (response) {
-              return response.json();
-            });
+  if (password.value !== confirmPassword.value) {
+    isFormValid = false;
+    var errorMessage = errorWrapper.querySelector(".error-message");
+    errorMessage.textContent = "The passwords must match.";
+    errorWrapper.style.display = "block";
+  } else {
+    isFormValid = true;
+    errorWrapper.style.display = "none";
+  }
 
-          case 3:
-            token = _context2.sent;
-            console.log(token);
-
-          case 5:
-          case "end":
-            return _context2.stop();
-        }
-      }
-    }, _callee2);
-  }));
-
-  return function restoreJwtToken() {
-    return _ref2.apply(this, arguments);
-  };
-}();
+  return isFormValid;
+};
 
 document.addEventListener("DOMContentLoaded", function () {
   var loginForm = document.getElementById("login-form");
-  var loginButton = document.getElementById("login-button");
-  loginForm.addEventListener("submit", function (event) {
+  var regForm = document.getElementById("register-form");
+  var apiUrl = "http://127.0.0.1:8000/api/user_types/";
+  fetch(apiUrl, {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  }).then(function (response) {
+    return response.json();
+  }).then(function (json) {
+    var userTypeSelect = document.getElementById("user-type");
+
+    var _iterator2 = _createForOfIteratorHelper(json),
+        _step2;
+
+    try {
+      for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+        var obj = _step2.value;
+        var markup = "<option value=\"".concat(obj.id, "\">").concat(obj.name, "</option>");
+        userTypeSelect.innerHTML += markup;
+      }
+    } catch (err) {
+      _iterator2.e(err);
+    } finally {
+      _iterator2.f();
+    }
+  });
+  regForm.addEventListener("submit", function (event) {
     event.preventDefault();
-    getJwtToken();
+    var regDisclaimer = event.target.querySelector("#disclaimer-ack");
+
+    if (!regDisclaimer.checked) {
+      alert("Please acknowledge that you've read the disclaimer");
+    } else if (validateRegisterForm(event.target) == true) {
+      event.target.submit();
+    }
   });
 });
+
+/***/ }),
+
+/***/ 23:
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
 
 /***/ })
 

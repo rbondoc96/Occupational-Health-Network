@@ -5,9 +5,10 @@ from . import views
 from . import api
 
 urlpatterns = [
-    path('', views.index, name='index'),
+    path("", views.index, name="index"),
+    path("explore/", views.explore, name="explore"),
+    path("add/", views.add_location, name="add_location"),
     path('location/new/', views.new_location, name="new_location"),
-    path('location/search/', views.search, name="search"),
     path(
         'locations/<slug:slug>/', 
         views.LocationDetailView.as_view(), 
@@ -38,7 +39,6 @@ urlpatterns = [
         views.ServiceTimeRangeListView.as_view(), 
         name="service_hours_list"
     ),
-    path("locator/", views.search, name="search"),
     path(
         'api/location/<int:pk>/contacts/add/', 
         api.add_contact_to_location, 
