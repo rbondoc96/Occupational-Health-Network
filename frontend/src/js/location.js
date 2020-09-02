@@ -1,8 +1,11 @@
 import "../scss/location.scss"
-import {timestrConvert} from "./utils"
+import {timestrConvert, timeRangeToString} from "./utils"
 
 import CallableIcon from "../assets/icon-valid.svg"
 import UncallableIcon from "../assets/icon-invalid.svg"
+import CalendarIcon from "../assets/calendar.svg"
+import PhoneIcon from "../assets/phone-icon.svg"
+import MailIcon from "../assets/mail-icon.svg"
 
 var script = document.createElement('script')
 script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyC8i4Dw9T0XlIaLrF7-RpIV7yYkXaJLAso&callback=initMap&libraries=places'
@@ -121,18 +124,10 @@ const setServicesText = function(elem, objList) {
 }
 
 const setTimeRangeText = function(elem, range1, range2) {
-    let rangeText
-
-    range1 = timestrConvert(range1)
-    range2 = timestrConvert(range2)
-
-    if(range1 == "00:00:00" && range2 == "00:00:00")
-        rangeText = "CLOSED"
-    else if(range1 == "12:00:00" && range2 == "12:00:00") 
-        rangeText = "Open 24 Hours"
-    else {
-        rangeText = `${range1} to ${range2}`
-    }
+    let rangeText = timeRangeToString(
+        timestrConvert(range1), 
+        timestrConvert(range2)
+    )
     elem.appendChild(document.createTextNode(rangeText))
 }
 
@@ -144,45 +139,42 @@ const setServiceHoursList = function(elem, objList) {
 
         elem.appendChild(sectionHeader)
 
-        let subSection = document.createElement("ul")
-        subSection.setAttribute("class", "content__main__list row")
+        let list = document.createElement("ul")
+        list.setAttribute("class", "content__main__list row")
         for(let item of objList) {
-            let card = document.createElement("li")
-            card.setAttribute("class", "content__main__list-card col-md-4 mb-4")
-            
-            let name = document.createElement("strong")
-            name.setAttribute("class", "service-hour__service")
-            name.appendChild(document.createTextNode(item.name + ": "))
+            let days
 
-            let timeRange = document.createElement("span")
-            timeRange.setAttribute("class", "service-hour__time")
-            setTimeRangeText(timeRange, item.start_time, item.end_time)
-
-            card.appendChild(name)
-            card.appendChild(timeRange)
-            
             if(item.days[0] != null || item.days.length > 0) {
-                let days = document.createElement("div")
-                days.setAttribute("class", "service-hour__days")
-                let daysLabel = document.createElement("span")
-                daysLabel.appendChild(document.createTextNode("Days Offered:"))
-                daysLabel.setAttribute("class", "service-hour__days-label")
-
                 let abbrevList = []
                 for(let day of item.days) {
                     abbrevList.push(day.abbreviation)
                 }
-
-                let daysList = document.createElement("span")
-                daysList.appendChild(document.createTextNode(abbrevList.join(", ")))
-
-                days.append(daysLabel)
-                days.append(daysList)
-                card.append(days)
+    
+                days = `
+                    <div class="service-hour__days">
+                        <img src="${CalendarIcon}" class="service-hour__days-label" title="Days Offered">
+                        <span>${abbrevList.join(", ")}</span>
+                    </div>
+                `
+            } else {
+                days = ""
             }
-            subSection.append(card)
+
+            let markup = `
+                <li class="content__main__list-card col-md-4 mb-4">
+                    <strong class="service-hour__service">
+                        ${item.name}: 
+                    </strong>
+                    <span class="service-hour__time">
+                        ${timeRangeToString(timestrConvert(item.start_time), timestrConvert(item.end_time))}
+                    </span>
+                    ${days}
+                </li>
+            `
+
+            list.innerHTML += markup
         }
-        elem.appendChild(subSection)
+        elem.appendChild(list)
     }
 }
 
@@ -197,56 +189,35 @@ const setContactsList = function(elem, objList) {
         let subSection = document.createElement("ul")
         subSection.setAttribute("class", "content__main__list row")
         for(let item of objList) {
-            let card = document.createElement("li")
-            card.setAttribute("class", "content__main__list-card col-md-6 mb-4")
-            
-            let name = document.createElement("strong")
-            name.setAttribute("class", "contact__name")
-            name.appendChild(document.createTextNode(item.name))
-
-            card.append(name)
-
-            if(item.title != "" && item.title != null) {
-                let title = document.createElement("span")
-                title.setAttribute("class", "contact__title")
-                title.appendChild(document.createTextNode("- " + item.title))
-
-                card.append(title)
-            }
-
-            if(item.phone != "" && item.phone != null) {
-                let block = document.createElement("div")
-                block.setAttribute("class", "contact__phone__section")
-
-                let label = document.createElement("span")
-                label.appendChild(document.createTextNode("Phone: "))
-
-                let phone = document.createElement("span")
-                phone.setAttribute("class", "contact__phone")
-                phone.appendChild(document.createTextNode(item.phone))
-
-                block.append(label)
-                block.append(phone)
-
-                card.append(block)
-            }
-            if(item.email != "" && item.email != null) {
-                let block = document.createElement("div")
-                block.setAttribute("class", "contact__email__section")
-
-                let label = document.createElement("span")
-                label.appendChild(document.createTextNode("Email: "))
-
-                let email = document.createElement("span")
-                email.setAttribute("class", "contact__email")
-                email.appendChild(document.createTextNode(item.email))
-
-                block.append(label)
-                block.append(email)
-
-                card.append(block)
-            }
-            subSection.append(card)
+            let markup = `
+                <li class="content__main__list-card col-md-6 mb-4">
+                    <strong class="contact__name">
+                        ${item.name}
+                    </strong>
+                    ${(item.title !== "" && item.title != null) ? 
+                            `
+                            <span class="contact__title"> - ${item.title}</span>
+                            `:``
+                    }
+                    ${(item.phone != "" && item.phone != null) ? 
+                        `
+                        <div class="contact__phone__section">
+                            <span><img src="${PhoneIcon}" title="Phone #" alt="phone icon"></span>
+                            <span class="contact__phone">${item.phone}</span>
+                        </div>
+                        `:""
+                    }
+                    ${(item.email != "" && item.email != null) ?
+                        `
+                        <div class="contact__email__section">
+                            <span><img src="${MailIcon}" title="Email Address" alt="email icon"></span>
+                            <span class="contact__email">${item.email}</span>
+                        </div>
+                        `:""
+                    }
+                </li>
+            `
+            subSection.innerHTML += markup
         }
         elem.append(subSection)
     }
@@ -269,48 +240,27 @@ const setComments = function(elem, value) {
 }
 
 const setAddress = function(elem, obj) {
-    console.log(obj)
     if(obj != null) {
-        let container = document.createElement("div")
-        container.setAttribute("class", "address")
-        let line1 = document.createElement("div")
-        line1.appendChild(
-            document.createTextNode(obj.street1)
-        )
-        line1.setAttribute("class", "address__line1")
-        container.appendChild(line1)
-
-        if(obj.street2 != "" && obj.street2 != null) {
-            let line2 = document.createElement("div")
-            line2.setAttribute("class", "address__line2")
-            line2.appendChild(
-                document.createTextNode(obj.street2)
-            )
-
-            container.appendChild(line2)
-        }
-
-        let line3 = document.createElement("div")
-        let city = document.createElement("span")
-        city.setAttribute("class", "address__city")
-        city.appendChild(document.createTextNode(
-            ` ${obj.city} `
-        ))
-        let state = document.createElement("span")
-        state.setAttribute("class", "address__state")
-        state.appendChild(document.createTextNode(
-            `${obj.state}, `
-        ))
-        let zipcode = document.createElement("span")
-        zipcode.setAttribute("class", "address__zipcode")
-        zipcode.appendChild(document.createTextNode(
-            `${obj.zipcode}`
-        ))
-        container.appendChild(city)
-        container.appendChild(state)
-        container.appendChild(zipcode)
-        line3.setAttribute("class", "address__line3")
-        elem.appendChild(container)
+        let markup = `
+            <div class="address">
+                <div class="address__line1">
+                    ${obj.street1}
+                </div>
+                ${(obj.street2 != "" && obj.street2 != null) ? 
+                    `
+                        <div class="address__line2">
+                            ${obj.street2}
+                        </div>
+                    `:""
+                }
+                <div class="address__line3">
+                    <span class="address__city">${obj.city}</span>
+                    <span class="address__state">${obj.state}</span>
+                    <span class="address__zipcode">${obj.zipcode}</span>
+                </div>
+            </div>
+        `
+        elem.innerHTML += markup
     }
 }
 
@@ -318,25 +268,34 @@ const setBusinessHoursList = function(elem, objList) {
     console.log(objList)
     if(objList.length > 0) {
 
-        let businessHours = document.createElement("ul")
-        businessHours.setAttribute("class", "business-hour__list")
+        let list = document.createElement("ul")
+        list.setAttribute("class", "business-hour__list")
         for(let obj of objList) {
-            let entry = document.createElement("li")
-            entry.setAttribute("class", "business-hour__entry")
+            let markup = `
+                <li class="business-hour__entry">
+                    <strong class="business-hour__day">${obj.day.name}: </strong>
+                    <span class="business-hour__time">${timeRangeToString(
+                        timestrConvert(obj.start_time), 
+                        timestrConvert(obj.end_time)
+                    )}</span>
+                </li>
+            `
+            // let entry = document.createElement("li")
+            // entry.setAttribute("class", "business-hour__entry")
 
-            let label = document.createElement("strong")
-            label.setAttribute("class", "business-hour__day")
-            label.appendChild(document.createTextNode(obj.day.name + ": "))
+            // let label = document.createElement("strong")
+            // label.setAttribute("class", "business-hour__day")
+            // label.appendChild(document.createTextNode(obj.day.name + ": "))
 
-            let timeRange = document.createElement("span")
-            timeRange.setAttribute("class", "business-hour__time")
-            setTimeRangeText(timeRange, obj.start_time, obj.end_time)
+            // let timeRange = document.createElement("span")
+            // timeRange.setAttribute("class", "business-hour__time")
+            // setTimeRangeText(timeRange, obj.start_time, obj.end_time)
 
-            entry.appendChild(label)
-            entry.appendChild(timeRange)
-            businessHours.appendChild(entry)
+            // entry.appendChild(label)
+            // entry.appendChild(timeRange)
+            list.innerHTML += markup
         }
-        elem.appendChild(businessHours)
+        elem.appendChild(list)
     }
 }
 

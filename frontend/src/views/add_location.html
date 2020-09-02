@@ -16,44 +16,81 @@
                 </section>
             </div>
             <div class="row">
-                <section class="col-md-12">
+                <section class="col-md-10">
                     <form id="location-form" method="POST">
-                        {% csrf_token %}
                         <div class="row">
-                            <div class="form-field col-md-8">
-                                <label for="clinic-type" class="required input-header">Clinic Type</label>
-                                <select id="clinic-type" name="clinic-type"></select>
-                            </div>
+                            <select-field class="col-md-12">
+                                <label slot="label"for="clinic-type">
+                                    Clinic Type
+                                </label>
+                                <select 
+                                required
+                                slot="select"
+                                id="clinic-type" 
+                                name="clinic-type">
+                                    <option value="">None</option>
+                                </select>
+                            </select-field>
                         </div>
                         <div class="row">
-                            <div class="form-field col-md-4">
-                                <label for="clinic-name" class="required input-header">Clinic Name</label>
-                                <input id="clinic-name" name="clinic-name" type="text">
-                            </div>
-                            <div class="form-field col-md-4">
-                                <label for="branch-name" class="input-header">Branch Name</label>
-                                <input id="branch-name" name="branch-name" type="text">
-                            </div>
+                            <text-field class="col-md-6">
+                                <label slot="label" for="clinic-name">Clinic Name</label>
+                                <span slot="info">Name of the clinic or company</span>
+                                <input 
+                                required
+                                slot="input"
+                                id="clinic-name" 
+                                name="clinic-name" 
+                                type="text">
+                            </text-field>
+                            <text-field class="col-md-6">
+                                <label slot="label" for="branch-name">Branch Name</label>
+                                <span slot="info">Optional, usually applicable to larger companies</span>
+                                <input 
+                                slot="input"
+                                id="branch-name" 
+                                name="branch-name" 
+                                type="text">
+                            </text-field>
                         </div>
                         <div class="row">
-                            <div class="form-field col-md-4">
-                                <label for="street-line-1" class="required input-header">Street Line 1</label>
-                                <input id="street-line-1" name="street-line-1" type="text">
-                            </div>
-                            <div class="form-field col-md-4">
-                                <label for="street-line-2" class="input-header">Street Line 2</label>
-                                <input id="street-line-2" name="street-line-2" type="text">
-                            </div>
-                        </div>
-                        
+                            <text-field class="col-md-6">
+                                <label slot="label" for="street-line-1">Street Line 1</label>
+                                <input 
+                                required
+                                slot="input"
+                                id="street-line-1" 
+                                name="street-line-1" 
+                                type="text">
+                            </text-field>
+                            <text-field class="col-md-6">
+                                <label slot="label" for="street-line-2">Street Line 2</label>
+                                <span slot="info">Building, Suite #, etc.</span>
+                                <input 
+                                slot="input"
+                                id="street-line-2" 
+                                name="street-line-2" 
+                                type="text">
+                            </text-field>                            
+                        </div>                    
                         <div class="row">
-                            <div class="form-field col-md-4">
-                                <label for="city" class="required input-header">City</label>
-                                <input id="city" name="city" type="text">
-                            </div>
-                            <div class="form-field col-md-1">
-                                <label for="state" class="required input-header">State</label>
-                                <select id="state" name="state">
+                            <text-field  class="col-md-6">
+                                <label slot="label" for="city">City</label>
+                                <input 
+                                required
+                                slot="input"
+                                id="city" 
+                                name="city" 
+                                type="text">
+                            </text-field> 
+                            <select-field  class="col-md-2">
+                                <label slot="label" for="state">State</label>
+                                <select 
+                                required
+                                slot="select"
+                                id="state"
+                                name="state">
+                                    <option value=""></option>
                                     <option value="AL">AL</option>
                                     <option value="AK">AK</option>
                                     <option value="AR">AR</option>	
@@ -105,69 +142,119 @@
                                     <option value="WI">WI</option>	
                                     <option value="WV">WV</option>
                                     <option value="WY">WY</option>
-                                </select>
-                            </div>
-                            <div class="form-field col-md-3">
-                                <label for="zipcode" class="required input-header">Zip Code</label>
-                                <input id="zipcode" name="zipcode" type="text">
-                            </div>                            
+                                <select>
+                            </select-field>
+                            <text-field class="col-md-4" validator="zipcode">
+                                <label slot="label" for="zipcode">Zipcode</label>
+                                <span slot="info">Ex: 12345 or 12345-6789</span>
+                                <input 
+                                required
+                                slot="input"
+                                id="zipcode" 
+                                name="zipcode" 
+                                type="text">
+                            </text-field>                            
                         </div>     
                         <div class="row">
-                            <div class="form-field col-md-4">
-                                <label for="phone" class="input-header">Phone #</label>
-                                <input id="phone" name="phone" type="text">
-                            </div>
-                            <div class="form-field col-md-4">
-                                <label for="fax" class="input-header">Fax #</label>
-                                <input id="fax" name="fax" type="text">
-                            </div>
-                        </div>            
+                            <text-field validator="phone-ext" class="col-md-6">
+                                <label slot="label" for="phone">Phone #</label>
+                                <span slot="info">Ex: (123) 343-3423 or 123-456-7890 x123456 (1-6 digit extension)</span>
+                                <input
+                                slot="input"
+                                id="phone"
+                                name="phone"
+                                type="text">
+                            </text-field >
+                            <text-field validator="phone" class="col-md-6">
+                                <label slot="label" for="fax">Fax #</label>
+                                <span slot="info">Ex: (123) 456-7890 or 123-456-7890</span>
+                                <input
+                                slot="input"
+                                id="fax"
+                                name="fax"
+                                type="text">
+                            </text-field> 
+                        </div> 
                         <div class="row">
-                            <div class="form-field col-md-8">
-                                <label for="website" class="input-header">Website</label>
-                                <input id="website" name="website" type="url">
-                            </div>
+                            <checkbox-field class="col-md-12">
+                                <label slot="label" for="is-phone-callable">Will a human answer this phone?</label>
+                                <input 
+                                slot="input"
+                                type="checkbox" 
+                                name="is-phone-callable" 
+                                id="is-phone-callable" 
+                                value="true">
+                            </checkbox-field>
+                        </div>           
+                        <div class="row">
+                            <text-field validator="url" class="col-md-12">
+                                <label slot="label" for="website">Website URL</label>
+                                <input 
+                                slot="input"
+                                id="website" 
+                                name="website" 
+                                type="url">
+                            </text-field> 
                         </div>        
                         <div class="row">
-                            <div class="form-field col-md-8">
-                                <label for="services" class="required input-header">Services Offered</label>
-                                <select id="services" name="services" multiple></select>
-                            </div>
+                            <select-field class="col-md-12">
+                                <label slot="label" for="services">Services Offered</label>
+                                <span slot="info">To select multiple services, hold CTRL while clicking.</span>
+                                <select
+                                required 
+                                multiple
+                                slot="select"
+                                id="services" 
+                                name="services"></select>
+                            </select-field>
                         </div> 
-                        <!-- Service Hours -->        
+                        <!-- Service Hours -->  
                         <div class="row">
-                            <div class="form-field col-md-8">
-                                <label class="input-header">Service Hours</label>
-                                <button type="button" id="service-hours-toggle"class="button button-primary--blue">
-                                    Add a Service
-                                </button>
-
-                                <div class="sliding-form" id="service-hours-form">
+                            <div id="service-hours-form" class="col-md-12 subform">
+                                <div class="subform-header">
+                                    <h4>Service Hours</h4>
+                                    <button 
+                                    type="button"
+                                    id="service-hours-toggle"
+                                    class="button button-primary--blue col-md-12">Add a Service</button>
+                                </div>
+                                <div class="subform-content">
                                     <div class="row">
-                                       <div class="col-md-12">
-                                            <h4>Add a Service Hour</h4>
-                                       </div>
+                                        <select-field class="col-md-12">
+                                            <label slot="label" for="simple-services">Select a Service</label>
+                                            <select 
+                                            slot="select"
+                                            name="simple-services"
+                                            class="no-send"></select>
+                                        </select-field>
+                                    </div>
+                                    <div class="row"> 
+                                        <text-field validator="time" class="col-md-6">
+                                            <label slot="label" for="service-start-time">Start Time</label>
+                                            <span slot="info">Format: 12:00 PM or 12:00 pm</span>
+                                            <input
+                                            slot="input"
+                                            type="text"
+                                            name="service-start-time"
+                                            class="no-send">
+                                        </text-field>
+                                        <text-field validator="time" class="col-md-6">
+                                            <label slot="label" for="service-end-time">End Time</label>
+                                            <span slot="info">Format: 12:00 PM or 12:00 pm</span>
+                                            <input
+                                            slot="input"
+                                            type="text"
+                                            name="service-end-time"
+                                            class="no-send">
+                                        </text-field>                                        
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-12 form-field">
-                                            <label class="input-header" for="simple-services">Select a Service</label>
-                                            <select name="simple-services" class="no-send"></select>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6 form-field">
-                                            <label class="input-header" for="service-start-time">Start Time</label>
-                                            <input type="text" name="service-start-time"class="time no-send">
-                                        </div>
-                                        <div class="col-md-6 form-field">
-                                            <label class="input-header" for="service-end-time">End Time</label>
-                                            <input type="text" name="service-end-time" class="time no-send">
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12 form-field">
-                                            <label class="input-header">Days Offered</label>
-                                            <select name="service-days-offered" 
+                                        <select-field class="col-md-12">
+                                            <label slot="label">Days Offered</label>
+                                            <span slot="info">To select multiple services, hold CTRL while clicking.</span>
+                                            <select
+                                            slot="select"
+                                            name="service-days-offered"
                                             class="no-send"
                                             multiple>
                                                 <option value="1">Monday</option>
@@ -178,20 +265,19 @@
                                                 <option value="6">Saturday</option>
                                                 <option value="7">Sunday</option>
                                             </select>
-                                        </div>
+                                        </select-field>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-12 form-field">
-                                            <button type="button" id="service-hours-submit"
-                                            class="button button-secondary--blue">Add Entry</button>
-                                        </div>
-                                    </div>                                    
-                                </div>
-                                <div class="hidden-list service-hours__list-wrapper">
-                                    <div class="row">
                                         <div class="col-md-12">
-                                            <h4>Entries:</h4>
+                                            <button type="button" id="service-hours-submit"
+                                            class="button button-secondary--blue col-md-12">Add Entry</button>
                                         </div>
+                                    </div>                                       
+                                </div>
+                                <div class="hidden-list">
+                                    <div class="col-md-12">
+                                        <h4>Service Hour Entries:</h4>
+                                        <p style="margin-bottom: 15px;">Double click an entry to delete it from the list</p>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
@@ -202,25 +288,24 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>   
+                        </div>
                         <!-- Business Hours -->          
                         <div class="row">
-                            <div class="form-field col-md-8">
-                                <label class="input-header">Business Hours</label>
-                                <button type="button" id="business-hours-toggle"
-                                class="button button-primary--blue">
-                                    Add a Day
-                                </button>
-                                <div class="sliding-form" id="business-hours-form">
+                            <div id="business-hours-form" class="col-md-12 subform">
+                                <div class="subform-header">
+                                    <h4>Business Hours</h4>
+                                    <button type="button" id="business-hours-toggle"
+                                    class="button button-primary--blue col-md-12">
+                                        Add a Day
+                                    </button>
+                                </div>
+                                <div class="subform-content">
                                     <div class="row">
-                                       <div class="col-md-12">
-                                            <h4>Add a Day</h4>
-                                       </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12 form-field">
-                                            <label class="input-header" for="business-day">Select a Day</label>
-                                            <select name="business-day"
+                                        <select-field class="col-md-12">
+                                            <label slot="label" for="business-day">Select a Day</label>
+                                            <select 
+                                            slot="select"
+                                            name="business-day"
                                             class="no-send">
                                                 <option value="1">Monday</option>
                                                 <option value="2">Tuesday</option>
@@ -230,39 +315,60 @@
                                                 <option value="6">Saturday</option>
                                                 <option value="7">Sunday</option>
                                             </select>
-                                        </div>
+                                        </select-field>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-6 form-field">
-                                            <label class="input-header" for="business-start-time">Start Time</label>
-                                            <input type="text" name="business-start-time" class="time no-send">
-                                        </div>
-                                        <div class="col-md-6 form-field">
-                                            <label class="input-header" for="business-end-time">End Time</label>
-                                            <input type="text" name="business-end-time"class="time no-send">
-                                        </div>
+                                        <text-field class="col-md-6" validator="time">
+                                            <label slot="label"for="business-start-time">Start Time</label>
+                                            <span slot="info">Format: 12:00 PM or 12:00 pm</span>
+                                            <input 
+                                            slot="input"
+                                            type="text" 
+                                            name="business-start-time" 
+                                            class="no-send">
+                                        </text-field>
+                                        <text-field class="col-md-6" validator="time">
+                                            <label slot="label"for="business-end-time">End Time</label>
+                                            <span slot="info">Format: 12:00 PM or 12:00 pm</span>
+                                            <input 
+                                            slot="input"
+                                            type="text" 
+                                            name="business-end-time" 
+                                            class="no-send">
+                                        </text-field>                                        
                                     </div>
                                     <div class="row">
-                                        <div class='col-md-6 checkbox-field'>
-                                            <input type="checkbox" name="is-closed" id="is-closed" class="no-send">
-                                            <label for="is-closed">Closed</label>
-                                        </div>     
-                                        <div class='col-md-6 checkbox-field'>
-                                            <input type="checkbox" name="is-24hours" id="is-24hours" class="no-send">
-                                            <label for="is-24hours">Open 24 Hours</label>
-                                        </div> 
+                                        <checkbox-field class="col-md-6">
+                                            <label slot="label" for="is-closed">Closed</label>
+                                            <input
+                                            data-status="invalid"
+                                            slot="input" 
+                                            type="checkbox"  
+                                            name="is-closed" 
+                                            id="is-closed">
+                                        </checkbox-field>            
+                                        <checkbox-field class="col-md-6">
+                                            <label slot="label" for="is-24hours">Open 24 Hours</label>
+                                            <input
+                                            data-status="invalid"
+                                            slot="input" 
+                                            type="checkbox"  
+                                            name="is-24hours" 
+                                            id="is-24hours">
+                                        </checkbox-field>                                                                           
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-12 form-field">
-                                            <button type="button" id="business-hours-submit"
-                                            class="button button-secondary--blue">Add Entry</button>
-                                        </div>
-                                    </div>                                    
-                                </div>   
-                                <div class="hidden-list business-hours__list-wrapper">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <h4>Entries:</h4>
+                                            <button type="button" id="business-hours-submit"
+                                            class="button button-secondary--blue col-md-12">Add Entry</button>
+                                        </div>
+                                    </div>                                    
+                                </div>
+                                <div class="hidden-list">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h4>Business Hour Entries:</h4>
+                                            <p style="margin-bottom: 15px;">Double click an entry to delete it from the list</p>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -274,60 +380,72 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> 
-                        <!-- Contacts -->        
+                        </div>      
+                        <!-- Contacts -->
                         <div class="row">
-                            <div class="form-field col-md-8">
-                                <label class="input-header">Contacts</label>
-                                <button type="button" id="contacts-toggle"
-                                class="button button-primary--blue">
-                                    Add a Contact
-                                </button>
-                                <div class="sliding-form" id="contacts-form">
+                            <div id="contacts-form" class="col-md-12 subform">
+                                <div class="subform-header">
+                                    <h4>Contacts</h4>
+                                    <button type="button" id="contacts-toggle"
+                                    class="button button-primary--blue col-md-12">
+                                        Add a Contact
+                                    </button>
+                                </div>
+                                <div class="subform-content">
                                     <div class="row">
-                                       <div class="col-md-12">
-                                            <h4>Add a Contact</h4>
-                                       </div>
+                                        <text-field class="col-md-12">
+                                            <label slot="label" for="contact-name">Contact Name</label>
+                                            <input 
+                                            slot="input"
+                                            type="text" 
+                                            name="contact-name"
+                                            class="no-send">
+                                        </text-field>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-12 form-field">
-                                            <label class="input-header" for="contact-name">Contact Name</label>
-                                            <input type="text" name="contact-name"
+                                        <text-field class="col-md-12">
+                                            <label slot="label" for="contact-title">Title/Position</label>
+                                            <span slot="info">(Optional) To specify people with special purposes</span>
+                                            <input 
+                                            slot="input"
+                                            type="text" 
+                                            name="contact-title"
                                             class="no-send">
-                                        </div>
+                                        </text-field>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-12 form-field">
-                                            <label class="input-header" for="contact-title">Title/Position</label>
-                                            <input type="text" name="contact-title"
+                                        <text-field class="col-md-12" validator="email">
+                                            <label slot="label" for="contact-email">Contact Email</label>
+                                            <input 
+                                            slot="input"
+                                            type="text" 
+                                            name="contact-email"
                                             class="no-send">
-                                        </div>
-                                    </div>                                    
-                                    <div class="row">
-                                        <div class="col-md-12 form-field">
-                                            <label class="input-header" for="contact-email">Contact Email</label>
-                                            <input type="text" name="contact-email"
-                                            class="no-send">
-                                        </div>
+                                        </text-field>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-12 form-field">
-                                            <label class="input-header" for="contact-phone">Contact Phone</label>
-                                            <input type="text" name="contact-phone"
+                                        <text-field class="col-md-12" validator="phone-ext">
+                                            <label slot="label" for="contact-phone">Contact Phone</label>
+                                            <span slot="info">Ex: (123) 456-7890 x123456 or 123-456-7890</span>
+                                            <input 
+                                            slot="input"
+                                            type="text" 
+                                            name="contact-phone"
                                             class="no-send">
-                                        </div>
+                                        </text-field>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-12 form-field">
+                                        <div class="col-md-12">
                                             <button type="button" id="contacts-submit"
-                                            class="button button-secondary--blue">Add Entry</button>
+                                            class="button button-secondary--blue col-md-12">Add Entry</button>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="hidden-list contacts__list-wrapper">
+                                <div class="hidden-list">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <h4>Entries:</h4>
+                                            <h4>Contact Entries:</h4>
+                                            <p style="margin-bottom: 15px;">Double click an entry to delete it from the list</p>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -337,30 +455,33 @@
                                             </ul>
                                         </div>
                                     </div>
-                                </div>                                
+                                </div>                                 
                             </div>
-                        </div>  
-                        <div class="row">
-                            <div class="form-field col-md-8">
-                                <label class="input-header">Authorization Methods</label>
+                        </div>       
+                        <div class="row mt-4">
+                            <div class="col-md-12">
+                                <h4>Authorization Methods</h4>
                                 <div id="auth-methods__wrapper">
 
                                 </div>
                             </div>
                         </div>  
-                        <div class="row">
-                            <div class="form-field col-md-8">
-                                <label class="input-header">Chain of Custody Forms Accepted</label>
+                        <div class="row mt-4">
+                            <div class="col-md-12">
+                                <h4>Chain of Custody Forms Accepted</h4>
                                 <div id="coc-forms__wrapper">
 
                                 </div>
                             </div>
                         </div>  
-                        <div class="row">
-                            <div class="form-field col-md-8">
-                                <label for="comments" class="input-header">Comments</label>
-                                <textarea id="comments" name="comments"></textarea>
-                            </div>
+                        <div class="row mt-2">
+                            <text-field class="col-md-12">
+                                <label slot="label" for="comments">Comments</label>
+                                <textarea 
+                                slot="input"
+                                id="comments" 
+                                name="comments"></textarea>
+                            </text-field>
                         </div>      
                         <div class="row">
                             <div class="form-field col-md-8">

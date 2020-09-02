@@ -151,6 +151,7 @@ class ServiceTimeRangeCreateSerializer(serializers.ModelSerializer):
             "name",
             "start_time",
             "end_time",
+            "days",
         ]
 
 class DetailedContactsSerializer(serializers.ModelSerializer):

@@ -14,17 +14,16 @@ from .models import Profile
 
 def login_register_view(request):
     if request.method == "POST":
-        print("request.POST")
-        print(request.POST)
         data = request.POST
+        print(data)
 
         if data is not None: 
-
             username = data.get("login-username")
             if username is not None and username != "":
                 password = data.get("login-password")
 
                 user = authenticate(request, username=username, password=password)
+                print(user)
 
                 if user is not None:
                     login(request, user)
@@ -38,7 +37,7 @@ def login_register_view(request):
                 f_name = data.get("reg-firstname")
                 l_name = data.get("reg-lastname")
 
-                user = User.objects.create(
+                user = User.objects.create_user(
                     username=username,
                     password=password,
                     email=email,
@@ -84,5 +83,5 @@ def settings(request):
     else:
         return redirect("login_register")
 
-def contact_and_disclaimer(request):
-    return render(request, "views/contact.html")
+def disclaimer(request):
+    return render(request, "views/disclaimer.html")

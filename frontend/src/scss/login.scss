@@ -4,6 +4,11 @@ h2 {
     margin: 20px 0;
 }
 
+checkbox-field label {
+    font-weight: 400;
+    font-size: 0.8rem;
+}
+
 .content__header {
 
     p {
@@ -38,18 +43,14 @@ label {
 
 .register-section {
     max-width: 400px;
-    #register-form {
-        .input__checkbox-wrapper {
-            display: flex;
-            margin: 15px 0;
 
-            label {
-                margin-top: -3px;
-                margin-left: 10px;
+    text-field, select-field {
+        height: 83px;
+    }
 
-                font-weight: 400;
-            }
-        }
+    select-field {
+        position: relative;
+        top: 12px;
     }
 }
 

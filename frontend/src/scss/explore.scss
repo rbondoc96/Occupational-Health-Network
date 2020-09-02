@@ -1,0 +1,15 @@
+text-field {
+    display: inline-block;
+}
+
+.results-box {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+
+    .results {
+        width: 100%;
+        height: 600px;
+        overflow-y: auto;
+    }
+}

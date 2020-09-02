@@ -81,25 +81,30 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 27);
+/******/ 	return __webpack_require__(__webpack_require__.s = 34);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 2:
+/***/ 0:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return timestrConvert; });
-/* unused harmony export getCookie */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return timestrConvert; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getCookie; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return timeRangeToString; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return lookup; });
 var timestrConvert = function timestrConvert(timeStr) {
   var tokens = timeStr.split(":");
+  console.log("converting" + timeStr);
   var hour = parseInt(tokens[0]);
   var meridian = "AM";
 
   if (hour >= 12) {
     meridian = "PM";
     if (hour > 12) hour -= 12;
+  } else if (hour == 0) {
+    hour = 12;
   }
 
   return "".concat(hour, ":").concat(tokens[1], " ").concat(meridian);
@@ -124,18 +129,31 @@ var getCookie = function getCookie(name) {
   return cookieValue;
 };
 
+var timeRangeToString = function timeRangeToString(time1, time2) {
+  if (time1 == "11:59 PM" && time2 == "11:59 PM") return "Closed";else if (time1 == "12:00 AM" && time2 == "12:00 AM") return "Open 24 Hours";else return "".concat(time1, " to ").concat(time2);
+};
+
+var lookup = function lookup(endpoint, callback, options) {
+  var apiUrl = "http://127.0.0.1:8000/api/" + endpoint + "/";
+  fetch(apiUrl, options).then(function (response) {
+    return response.json();
+  }).then(function (json) {
+    return callback(json);
+  });
+};
+
 
 
 /***/ }),
 
-/***/ 26:
+/***/ 29:
 /***/ (function(module, exports, __webpack_require__) {
 
 // extracted by mini-css-extract-plugin
 
 /***/ }),
 
-/***/ 27:
+/***/ 34:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -143,15 +161,22 @@ var getCookie = function getCookie(name) {
 __webpack_require__.r(__webpack_exports__);
 
 // EXTERNAL MODULE: ./src/scss/location.scss
-var scss_location = __webpack_require__(26);
+var scss_location = __webpack_require__(29);
 
 // EXTERNAL MODULE: ./src/js/utils.js
-var utils = __webpack_require__(2);
+var utils = __webpack_require__(0);
 
 // CONCATENATED MODULE: ./src/assets/icon-valid.svg
 /* harmony default export */ var icon_valid = (__webpack_require__.p + "assets/icon-valid.svg");
 // CONCATENATED MODULE: ./src/assets/icon-invalid.svg
 /* harmony default export */ var icon_invalid = (__webpack_require__.p + "assets/icon-invalid.svg");
+// CONCATENATED MODULE: ./src/assets/calendar.svg
+/* harmony default export */ var calendar = (__webpack_require__.p + "assets/calendar.svg");
+// EXTERNAL MODULE: ./src/assets/phone-icon.svg
+var phone_icon = __webpack_require__(6);
+
+// CONCATENATED MODULE: ./src/assets/mail-icon.svg
+/* harmony default export */ var mail_icon = (__webpack_require__.p + "assets/mail-icon.svg");
 // CONCATENATED MODULE: ./src/js/location.js
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -162,6 +187,9 @@ function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symb
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+
+
 
 
 
@@ -320,23 +348,18 @@ var setServicesText = function setServicesText(elem, objList) {
 };
 
 var location_setTimeRangeText = function setTimeRangeText(elem, range1, range2) {
-  var rangeText;
-  range1 = Object(utils["a" /* timestrConvert */])(range1);
-  range2 = Object(utils["a" /* timestrConvert */])(range2);
-  if (range1 == "00:00:00" && range2 == "00:00:00") rangeText = "CLOSED";else if (range1 == "12:00:00" && range2 == "12:00:00") rangeText = "Open 24 Hours";else {
-    rangeText = "".concat(range1, " to ").concat(range2);
-  }
+  var rangeText = Object(utils["c" /* timeRangeToString */])(Object(utils["d" /* timestrConvert */])(range1), Object(utils["d" /* timestrConvert */])(range2));
   elem.appendChild(document.createTextNode(rangeText));
 };
 
-var setServiceHoursList = function setServiceHoursList(elem, objList) {
+var location_setServiceHoursList = function setServiceHoursList(elem, objList) {
   if (objList.length > 0) {
     var sectionHeader = document.createElement("h2");
     sectionHeader.setAttribute("class", "content__main__header");
     sectionHeader.appendChild(document.createTextNode("Service Hours"));
     elem.appendChild(sectionHeader);
-    var subSection = document.createElement("ul");
-    subSection.setAttribute("class", "content__main__list row");
+    var list = document.createElement("ul");
+    list.setAttribute("class", "content__main__list row");
 
     var _iterator5 = _createForOfIteratorHelper(objList),
         _step5;
@@ -344,23 +367,9 @@ var setServiceHoursList = function setServiceHoursList(elem, objList) {
     try {
       for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
         var item = _step5.value;
-        var card = document.createElement("li");
-        card.setAttribute("class", "content__main__list-card col-md-4 mb-4");
-        var name = document.createElement("strong");
-        name.setAttribute("class", "service-hour__service");
-        name.appendChild(document.createTextNode(item.name + ": "));
-        var timeRange = document.createElement("span");
-        timeRange.setAttribute("class", "service-hour__time");
-        location_setTimeRangeText(timeRange, item.start_time, item.end_time);
-        card.appendChild(name);
-        card.appendChild(timeRange);
+        var days = void 0;
 
         if (item.days[0] != null || item.days.length > 0) {
-          var days = document.createElement("div");
-          days.setAttribute("class", "service-hour__days");
-          var daysLabel = document.createElement("span");
-          daysLabel.appendChild(document.createTextNode("Days Offered:"));
-          daysLabel.setAttribute("class", "service-hour__days-label");
           var abbrevList = [];
 
           var _iterator6 = _createForOfIteratorHelper(item.days),
@@ -377,14 +386,13 @@ var setServiceHoursList = function setServiceHoursList(elem, objList) {
             _iterator6.f();
           }
 
-          var daysList = document.createElement("span");
-          daysList.appendChild(document.createTextNode(abbrevList.join(", ")));
-          days.append(daysLabel);
-          days.append(daysList);
-          card.append(days);
+          days = "\n                    <div class=\"service-hour__days\">\n                        <img src=\"".concat(calendar, "\" class=\"service-hour__days-label\" title=\"Days Offered\">\n                        <span>").concat(abbrevList.join(", "), "</span>\n                    </div>\n                ");
+        } else {
+          days = "";
         }
 
-        subSection.append(card);
+        var markup = "\n                <li class=\"content__main__list-card col-md-4 mb-4\">\n                    <strong class=\"service-hour__service\">\n                        ".concat(item.name, ": \n                    </strong>\n                    <span class=\"service-hour__time\">\n                        ").concat(Object(utils["c" /* timeRangeToString */])(Object(utils["d" /* timestrConvert */])(item.start_time), Object(utils["d" /* timestrConvert */])(item.end_time)), "\n                    </span>\n                    ").concat(days, "\n                </li>\n            ");
+        list.innerHTML += markup;
       }
     } catch (err) {
       _iterator5.e(err);
@@ -392,11 +400,11 @@ var setServiceHoursList = function setServiceHoursList(elem, objList) {
       _iterator5.f();
     }
 
-    elem.appendChild(subSection);
+    elem.appendChild(list);
   }
 };
 
-var setContactsList = function setContactsList(elem, objList) {
+var location_setContactsList = function setContactsList(elem, objList) {
   if (objList.length > 0) {
     var sectionHeader = document.createElement("h2");
     sectionHeader.setAttribute("class", "content__main__header");
@@ -411,54 +419,8 @@ var setContactsList = function setContactsList(elem, objList) {
     try {
       for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
         var item = _step7.value;
-        var card = document.createElement("li");
-        card.setAttribute("class", "content__main__list-card col-md-6 mb-4");
-        var name = document.createElement("strong");
-        name.setAttribute("class", "contact__name");
-        name.appendChild(document.createTextNode(item.name));
-        card.append(name);
-
-        if (item.title != "" && item.title != null) {
-          var title = document.createElement("span");
-          title.setAttribute("class", "contact__title");
-          title.appendChild(document.createTextNode("- " + item.title));
-          card.append(title);
-        }
-
-        if (item.phone != "" && item.phone != null) {
-          var block = document.createElement("div");
-          block.setAttribute("class", "contact__phone__section");
-          var label = document.createElement("span");
-          label.appendChild(document.createTextNode("Phone: "));
-          var phone = document.createElement("span");
-          phone.setAttribute("class", "contact__phone");
-          phone.appendChild(document.createTextNode(item.phone));
-          block.append(label);
-          block.append(phone);
-          card.append(block);
-        }
-
-        if (item.email != "" && item.email != null) {
-          var _block = document.createElement("div");
-
-          _block.setAttribute("class", "contact__email__section");
-
-          var _label = document.createElement("span");
-
-          _label.appendChild(document.createTextNode("Email: "));
-
-          var email = document.createElement("span");
-          email.setAttribute("class", "contact__email");
-          email.appendChild(document.createTextNode(item.email));
-
-          _block.append(_label);
-
-          _block.append(email);
-
-          card.append(_block);
-        }
-
-        subSection.append(card);
+        var markup = "\n                <li class=\"content__main__list-card col-md-6 mb-4\">\n                    <strong class=\"contact__name\">\n                        ".concat(item.name, "\n                    </strong>\n                    ").concat(item.title !== "" && item.title != null ? "\n                            <span class=\"contact__title\"> - ".concat(item.title, "</span>\n                            ") : "", "\n                    ").concat(item.phone != "" && item.phone != null ? "\n                        <div class=\"contact__phone__section\">\n                            <span><img src=\"".concat(phone_icon["a" /* default */], "\" title=\"Phone #\" alt=\"phone icon\"></span>\n                            <span class=\"contact__phone\">").concat(item.phone, "</span>\n                        </div>\n                        ") : "", "\n                    ").concat(item.email != "" && item.email != null ? "\n                        <div class=\"contact__email__section\">\n                            <span><img src=\"".concat(mail_icon, "\" title=\"Email Address\" alt=\"email icon\"></span>\n                            <span class=\"contact__email\">").concat(item.email, "</span>\n                        </div>\n                        ") : "", "\n                </li>\n            ");
+        subSection.innerHTML += markup;
       }
     } catch (err) {
       _iterator7.e(err);
@@ -484,47 +446,18 @@ var setComments = function setComments(elem, value) {
 };
 
 var setAddress = function setAddress(elem, obj) {
-  console.log(obj);
-
   if (obj != null) {
-    var container = document.createElement("div");
-    container.setAttribute("class", "address");
-    var line1 = document.createElement("div");
-    line1.appendChild(document.createTextNode(obj.street1));
-    line1.setAttribute("class", "address__line1");
-    container.appendChild(line1);
-
-    if (obj.street2 != "" && obj.street2 != null) {
-      var line2 = document.createElement("div");
-      line2.setAttribute("class", "address__line2");
-      line2.appendChild(document.createTextNode(obj.street2));
-      container.appendChild(line2);
-    }
-
-    var line3 = document.createElement("div");
-    var city = document.createElement("span");
-    city.setAttribute("class", "address__city");
-    city.appendChild(document.createTextNode(" ".concat(obj.city, " ")));
-    var state = document.createElement("span");
-    state.setAttribute("class", "address__state");
-    state.appendChild(document.createTextNode("".concat(obj.state, ", ")));
-    var zipcode = document.createElement("span");
-    zipcode.setAttribute("class", "address__zipcode");
-    zipcode.appendChild(document.createTextNode("".concat(obj.zipcode)));
-    container.appendChild(city);
-    container.appendChild(state);
-    container.appendChild(zipcode);
-    line3.setAttribute("class", "address__line3");
-    elem.appendChild(container);
+    var markup = "\n            <div class=\"address\">\n                <div class=\"address__line1\">\n                    ".concat(obj.street1, "\n                </div>\n                ").concat(obj.street2 != "" && obj.street2 != null ? "\n                        <div class=\"address__line2\">\n                            ".concat(obj.street2, "\n                        </div>\n                    ") : "", "\n                <div class=\"address__line3\">\n                    <span class=\"address__city\">").concat(obj.city, "</span>\n                    <span class=\"address__state\">").concat(obj.state, "</span>\n                    <span class=\"address__zipcode\">").concat(obj.zipcode, "</span>\n                </div>\n            </div>\n        ");
+    elem.innerHTML += markup;
   }
 };
 
-var setBusinessHoursList = function setBusinessHoursList(elem, objList) {
+var location_setBusinessHoursList = function setBusinessHoursList(elem, objList) {
   console.log(objList);
 
   if (objList.length > 0) {
-    var businessHours = document.createElement("ul");
-    businessHours.setAttribute("class", "business-hour__list");
+    var list = document.createElement("ul");
+    list.setAttribute("class", "business-hour__list");
 
     var _iterator8 = _createForOfIteratorHelper(objList),
         _step8;
@@ -532,17 +465,18 @@ var setBusinessHoursList = function setBusinessHoursList(elem, objList) {
     try {
       for (_iterator8.s(); !(_step8 = _iterator8.n()).done;) {
         var obj = _step8.value;
-        var entry = document.createElement("li");
-        entry.setAttribute("class", "business-hour__entry");
-        var label = document.createElement("strong");
-        label.setAttribute("class", "business-hour__day");
-        label.appendChild(document.createTextNode(obj.day.name + ": "));
-        var timeRange = document.createElement("span");
-        timeRange.setAttribute("class", "business-hour__time");
-        location_setTimeRangeText(timeRange, obj.start_time, obj.end_time);
-        entry.appendChild(label);
-        entry.appendChild(timeRange);
-        businessHours.appendChild(entry);
+        var markup = "\n                <li class=\"business-hour__entry\">\n                    <strong class=\"business-hour__day\">".concat(obj.day.name, ": </strong>\n                    <span class=\"business-hour__time\">").concat(Object(utils["c" /* timeRangeToString */])(Object(utils["d" /* timestrConvert */])(obj.start_time), Object(utils["d" /* timestrConvert */])(obj.end_time)), "</span>\n                </li>\n            "); // let entry = document.createElement("li")
+        // entry.setAttribute("class", "business-hour__entry")
+        // let label = document.createElement("strong")
+        // label.setAttribute("class", "business-hour__day")
+        // label.appendChild(document.createTextNode(obj.day.name + ": "))
+        // let timeRange = document.createElement("span")
+        // timeRange.setAttribute("class", "business-hour__time")
+        // setTimeRangeText(timeRange, obj.start_time, obj.end_time)
+        // entry.appendChild(label)
+        // entry.appendChild(timeRange)
+
+        list.innerHTML += markup;
       }
     } catch (err) {
       _iterator8.e(err);
@@ -550,7 +484,7 @@ var setBusinessHoursList = function setBusinessHoursList(elem, objList) {
       _iterator8.f();
     }
 
-    elem.appendChild(businessHours);
+    elem.appendChild(list);
   }
 };
 
@@ -582,8 +516,8 @@ var getLocationContext = /*#__PURE__*/function () {
               setObjectListText(document.getElementById("ccf-category-list"), location.ccf_category_list);
               setReviewsText(document.querySelector(".clinic-reviews"), location.reviews);
               setServicesText(document.querySelector(".services-section"), location.service_list);
-              setServiceHoursList(document.querySelector(".service-hours-section"), location.service_hours);
-              setContactsList(document.querySelector(".contacts-section"), location.contacts);
+              location_setServiceHoursList(document.querySelector(".service-hours-section"), location.service_hours);
+              location_setContactsList(document.querySelector(".contacts-section"), location.contacts);
               setComments(document.querySelector(".comments-section"), location.comments);
               setAddress(document.querySelector(".address-section"), {
                 street1: location.street_line_1,
@@ -612,7 +546,7 @@ var getLocationContext = /*#__PURE__*/function () {
               phone.appendChild(phoneIcon);
               document.querySelector(".fax").textContent = location.fax;
               document.querySelector(".website a").setAttribute("href", location.website);
-              setBusinessHoursList(document.querySelector(".business-hours-section"), location.op_hours);
+              location_setBusinessHoursList(document.querySelector(".business-hours-section"), location.op_hours);
               document.getElementById("date-created").textContent = location.date_created;
               document.getElementById("last-updated").textContent = location.last_updated;
               address = document.querySelector(".address").textContent;
@@ -656,6 +590,14 @@ document.addEventListener("DOMContentLoaded", function () {
     if (box.style.display == "none") box.style.display = "block";else box.style.display = "none";
   });
 });
+
+/***/ }),
+
+/***/ 6:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = (__webpack_require__.p + "assets/phone-icon.svg");
 
 /***/ })
 

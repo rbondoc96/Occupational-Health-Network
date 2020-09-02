@@ -2,6 +2,7 @@
 
 import requests
 import json
+import googlemaps
 from datetime import datetime
 from uszipcode import SearchEngine
 
@@ -10,6 +11,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 
 from rest_framework import status, viewsets
+from rest_framework.views import APIView
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import (
@@ -38,16 +40,66 @@ import users.permissions as user_permissions
 
 # pylint: disable=no-member
 
-days = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday",
-]
+gmaps = googlemaps.Client(key="AIzaSyC8i4Dw9T0XlIaLrF7-RpIV7yYkXaJLAso")
+
+class SearchView(APIView):
+    def get(self, request, *args, **kwargs):
+        params = self.request.query_params
+        print(params)
+        address = params.get("address")
+        zipcode = params.get("zipcode")
+        radius = params.get("radius")
+
+        if zipcode is not None and radius is not None:
+            radius = int(radius)
+            search = SearchEngine(simple_zipcode=True)
+            z_query = search.by_zipcode(zipcode)
+
+            if z_query.zipcode is None:
+                return Response({
+                    "error" : "Invalid Zipcode Submitted"
+                }, status=status.HTTP_400_BAD_REQUEST)
+
+            nearby_zips = search.by_coordinates(
+                z_query.lat,
+                z_query.lng,
+                radius=radius,
+                returns=1000,
+            )
+            locations = []
+            queryset = Location.objects.all()
+            for zcode in nearby_zips:
+                l_query = queryset.filter(zipcode=zcode.zipcode)
+                if l_query.exists():
+                    for obj in l_query:
+                        serializer = DetailedLocationSerializer(obj)
+                        locations.append(serializer.data)
+            return Response(locations, status=status.HTTP_200_OK)
+        
+        elif address is not None and radius is not None:
+            radius = int(radius)
+            geocode = gmaps.geocode(address)
+            lat = geocode[0].get("geometry").get("location").get("lat")
+            lng = geocode[0].get("geometry").get("location").get("lng")
+
+            search = SearchEngine(simple_zipcode=True)
+            nearby_zips = search.by_coordinates(
+                lat,
+                lng,
+                radius=radius,
+                returns=1000,
+            )
+            locations = []
+            queryset = Location.objects.all()
+            for zcode in nearby_zips:
+                l_query = queryset.filter(zipcode=zcode.zipcode)
+                if l_query.exists():
+                    for obj in l_query:
+                        serializer = DetailedLocationSerializer(obj)
+                        locations.append(serializer.data)
+            return Response(locations, status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
 class ServiceCategoryViewSet(
     ManagerCUDAuthorizationMixin, 
@@ -55,28 +107,28 @@ class ServiceCategoryViewSet(
 
     queryset = ServiceCategory.objects.all()
     serializer_class = ServiceCategorySerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [user_permissions.ReadOnly]
 
 class LocationCategoryViewSet(
     ManagerCUDAuthorizationMixin,
     viewsets.ModelViewSet):
     queryset = LocationCategory.objects.all()
     serializer_class = LocationCategorySerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [user_permissions.ReadOnly]
 
 class CcfCategoryViewSet(
     ManagerCUDAuthorizationMixin,
     viewsets.ModelViewSet):
     queryset = CcfCategory.objects.all()
     serializer_class = CcfCategorySerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [user_permissions.ReadOnly]
 
 class AuthMethodViewSet(
     ManagerCUDAuthorizationMixin,
     viewsets.ModelViewSet):
     queryset = AuthMethod.objects.all()
     serializer_class = AuthMethodSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [user_permissions.ReadOnly]
 
 class LocationViewSet(viewsets.ModelViewSet):
     queryset = Location.objects.all()
@@ -140,7 +192,7 @@ class LocationViewSet(viewsets.ModelViewSet):
 class ServiceViewSet(viewsets.ModelViewSet):
     queryset = Service.objects.all()
     serializer_class = ServiceSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [user_permissions.ReadOnly]
 
 class ReviewViewSet(LocationQueryParameterMixin, viewsets.ModelViewSet):
     queryset = Review.objects.all()
@@ -187,89 +239,3 @@ class ServiceTimeRangeViewSet(
         if serializer.is_valid(raise_exception=True):
             serializer.save(location_id=location_id)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-class SearchLocationViewSet(
-    LocationQueryParameterMixin,
-    viewsets.ModelViewSet):
-    queryset = Location.objects.all()
-    serializer_class = TrimmedLocationSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
-
-@api_view(["GET"])
-def search_location_by_zipcode(request):
-    query_params = request.query_params
-    zipcode = query_params.get("zipcode", None)
-    radius = int(query_params.get("radius", None))
-
-    if zipcode is not None and radius is not None:
-        search = SearchEngine(simple_zipcode=True)
-        zipcode_query = search.by_zipcode(zipcode) 
-        
-        nearby_zips = search.by_coordinates(
-            zipcode_query.lat,
-            zipcode_query.lng, 
-            radius=radius, 
-            returns=1000,
-        )
-        locations = []
-        queryset = Location.objects.all()
-        for zcode in nearby_zips:
-            location = queryset.filter(zipcode=zcode.zipcode)
-            if location.exists():
-                for obj in location:
-                    serializer = TrimmedLocationSerializer(obj)
-                    data = serializer.data
-                    if data["op_hours"]:
-                        for hour in data["op_hours"]:
-                            day = days[hour["day"]]
-                            hour["day"] = day
-                    locations.append(data)
-        return Response(locations, status=status.HTTP_200_OK)
-    else:
-        return Response(status=status.HTTP_400_BAD_REQUEST)
-
-
-@api_view(["POST"])
-def add_contact_to_location(request, pk):
-    if request.method == "POST":
-        data = request.data
-        print(data)
-        location = Location.objects.get(id=pk)
-        contact = Contacts(
-            location_id = pk,
-            name = data["name"],
-            title = data["title"],
-            phone = data["phone"],
-            email = data["email"],
-        )
-        contact.save()
-        location.contacts_set.add(contact)
-        location.save()
-        
-        serializer = ContactsCreateSerializer(contact)
-        
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-@api_view(["GET"])
-def imgFromLocation(request, pk):
-    try:
-        location = Location.objects.get(pk=pk)
-    except Location.DoesNotExist:
-        return HttpResponse("why did this happen")
-
-    if request.method == "GET":
-        api_key = ""
-        img_file = "um.png"
-        img_path = settings.BASE_DIR + "\\static\\locator\\img\\gmaps\\"
-        img_fullpath = img_path + img_file
-        file_path = settings.BASE_DIR + "\\.env\\gmaps_api.txt"
-
-        with open(file_path, "r") as file:
-            api_key = file.readline()
-
-        url = "https://maps.googleapis.com/maps/api/staticmap?center=Berkeley,CA&zoom=14&size=400x400&key=" + api_key
-        response = requests.get(url)
-        with open(img_fullpath, "wb") as img:
-            img.write(response.content)
-    
-    return HttpResponse(response)

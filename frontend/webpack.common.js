@@ -1,6 +1,5 @@
 const path = require("path")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
-const FaviconsWebpackPlugin = require("favicons-webpack-plugin")
 const HtmlWebpackPartialsPlugin = require("html-webpack-partials-plugin")
 
 module.exports = {
@@ -12,10 +11,13 @@ module.exports = {
         explore: "./src/js/explore.js",
         addLocation: "./src/js/add-location.js",
         settings: "./src/js/settings.js",
-        contact: "./src/js/contact.js",
+        disclaimer: "./src/js/disclaimer.js",
         login: "./src/js/login-register.js",
         logout: "./src/js/logout.js",
         location: "./src/js/location.js",
+        reviews: "./src/js/reviews.js",
+        reviewLocation: "./src/js/review-location.js",
+        hideMainContent: "./src/js/hide-main-content.js",
     },
     module: {
         rules: [
@@ -101,14 +103,17 @@ module.exports = {
             template: "src/views/settings.html",
             favicon: "./src/assets/favicon.ico",
             chunks: ["main", "vendor", "settings"]
-        }),
+        }), 
         new HtmlWebpackPlugin({
-            title: "Contact and Disclaimer",
-            filename: "views/contact.html",
-            template: "src/views/contact.html",
-            favicon: "./src/assets/favicon.ico",
-            chunks: ["main", "vendor", "contact"]
-        }),        
+            filename: "views/popups/disclaimer.html",
+            template: "src/views/popups/disclaimer.html",
+            chunks: ["main", "hideMainContent", "disclaimer"]
+        }),  
+        new HtmlWebpackPlugin({
+            filename: "views/popups/review_location.html",
+            template: "src/views/popups/review_location.html",
+            chunks: ["main", "hideMainContent", "reviewLocation"]
+        }),                  
         new HtmlWebpackPlugin({
             filename: "location.html",
             template: "src/views/location_template.html",
@@ -121,6 +126,12 @@ module.exports = {
             favicon: "./src/assets/favicon.ico",
             chunks: ["main", "vendor", "addLocation"]
         }),        
+        new HtmlWebpackPlugin({
+            filename: "views/reviews.html",
+            template: "src/views/reviews.html",
+            favicon: "./src/assets/favicon.ico",
+            chunks: ["main", "reviews", "vendor"]
+        }),     
         new HtmlWebpackPartialsPlugin({
             path: path.join(__dirname, "./src/views/partials/sidebar.html"),
             priority: "high",
@@ -131,6 +142,12 @@ module.exports = {
             path: path.join(__dirname, "./src/views/partials/footer.html"),
             priority: "low",
             location: "body",
+            template_filename: "*",
+        }),
+        new HtmlWebpackPartialsPlugin({
+            path: path.join(__dirname, "./src/views/partials/head_styles.html"),
+            priority: "low",
+            location: "head",
             template_filename: "*",
         }),
     ],

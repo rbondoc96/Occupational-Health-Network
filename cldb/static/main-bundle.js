@@ -57,7 +57,7 @@
 /******/ 	// undefined = chunk not loaded, null = chunk preloaded/prefetched
 /******/ 	// Promise = chunk loading, 0 = chunk loaded
 /******/ 	var installedChunks = {
-/******/ 		9: 0
+/******/ 		10: 0
 /******/ 	};
 /******/
 /******/ 	var deferredModules = [];
@@ -148,14 +148,14 @@
 /******/
 /******/
 /******/ 	// add entry module to deferred list
-/******/ 	deferredModules.push([28,0]);
+/******/ 	deferredModules.push([36,0]);
 /******/ 	// run deferred modules when ready
 /******/ 	return checkDeferredModules();
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 0:
+/***/ 1:
 /***/ (function(module, exports, __webpack_require__) {
 
 // extracted by mini-css-extract-plugin
@@ -163,7 +163,21 @@ module.exports = {"sidebarWidthSm":"72px","sidebarWidthReg":"275px"};
 
 /***/ }),
 
-/***/ 28:
+/***/ 10:
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ 11:
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ 36:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -171,20 +185,20 @@ module.exports = {"sidebarWidthSm":"72px","sidebarWidthReg":"275px"};
 __webpack_require__.r(__webpack_exports__);
 
 // EXTERNAL MODULE: ./node_modules/regenerator-runtime/runtime.js
-var runtime = __webpack_require__(4);
+var runtime = __webpack_require__(9);
 
 // EXTERNAL MODULE: ./src/main.scss
-var main = __webpack_require__(5);
+var main = __webpack_require__(10);
 
 // EXTERNAL MODULE: ./src/scss/footer.scss
-var scss_footer = __webpack_require__(6);
+var scss_footer = __webpack_require__(11);
 
 // EXTERNAL MODULE: ./src/scss/sidebar.scss
-var scss_sidebar = __webpack_require__(0);
+var scss_sidebar = __webpack_require__(1);
 var sidebar_default = /*#__PURE__*/__webpack_require__.n(scss_sidebar);
 
 // EXTERNAL MODULE: ./node_modules/jquery/dist/jquery.js
-var jquery = __webpack_require__(1);
+var jquery = __webpack_require__(5);
 
 // CONCATENATED MODULE: ./src/js/sidebar.js
 function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
@@ -396,7 +410,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 /***/ }),
 
-/***/ 4:
+/***/ 9:
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -1148,20 +1162,6 @@ try {
   Function("r", "regeneratorRuntime = r")(runtime);
 }
 
-
-/***/ }),
-
-/***/ 5:
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
-/***/ 6:
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
 
 /***/ })
 

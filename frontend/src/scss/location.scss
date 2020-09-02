@@ -112,17 +112,35 @@ section.content__main {
     height: 100%;
 
     .service-hour__days {
-        font-style: italic;
-        margin-left: 3px;
+        display: flex;
+        align-items: center;
+
+        img {
+            align-self: flex-start;
+        }
+
+        span {
+            margin-left: 3px;
+            font-size: 0.9rem;
+        }
     }
 
-    .service-hour__days-label {
-        font-style: italic;
-        font-weight: bold;
-    }
+    .contact__email__section, .contact__phone__section {
+        display: flex;
+        align-items: center;
 
-    .service-hour__days-label + span {
-        margin-left: 3px;
+        span {
+            display: flex;
+
+            img {
+                align-self: flex-start;
+                margin-bottom: 2px;
+            }
+        }
+
+        .contact__email, .contact__phone {
+            margin-left: 3px;
+        }
     }
 
 }

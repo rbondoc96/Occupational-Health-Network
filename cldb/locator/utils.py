@@ -17,6 +17,22 @@ def get_ratings_by_location(location):
         "reviews": num_reviews
     }
 
+def convert_to_time24(time12):
+    # Expects %I:%M %p
+    # Returns HH:MM:SS
+
+    tokens = str(time12).split(" ")
+    hrsMins = tokens[0].split(":")
+    hours = int(hrsMins[0])
+    meridiem = tokens[1]
+
+    if meridiem == "PM" and hours != 12:
+        hours = hours + 12
+    elif meridiem == "AM" and hours == 12:
+        hours = 0
+
+    return f"{hours}:{hrsMins[1]}:00"
+
 def convert_to_time12(time24):
     # Expects HH:MM:SS, need to validate later
     # Returns %I:%M: %p

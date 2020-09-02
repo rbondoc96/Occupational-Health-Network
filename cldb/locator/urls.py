@@ -6,13 +6,17 @@ from . import api
 
 urlpatterns = [
     path("", views.index, name="index"),
+    path("api/search/", api.SearchView.as_view(), name="search"),
     path("explore/", views.explore, name="explore"),
     path("add/", views.add_location, name="add_location"),
-    path('location/new/', views.new_location, name="new_location"),
     path(
         'locations/<slug:slug>/', 
         views.LocationDetailView.as_view(), 
         name="location_detail"
+    ),
+    path(
+        "locations/<slug:slug>/review",
+        views.review_location,
     ),
     path(
         'locations/update/<slug:slug>/', 
@@ -38,10 +42,5 @@ urlpatterns = [
         'locations/service-hours/<slug:slug>/', 
         views.ServiceTimeRangeListView.as_view(), 
         name="service_hours_list"
-    ),
-    path(
-        'api/location/<int:pk>/contacts/add/', 
-        api.add_contact_to_location, 
-        name="add_contact_to_location"
     ),
 ]

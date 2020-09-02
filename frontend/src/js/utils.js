@@ -1,5 +1,6 @@
 const timestrConvert = function(timeStr) {
     var tokens = timeStr.split(":")
+    console.log("converting" + timeStr)
 
     let hour = parseInt(tokens[0])
     let meridian = "AM"
@@ -7,6 +8,8 @@ const timestrConvert = function(timeStr) {
         meridian = "PM"
         if(hour > 12) 
             hour -= 12
+    } else if(hour == 0) {
+        hour = 12
     }
 
     return `${hour}:${tokens[1]} ${meridian}`
@@ -32,4 +35,20 @@ const getCookie = function(name) {
     return cookieValue
 }
 
-export {timestrConvert, getCookie}
+const timeRangeToString = function(time1, time2) {
+    if(time1 == "11:59 PM" && time2 == "11:59 PM") 
+        return "Closed"
+    else if(time1 == "12:00 AM" && time2 == "12:00 AM")
+        return "Open 24 Hours"
+    else 
+        return `${time1} to ${time2}`
+}
+
+const lookup = function(endpoint, callback, options) {
+    let apiUrl = "http://127.0.0.1:8000/api/" + endpoint + "/"
+    fetch(apiUrl, options)
+    .then(response => response.json())
+    .then(json => callback(json))
+}
+
+export {timestrConvert, getCookie, timeRangeToString, lookup}

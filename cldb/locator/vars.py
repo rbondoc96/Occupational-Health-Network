@@ -45,6 +45,6 @@ class ModelConstants:
     LOCATION_CITY = 45 
     LOCATION_STATE = 2
     LOCATION_ZIPCODE = 10
-    LOCATION_PHONE = 25 
+    LOCATION_PHONE = 28 
     LOCATION_FAX = 14
 

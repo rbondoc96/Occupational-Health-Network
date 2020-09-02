@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Location Review</title>
+</head>
+<body>
+    <header>
+        <img id="logo" alt="OCH Net">
+    </header>
+    <main>
+    
+        <form method="POST">
+            <h2 id="location-name"></h2>
+
+            <h3 id="todays-date"></h3>
+
+            {% if request.user.profile.user_type == 2 %}
+            <span>Administrative Review</span>
+            <input name="reviewType" type="hidden" value="2">
+            {% else %}
+            <span>Patient Review</span>
+            <input name="reviewType" type="hidden" value="1">
+            {% endif %}
+            
+            <div class="ratings__wrapper">
+                <span>How would you rate your experience?</span>
+            </div>
+            
+            <text-field>
+                <label slot="label" for="comments">Review Content</label>
+                <textarea 
+                slot="input"
+                name="comments" 
+                id="comments"
+                required></textarea>
+                <span slot="info">Type out your review here</span>
+            </text-field>
+            
+            <button type="submit" class="button button-primary--blue">
+                Submit Review
+            </button>
+        </form>
+
+    </main>
+    <footer>
+
+    </footer>
+</body>
+</html>

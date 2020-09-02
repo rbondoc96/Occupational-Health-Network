@@ -50,7 +50,7 @@ from .serializers import (
     ServiceTimeRangeCreateSerializer
 )
 
-from locator.utils import get_ratings_by_location
+from locator.utils import get_ratings_by_location, convert_to_time24
 
 import users.permissions as user_permissions
 
@@ -93,7 +93,7 @@ class ReviewDetailView(DetailView):
 
 class ReviewListView(ListView):
     model = Review
-    template_name = "locator/list/reviews.html"
+    template_name = "views/reviews.html"
 
     def get_queryset(self):
         location = Location.objects.get(slug=self.kwargs["slug"])
@@ -142,24 +142,100 @@ def index(request):
     return render(request, "index.html")
 
 def explore(request):
-    return render(request, "views/explore.html")
+    if request.method == "POST":
+        data = request.POST
+        print("--request.POST--")
+        print(data)
+        return redirect("explore")
+    else:
+        return render(request, "views/explore.html")
 
 def add_location(request):
     if request.method == "POST":
         data = request.POST
-        # print(data)
-        print(data["service-hours-input"])
-        print(data.getlist("service-hours-input"))
-        service_hours_list = data.getlist("service-hours-input")
+        location_ = {
+            "location_category" : data.get("clinic-type"),
+            "name" : data.get("clinic-name"),
+            "branch_name" : data.get("branch-name"),
+            "street_line_1" : data.get("street-line-1"),
+            "street_line_2" : data.get("street-line-2"),
+            "city" : data.get("city"),
+            "state": data.get("state"),
+            "zipcode" : data.get("zipcode"),
+            "phone" : data.get("phone"),
+            "is_phone_callable" : data.get("is-phone-callable"),
+            "fax" : data.get("fax"),
+            "website" : data.get("website"),
+            "service_list" : data.getlist("services"),
+            "ccf_category_list": data.getlist("coc-method"),
+            "auth_method_list": data.getlist("auth-method"),
+            "comments": data.get("comments"),
+        }
+
+        location = LocationCreateSerializer(data=location_)
+
+        if location.is_valid(raise_exception=True):
+            location = location.save()
+            loc_id = location.id
+            if location.slug is None or location.slug == "":
+                if location.branch_name == "" or location.branch_name is None:
+                    slug = slugify(f"{location.name}-{location.id}")
+                else:
+                    slug = slugify(f"{location.name}-{location.branch_name}")
+                location.slug = slug
+                location.save()
+
+            service_hours_list = data.getlist("service-hours-input")
+            op_hours_list = data.getlist("business-hours-input")
+            contacts_list = data.getlist("contacts-input")
+
+
+            if len(service_hours_list) > 0:
+                for item in service_hours_list:
+                    obj = json.loads(item)
+                    obj["location"] = loc_id
+                    obj["start_time"] = convert_to_time24(obj["start_time"])
+                    obj["end_time"] = convert_to_time24(obj["end_time"])
+                    serializer = ServiceTimeRangeCreateSerializer(data=obj)
+                    if serializer.is_valid(raise_exception=True):
+                        serializer.save()
+                        print(serializer)
+
+            if len(op_hours_list) > 0:
+                for item in op_hours_list:
+                    obj = json.loads(item)
+                    obj["location"] = loc_id
+                    obj["start_time"] = convert_to_time24(obj["start_time"])
+                    obj["end_time"] = convert_to_time24(obj["end_time"])                    
+                    serializer = DayTimeRangeCreateSerializer(data=obj)
+                    if serializer.is_valid(raise_exception=True):
+                        serializer.save()
+
+            if len(contacts_list) > 0:
+                for item in contacts_list:
+                    obj = json.loads(item)
+                    obj["location"] = loc_id
+                    serializer = ContactsCreateSerializer(data=obj)
+                    if serializer.is_valid(raise_exception=True):
+                        serializer.save()
         
-        for item in service_hours_list:
-            obj = json.loads(item)
-            print(obj)
-            print(obj.get("end_time"))
-        # return redirect("location_detail", slug=location.slug)
-        return redirect("add_location")
+            return redirect("location_detail", slug=location.slug)
+        else:
+            return render(request, "views/add_location.html")
     else: 
-        return render(request, "views/add_location.html")
+        if request.user.is_authenticated:
+            return render(request, "views/add_location.html")
+        else:
+            return redirect("login_register")
+
+def review_location(request, **kwargs): 
+    if request.method == "POST":
+        print("reviewing location")
+    else:
+        if request.user.is_authenticated:
+            return render(request, "views/popups/review_location.html")
+        else:
+            return redirect("login_register")
 
 def convert_to_24(time_range):
     time1 = time_range["start_time"]

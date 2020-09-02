@@ -3,7 +3,7 @@ const common = require("./webpack.common")
 const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
-const TerserPlugin = require("terser-webpack-plugin")
+const CopyWebpackPlugin = require("copy-webpack-plugin")
 
 const {merge} = require("webpack-merge")
 const {CleanWebpackPlugin} = require("clean-webpack-plugin")
@@ -38,5 +38,12 @@ module.exports = merge(common, {
             filename: "[name].css",
         }),
         new CleanWebpackPlugin(),
+        new CopyWebpackPlugin({
+            patterns: [{
+                context: "node_modules/@webcomponents/webcomponentsjs",
+                from: "**/*.js",
+                to: "webcomponents",
+            }]
+        }),
     ],
 })

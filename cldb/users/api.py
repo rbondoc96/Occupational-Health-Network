@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import (
     IsAuthenticated, IsAuthenticatedOrReadOnly,
 )
+from rest_framework.views import APIView
 
 from .models import Profile, Bookmark, UserType
 from .serializers import (
@@ -14,6 +15,18 @@ from .serializers import (
 from .permissions import IsOwnerOnly
 
 # pylint: disable=no-member
+
+class UserExistsView(APIView):
+
+    def get(self, request, *args, **kwargs):
+        username = self.request.query_params.get('username')  
+
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return Response({"message": False})
+        return Response({"message": True})
+            
 
 class UserTypesViewSet(viewsets.ModelViewSet):
     queryset = UserType.objects.all()

@@ -11,14 +11,20 @@
     margin-top: calc(30px + 2vh);
 }
 
-.sliding-form {
-    display: none;
+.subform {
+    padding: 15px 0;
+    
+    .subform-header {
+        text-align: center;
+    }
+    .subform-content {
+        display: none;
+    }
 }
 
 #service-hours-form, #business-hours-form, #contacts-form {
     margin-top: 15px;
     border-radius: 0.25em;
-    // display: none;
     padding-left: 30px;
     padding-right: 30px;
     background-color: #e6e6e6;
@@ -27,9 +33,6 @@
         font-size: 1.2rem;
     }
     label {
-        font-size: 0.9rem;
-    }
-    input, option {
         font-size: 0.9rem;
     }
 }
@@ -54,18 +57,23 @@
     }
 
     .sublist-entry {
-        margin-left: 10px;
         margin-bottom: 5px;
+        padding: 0.8em 1.2em;
+        border: 1px solid #FFF;
+        border-radius: 0.25em;
 
-        .sublist-entry-line1 {
+        background-color: #FFF;
 
+        div {
+            margin-left: 10px;
         }
         .sublist-entry-line2, .sublist-entry-line3{
-            margin-left: 7px;
+            margin-left: 17px;
         }
     }
-}
-
-[name="is-closed"], [name="is-24hours"], [for="is-closed"], [for="is-24hours"] {
-    margin-top: -15px;
+    .sublist-entry:hover {
+        cursor: pointer;
+        border-color: #ff3d3d;
+        transition: 0.2s;
+    }
 }
