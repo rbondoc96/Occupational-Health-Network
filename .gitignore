@@ -10,7 +10,9 @@ node_modules/
 /coverage
 
 # production
-/build
+cldb/static/
+
+test_db/
 
 # misc
 .DS_Store
@@ -29,5 +31,3 @@ yarn-error.log*
 .vscode
 .workspace
 .env
-
-cldb/static/locator/js/dist/

@@ -91,8 +91,6 @@ After installation, move into the Django project directory <b>/cldb/</b> and run
 python manage.py migrate
 ```
 
-If you want to use the database with test data I'm using for development, use <b>pgAdmin4</b> to restore the database from one of the files in <b>/test_db/</b>
-
 <h4>Configuring the Frontend</h4>
 
 From the repo root directory, move into the <b>/frontend/</b> directory and run the following command:
