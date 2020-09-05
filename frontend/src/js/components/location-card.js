@@ -6,12 +6,15 @@ template.innerHTML = `
     <style>
     ::slotted(a) {
         text-decoration: none;
+        margin-right: 8px !important;
     }
     .wrapper {
-        width: 90%;
+        max-width: 1220px;
         max-height: 220px;
         padding: 1.5rem 2.0rem;
         border: 1px solid #000;
+
+        overflow-x: visible;
     }
 
     .clinic-name {
@@ -42,9 +45,29 @@ template.innerHTML = `
         margin-right: 10px;
         text-decoration: none;
     }
+
+    .footer {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+    }
     
-    @media only screen and (max-width: 500px) {
+    @media only screen and (max-width: 600px) {
+        ::slotted(a) {
+            width: 155px;
+        }
+        .wrapper {
+            min-height: 300px;
+            margin-right: 0;
+        }
         .info {
+            flex-direction: column;
+        }
+        .info__right {
+            margin-top: 15px;
+        }
+
+        .footer {
             flex-direction: column;
         }
     }

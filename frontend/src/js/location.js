@@ -1,3 +1,5 @@
+import "./components/cards/contact-card"
+
 import "../scss/location.scss"
 import {timestrConvert, timeRangeToString} from "./utils"
 
@@ -191,30 +193,24 @@ const setContactsList = function(elem, objList) {
         for(let item of objList) {
             let markup = `
                 <li class="content__main__list-card col-md-6 mb-4">
-                    <strong class="contact__name">
-                        ${item.name}
-                    </strong>
-                    ${(item.title !== "" && item.title != null) ? 
+                    <contact-card>
+                        <span slot="name">${item.name}</span>
+                        ${(item.title !== "" && item.title != null) ? 
+                        `
+                        <span slot="title"> - ${item.title}</span>
+                        `:""
+                        }
+                        ${(item.phone != "" && item.phone != null) ? 
+                        `
+                        <span slot="phone">${item.phone}</span>
+                        `:""
+                        }
+                        ${(item.email != "" && item.email != null) ?
                             `
-                            <span class="contact__title"> - ${item.title}</span>
-                            `:``
-                    }
-                    ${(item.phone != "" && item.phone != null) ? 
-                        `
-                        <div class="contact__phone__section">
-                            <span><img src="${PhoneIcon}" title="Phone #" alt="phone icon"></span>
-                            <span class="contact__phone">${item.phone}</span>
-                        </div>
-                        `:""
-                    }
-                    ${(item.email != "" && item.email != null) ?
-                        `
-                        <div class="contact__email__section">
-                            <span><img src="${MailIcon}" title="Email Address" alt="email icon"></span>
-                            <span class="contact__email">${item.email}</span>
-                        </div>
-                        `:""
-                    }
+                            <span slot="email">${item.email}</span>
+                            `:""
+                        }                        
+                    </contact-card>
                 </li>
             `
             subSection.innerHTML += markup

@@ -125,23 +125,6 @@ section.content__main {
         }
     }
 
-    .contact__email__section, .contact__phone__section {
-        display: flex;
-        align-items: center;
-
-        span {
-            display: flex;
-
-            img {
-                align-self: flex-start;
-                margin-bottom: 2px;
-            }
-        }
-
-        .contact__email, .contact__phone {
-            margin-left: 3px;
-        }
-    }
 
 }
 .content__right {
@@ -247,9 +230,5 @@ section.content__main {
     .clinic-name {
         display: flex;
         justify-content: center;
-    }
-    
-    .content__left {
-        text-align: center;
     }
 }
