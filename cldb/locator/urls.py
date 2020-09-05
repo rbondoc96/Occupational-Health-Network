@@ -17,6 +17,7 @@ urlpatterns = [
     path(
         "locations/<slug:slug>/review",
         views.review_location,
+        name="review_location",
     ),
     path(
         'locations/update/<slug:slug>/', 

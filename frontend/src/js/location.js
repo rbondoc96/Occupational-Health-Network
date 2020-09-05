@@ -1,4 +1,5 @@
 import "./components/cards/contact-card"
+import "./components/cards/service-hour-card"
 
 import "../scss/location.scss"
 import {timestrConvert, timeRangeToString} from "./utils"
@@ -151,29 +152,20 @@ const setServiceHoursList = function(elem, objList) {
                 for(let day of item.days) {
                     abbrevList.push(day.abbreviation)
                 }
-    
-                days = `
-                    <div class="service-hour__days">
-                        <img src="${CalendarIcon}" class="service-hour__days-label" title="Days Offered">
-                        <span>${abbrevList.join(", ")}</span>
-                    </div>
-                `
+                days = abbrevList.join(", ")
             } else {
                 days = ""
             }
 
             let markup = `
-                <li class="content__main__list-card col-md-4 mb-4">
-                    <strong class="service-hour__service">
-                        ${item.name}: 
-                    </strong>
-                    <span class="service-hour__time">
-                        ${timeRangeToString(timestrConvert(item.start_time), timestrConvert(item.end_time))}
-                    </span>
-                    ${days}
+                <li>
+                    <service-hour-card>
+                        <span slot="service">${item.name}</span>
+                        <span slot="time-range">${timeRangeToString(timestrConvert(item.start_time), timestrConvert(item.end_time))}</span>
+                        <span slot="days">${days}</span>
+                    </service-hour-card>
                 </li>
             `
-
             list.innerHTML += markup
         }
         elem.appendChild(list)
@@ -192,7 +184,7 @@ const setContactsList = function(elem, objList) {
         subSection.setAttribute("class", "content__main__list row")
         for(let item of objList) {
             let markup = `
-                <li class="content__main__list-card col-md-6 mb-4">
+                <li>
                     <contact-card>
                         <span slot="name">${item.name}</span>
                         ${(item.title !== "" && item.title != null) ? 
@@ -227,9 +219,9 @@ const setComments = function(elem, value) {
 
         elem.appendChild(sectionHeader)
 
-        let comments = document.createElement("textarea")
+        let comments = document.createElement("p")
         comments.setAttribute("class", "comments")
-        comments.value = value
+        comments.textContent = value
 
         elem.appendChild(comments)
     }

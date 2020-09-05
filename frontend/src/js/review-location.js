@@ -17,6 +17,17 @@ const populateLocationInfo = function(json) {
 document.addEventListener("DOMContentLoaded", () => {
     const slug = window.location.pathname.split("/")[2]
     const logo = document.getElementById("logo")
+    const reviewType = document.querySelector("[name='review-type']")
+    const reviewTypeText = document.getElementById("review-type--text")
+    
+    if(reviewType.getAttribute("data-user-type").includes("Employer")) {
+        reviewTypeText.textContent = "Administrative Review"
+        reviewType.setAttribute("value", 2)
+    } else {
+        reviewTypeText.textContent = "Patient Review"
+        reviewType.setAttribute("value", 1)
+    }
+    
     logo.setAttribute("src", Logo)
 
     lookup(`locations/${slug}`, populateLocationInfo, {

@@ -9,12 +9,11 @@ module.exports = merge(common, {
     mode: "development",
     output: {
         filename: '[name]-bundle.js',
-        path: path.resolve(__dirname, "./server/"),
-        publicPath: ""        
+        path: path.resolve(__dirname, "./static/"),
+        publicPath: "http://127.0.0.1:8080/"  
     },
     devServer: {
-        contentBase: path.resolve(__dirname, "./src/"),
-        historyApiFallback: true,
+        // contentBase: path.resolve(__dirname, "./src/"),
     },
     module: {
         rules: [

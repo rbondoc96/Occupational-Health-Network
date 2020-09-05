@@ -131,11 +131,16 @@ USE_L10N = True
 
 USE_TZ = True
 
+# Uncomment below for build location
 STATIC_URL = "/static/"
-
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
+
+# Serves webpack-dev-server
+# STATIC_URL = "http://127.0.0.1:8080/"
+# STATICFILES_DIRS = ["static"]
+
 
 # STATICFILES_STORAGE = ManifestStaticFilesStorage
 

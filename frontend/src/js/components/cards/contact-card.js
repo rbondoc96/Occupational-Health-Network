@@ -5,6 +5,7 @@ var template = document.createElement("template")
 template.innerHTML = `
     <style>
     .wrapper {
+        margin: 15px 10px;
         display: flex;
         flex-direction: column;
     }
@@ -20,7 +21,7 @@ template.innerHTML = `
         margin-right: 5px;
         margin-top: -2px;
     }
-    @media only screen and (max-width: 767px) {
+    @media only screen and (max-width: 992px) {
         .wrapper {
             align-items: center;
         }
@@ -51,7 +52,13 @@ class ContactCard extends HTMLElement {
     }
 
     connectedCallback() {
+        var emailSlot = this.querySelector("[slot='email']")
+        if(emailSlot.textContent == "") 
+            this.shadowRoot.querySelector(".email").style.display = "none"
 
+        var phoneSlot = this.querySelector("[slot='phone']")
+        if(phoneSlot.textContent == "") 
+            this.shadowRoot.querySelector(".phone").style.display = "none"
     }
 
     disconnectedCallback() {

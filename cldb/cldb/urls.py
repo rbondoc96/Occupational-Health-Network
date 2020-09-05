@@ -28,5 +28,11 @@ urlpatterns = [
     path(
         "popups/disclaimer",
         popups.disclaimer,
-    )
+        name="disclaimer_popup",
+    ),
+    path(
+        "popups/login",
+        popups.login_register,
+        name="login_popup",
+    ),
 ]

@@ -1,22 +1,12 @@
 #!/usr/bin/env python
 
-# PEP8 (Python Enhancement Proposal 8) dictates module level dunders to be
-# placed after the dostring, but before any imports, EXCEPT for:
-#   from __future__ import ...
-__author__ = "Rodrigo Bondoc"
-__copyright__ = "Copyright 2020, Rodrigo Bondoc, All rights reserved."
-__license__ = "None"
-__version__ = "1.0.0"
-__email__ = "bondoc.rodrigo@gmail.com"
-__status__ = "Development"
-
 import io
 import requests
 import json
 
 from django.http import Http404
 from django.utils.text import slugify
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.views.generic import DetailView, ListView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -235,7 +225,7 @@ def review_location(request, **kwargs):
         if request.user.is_authenticated:
             return render(request, "views/popups/review_location.html")
         else:
-            return redirect("login_register")
+            return redirect(reverse("login_popup") + f"?next={request.path}")
 
 def convert_to_24(time_range):
     time1 = time_range["start_time"]

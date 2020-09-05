@@ -105,6 +105,11 @@ module.exports = {
             chunks: ["main", "vendor", "settings"]
         }), 
         new HtmlWebpackPlugin({
+            filename: "views/popups/login-register.html",
+            template: "src/views/login_register.html",
+            chunks: ["main", "vendor", "hideMainContent", "login"]
+        }),          
+        new HtmlWebpackPlugin({
             filename: "views/popups/disclaimer.html",
             template: "src/views/popups/disclaimer.html",
             chunks: ["main", "hideMainContent", "disclaimer"]

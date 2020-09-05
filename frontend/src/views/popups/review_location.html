@@ -16,13 +16,11 @@
 
             <h3 id="todays-date"></h3>
 
-            {% if request.user.profile.user_type == 2 %}
-            <span>Administrative Review</span>
-            <input name="reviewType" type="hidden" value="2">
-            {% else %}
-            <span>Patient Review</span>
-            <input name="reviewType" type="hidden" value="1">
+            {% comment %} {% if request.user.profile.user_type == "User Type: Employer" %} {% endcomment %}
+            {% if request.user.profile.user_type  %}
+            <input name="review-type" type="hidden" data-user-type="{{ request.user.profile.user_type }}">
             {% endif %}
+            <div><span id="review-type--text"></span></div>
             
             <div class="ratings__wrapper">
                 <span>How would you rate your experience?</span>
