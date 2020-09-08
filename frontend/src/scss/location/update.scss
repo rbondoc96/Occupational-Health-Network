@@ -1,0 +1,56 @@
+.content__header {
+    p {
+        margin: 15px 0;
+    }
+}
+
+ul {
+    list-style-type: none;
+}
+
+h4 {
+    font-size: 1.2rem;
+}
+
+.subform {
+    margin: 20px 0;
+    padding: 15px 30px;
+    background-color: #e6e6e6;
+
+    
+    .subform-header {
+        text-align: center;
+
+        h4 {
+            margin: 20px 0;
+        }
+    }
+    .subform-content {
+        display: none;
+    }
+
+    .sublist-entry {
+        border: 1px solid #fff;
+        background-color: #fff;
+        padding: 1em 1.2em;
+    }
+    .sublist-entry:hover {
+        cursor: pointer;
+        border-color: #d63030;
+    }
+
+    .hidden-list {
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+}
+
+#services-selected, #days-selected {
+    margin-bottom: 20px;
+}
+
+.selected-label {
+    font-weight: 700;
+    margin: 15px 0;
+    font-size: 1.1rem;
+}

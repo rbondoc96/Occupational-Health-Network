@@ -61,12 +61,15 @@ class Sidebar {
 
         this.wrapper.style.width = variables.sidebarWidthSm
         this.nav2.style.margin = "calc(16px + 4vh) 0"
-        this.nav2.querySelector(".disclaimer__wrapper p").style.display = "none"
 
-        content.style.marginLeft = variables.sidebarWidthSm
-        content.style.maxWidth = `calc(100vw - ${variables.sidebarWidthSm})`
-        footer.style.marginLeft = variables.sidebarWidthSm
-        footer.style.maxWidth = `calc(100vw - ${variables.sidebarWidthSm})`
+        if(content) {
+            content.style.marginLeft = variables.sidebarWidthSm
+            content.style.maxWidth = `calc(100vw - ${variables.sidebarWidthSm})`
+        }
+        if(footer) {
+            footer.style.marginLeft = variables.sidebarWidthSm
+            footer.style.maxWidth = `calc(100vw - ${variables.sidebarWidthSm})`
+        }
         this.toggleButton.style.left = "-40px"
         this.toggleButton.style.marginLeft = variables.sidebarWidthSm
         
@@ -90,12 +93,15 @@ class Sidebar {
 
         this.wrapper.style.width = variables.sidebarWidthReg
         this.nav2.style.margin = "calc(35px + 5vh) 0"
-        this.nav2.querySelector(".disclaimer__wrapper p").style.display = "block"
 
-        content.style.marginLeft = variables.sidebarWidthReg
-        content.style.maxWidth = `calc(100vw - ${variables.sidebarWidthReg})`
-        footer.style.marginLeft = variables.sidebarWidthReg
-        footer.style.maxWidth = `calc(100vw - ${variables.sidebarWidthReg})`
+        if(content) {
+            content.style.marginLeft = variables.sidebarWidthReg
+            content.style.maxWidth = `calc(100vw - ${variables.sidebarWidthReg})`
+        }
+        if(footer) {
+            footer.style.marginLeft = variables.sidebarWidthReg
+            footer.style.maxWidth = `calc(100vw - ${variables.sidebarWidthReg})`
+        }
         this.toggleButton.style.top = "0px"
         this.toggleButton.style.left = "0px"
         this.toggleButton.style.marginLeft = variables.sidebarWidthReg

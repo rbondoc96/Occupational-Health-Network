@@ -6,7 +6,8 @@ import json
 
 from django.http import Http404
 from django.utils.text import slugify
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import render, redirect, reverse, get_object_or_404
+from django.views.defaults import page_not_found
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.views.generic import DetailView, ListView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -37,7 +38,8 @@ from .serializers import (
     ServiceSerializer,
     ContactsCreateSerializer,
     DayTimeRangeCreateSerializer,
-    ServiceTimeRangeCreateSerializer
+    ServiceTimeRangeCreateSerializer,
+    ReviewSerializer,
 )
 
 from locator.utils import get_ratings_by_location, convert_to_time24
@@ -48,15 +50,13 @@ import users.permissions as user_permissions
 
 class LocationDetailView(DetailView):
     model = Location
-    template_name = "location.html"
+    template_name = "views/location/detail.html"
     slug_field = "slug"
-
-class LocationListView(ListView):
-    model = Location
 
 class LocationUpdateView(UpdateView):
     model = Location
-    template_name = "locator/update/location.html"
+    template_name = "views/location/update.html"
+    slug_field = "slug"
     fields = [
         "location_category",
         "name",
@@ -71,11 +71,26 @@ class LocationUpdateView(UpdateView):
         "fax",
         "website",
         "comments",
-        "last_verified",
         "service_list",
         "ccf_category_list",
         "auth_method_list",
     ]
+
+    def get_object(self):
+        slug_ = self.kwargs.get("slug")
+        return get_object_or_404(Location, slug=slug_)
+
+class LocationDeleteView(DeleteView):
+    model = Location
+    template_name = "views/location/delete.html"
+    slug_field = "slug"
+
+    def get_object(self):
+        slug_ = self.kwargs.get("slug")
+        return get_object_or_404(Location, slug=slug_)
+    
+    def get_success_url(self):
+        return reverse("explore")
 
 class ReviewDetailView(DetailView):
     model = Review
@@ -84,33 +99,6 @@ class ReviewDetailView(DetailView):
 class ReviewListView(ListView):
     model = Review
     template_name = "views/reviews.html"
-
-    def get_queryset(self):
-        location = Location.objects.get(slug=self.kwargs["slug"])
-        queryset = super().get_queryset()
-        return queryset.filter(location_id=location.id)
-
-class ContactsListView(ListView):
-    model = Contacts
-    template_name = "locator/list/contacts.html"
-
-    def get_queryset(self):
-        location = Location.objects.get(slug=self.kwargs["slug"])
-        queryset = super().get_queryset()
-        return queryset.filter(location_id=location.id)
-
-class DayTimeRangeListView(ListView):
-    model = DayTimeRange
-    template_name = "locator/list/op-hours.html"
-
-    def get_queryset(self):
-        location = Location.objects.get(slug=self.kwargs["slug"])
-        queryset = super().get_queryset()
-        return queryset.filter(location_id=location.id)
-
-class ServiceTimeRangeListView(ListView):
-    model = ServiceTimeRange
-    template_name = "locator/list/service-hours.html"
 
     def get_queryset(self):
         location = Location.objects.get(slug=self.kwargs["slug"])
@@ -127,6 +115,13 @@ class ReviewUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         if user_name == review.owner:
             return True
         return False
+
+def handler404(request, exception):
+    return page_not_found(
+        request, 
+        exception, 
+        template_name="views/404.html", 
+    )
 
 def index(request):
     return render(request, "index.html")
@@ -211,84 +206,38 @@ def add_location(request):
         
             return redirect("location_detail", slug=location.slug)
         else:
-            return render(request, "views/add_location.html")
+            return render(request, "views/location/create.html")
     else: 
         if request.user.is_authenticated:
-            return render(request, "views/add_location.html")
+            return render(request, "views/location/create.html")
         else:
             return redirect("login_register")
 
 def review_location(request, **kwargs): 
     if request.method == "POST":
-        print("reviewing location")
+        data = request.POST
+        review_ = {
+            "location": int(data.get("location")),
+            "review_type": int(data.get("review-type")),
+            "owner": request.user.id,
+            "rating": int(data.get("rating")),
+            "comments": data.get("comments"),
+        }
+
+        review = ReviewSerializer(data=review_)
+
+        if review.is_valid(raise_exception=True):
+            review.save()
+            return redirect("review_submitted")
+        else:
+            return Response({"error": "Error in submitting review"}, status=status.HTTP_400_BAD_REQUEST)
     else:
         if request.user.is_authenticated:
             return render(request, "views/popups/review_location.html")
         else:
             return redirect(reverse("login_popup") + f"?next={request.path}")
 
-def convert_to_24(time_range):
-    time1 = time_range["start_time"]
-    time2 = time_range["end_time"]
-
-    time_obj1 = dt.strptime(time1, "%I:%M %p")
-    time_obj2 = dt.strptime(time2, "%I:%M %p")
-
-    time_range["start_time"] = dt.strftime(time_obj1, "%H:%M:%S")
-    time_range["end_time"] = dt.strftime(time_obj2, "%H:%M:%S")
-
-    print(time_range)
-    return time_range
-
-@api_view(["GET", "POST"])
-def new_location(request):
-    if request.method == "POST":
-        data = request.data
-        ls = LocationCreateSerializer(data=data["location"])
-        c_list = data.get("contacts")
-        dtr_list = data.get("op_hours")
-        str_list = data.get("service_hours")
-
-        cs = ContactsCreateSerializer(data=c_list)
-        dtrs = DayTimeRangeCreateSerializer(data=dtr_list)
-        strs = ServiceTimeRangeCreateSerializer(data=str_list)
-
-        if(ls.is_valid()):
-            location = ls.save()
-            id = location.id
-            if location.slug is None or location.slug == "":
-                if location.branch_name == "" or location.branch_name is None:
-                    slug = slugify(f"{location.name}-{location.id}")
-                else:
-                    slug = slugify(f"{location.name}-{location.branch_name}")
-                ls.save(slug=slug)
-            if c_list is not None:
-                for contact in c_list:
-                    cs = ContactsCreateSerializer(data=contact)
-                    if(cs.is_valid()):
-                        cs.save(location_id=id)
-            if dtr_list is not None:
-                for dt_range in dtr_list:
-                    dt_range = convert_to_24(dt_range)
-                    dtrs = DayTimeRangeCreateSerializer(data=dt_range)
-                    if(dtrs.is_valid()):
-                        dtrs.save(location_id=id)
-            if str_list is not None:
-                for st_range in str_list:
-                    st_range = convert_to_24(st_range)
-                    strs = ServiceTimeRangeCreateSerializer(data=st_range)
-                    if(strs.is_valid()):
-                        strs.save(location_id=id)
-            return Response(ls.data, status=status.HTTP_201_CREATED)
-        return Response(ls.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    elif request.method == "GET":
-        form = LocationForm()
-    
-    context = {
-        "form": form
-    }
-    return render(request, "locator/new.html", context) 
-
+def review_submitted(request):
+    return render(request, "views/popups/review_submitted.html")
 
 

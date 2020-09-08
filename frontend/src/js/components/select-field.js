@@ -131,7 +131,6 @@ class SelectField extends HTMLElement {
     connectedCallback(){
         if(this.select.isConnected)
             this.select.addEventListener("change", this.handleChange)
-
     }
     disconnectedCallback(){
         this.select.removeEventListener("change", this.handleChange)

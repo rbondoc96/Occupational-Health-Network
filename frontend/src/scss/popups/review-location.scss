@@ -1,0 +1,32 @@
+header {
+    margin: 40px 0;
+    text-align: center;
+}
+
+main {
+    margin: 15px 40px 0px 40px;
+}
+
+.ratings__wrapper {
+    .ratings__label {
+        margin: 10px 0px;
+    }
+
+    .ratings__stars {
+        display: flex;
+        flex-direction: row;
+
+        .star__wrapper {
+            .rating-input {
+                display: none;
+            }
+            label:hover {
+                cursor: pointer;
+            }
+        }
+    }
+}
+
+footer {
+    background-color: #fff;
+}

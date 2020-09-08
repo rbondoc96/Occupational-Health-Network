@@ -12,7 +12,7 @@
             <div class="row">
                 <section class="col-12 content__header">
                     <h1>Explore the Network</h1>
-                    <p>Use the search box below to find a location near you.</p>
+                    <p>Use the search form below to find a location near you. Apply filters to find those specific to your needs.</p>
                 </section>
             </div>
             <div class="row">
@@ -37,10 +37,41 @@
                                 required>
                             </text-field>
                         </div>
-                        <div class="row">
-                            <div class="filters-box">
-                                
-                            </div>
+                        <div class="row filters-box">
+                            <select-field class="col-md-6">
+                                <label slot="label" for="services">Services Offered</label>
+                                <select
+                                multiple
+                                slot="select"
+                                id="services" 
+                                name="services-filter"></select>
+                            </select-field>
+                            <div id="services-selected" class="col-md-6">
+                                <div class="filter-label">Services Selected</div>
+                                <ul class="services-selected">
+                                </ul>
+                            </div>      
+                            <select-field class="col-md-6">
+                                <label slot="label" for="days">Days Open</label>
+                                <select
+                                multiple
+                                slot="select"
+                                id="days" 
+                                name="days-filter">
+                                    <option value="1">Monday</option>
+                                    <option value="2">Tuesday</option>
+                                    <option value="3">Wednesday</option>
+                                    <option value="4">Thursday</option>
+                                    <option value="5">Friday</option>
+                                    <option value="6">Saturday</option>
+                                    <option value="7">Sunday</option>
+                                </select>
+                            </select-field>
+                            <div id="days-selected" class="col-md-6">
+                                <div class="filter-label">Days Selected</div>
+                                <ul class="days-selected">
+                                </ul>
+                            </div>                                      
                             <div class="col-12">
                                 <button type="submit" class="button button-primary--pink">
                                     Search

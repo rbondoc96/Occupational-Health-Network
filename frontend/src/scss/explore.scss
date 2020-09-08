@@ -1,5 +1,29 @@
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.css");
+
 text-field {
     display: inline-block;
+}
+
+.content__header {
+    p {
+        margin: 20px 0;
+    }
+}
+
+.filters-box {
+    ul {
+        list-style-type: none;
+        
+        li {
+            font-size: 0.9rem;
+        }
+    }
+}
+
+.filter-label {
+    margin-top: 13px;
+    font-weight: 700;
+    font-size: 14px;
 }
 
 .results-box {
@@ -16,9 +40,30 @@ text-field {
         location-card {
             overflow-x: visible;
         }
+
+        p {
+            text-align: center;
+            
+            font-weight: 700;
+            font-size: 1.2rem;
+            
+            margin-top: 35px;
+        }
     }
     .results::-webkit-scrollbar {
         width: 0px;
         background: transparent;
+    }
+}
+
+@media only screen and (max-width: 769px) {
+    .filter-label {
+        margin-bottom: 30px;
+    }
+    location-card {
+        text-align: center;
+        a button {
+            width: 130px;
+        }
     }
 }

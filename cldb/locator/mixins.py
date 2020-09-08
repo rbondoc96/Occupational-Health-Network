@@ -3,21 +3,34 @@
 from rest_framework import status
 from rest_framework.response import Response
 
+from locator.models import Location
+
+#pylint: disable=no-member
+
 class LocationQueryParameterMixin(object):
     def get_queryset(self):
         queryset = self.queryset
-        location_id = self.request.query_params.get("locationId", None)
+        location_id = self.request.query_params.get("location-id", None)
+        slug = self.request.query_params.get("slug", None)
         
         if location_id is not None:
             queryset = queryset.filter(location=location_id)
             if queryset.exists() and queryset != []:
                 return queryset.filter(location=location_id)
+        if slug is not None:
+            try:
+                location = Location.objects.get(slug=slug)
+            except Location.DoesNotExist:
+                return []
+            queryset = queryset.filter(location=location)
+            if queryset.exists() and queryset != []:
+                return queryset.filter(location=location)                
         else:
             return queryset.order_by("location")
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
-        if not queryset.exists() or queryset == []:
+        if queryset == []:
             return Response([], status=status.HTTP_404_NOT_FOUND)
         
         serializer = self.get_serializer_class()(queryset, many=True)

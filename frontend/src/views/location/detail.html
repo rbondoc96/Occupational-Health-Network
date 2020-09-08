@@ -24,8 +24,18 @@
                             <a target="_blank" class="content__directions-link">
                                 <button type="button" class="button button-primary--blue">Get Directions</button>
                             </a>
+                            <a target="_blank" class="update-link">
+                                <button type="button" class="button button-secondary--blue">Update Information</button>
+                            </a>
+                            <a target="_blank" class="review-link">
+                                <button type="button" class="button button-secondary--blue">Submit a Review</button>
+                            </a>                            
                         </div>
                         <div class="clinic-reviews">
+                            <div class="stars-outer">
+                                <div class="stars-inner">
+                                </div>
+                            </div>
                         </div>
                         <div class="employer-info">
                             <div class="employer-info__section">
@@ -96,6 +106,19 @@
                                 <span class="meta-data-label">Last Updated:</span>
                                 <span id="last-updated"></span>
                             </div>
+                            {% if request.user.is_authenticated %}
+                                {% if request.user.profile.user_type %}
+                                    {% if request.user.profile.user_type.id == 3 %}
+                                        <a href="#" id="delete-link">
+                                            <button 
+                                            type="button"
+                                            class="button button-primary--pink">
+                                                Delete Location
+                                            </button>
+                                        </a>
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
                         </section>
                     </div>
                 </div>

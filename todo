@@ -1,0 +1,41 @@
+***** Explore Page
+x Add stars to LocationCard
+x Pull all reviews per location
+x Average all reviews per location
+x Fill stars based on average reviews
+[L8R] Add Clinic Open Status based on current time
+ - Closed red
+ - Currently Open green
+ - Unknown grey
+ - Closing soon yellow
+x Add Filters option
+ x Services Offered
+ x Days Open
+ x Added "No locations found" on empty list
+
+***** Location Detail Page
+x Fix Contact for when email/phone are not shown
+
+***** Update Location Page
+- Create Page
+- Redirect if not logged in
+
+***** Settings Page 
+- Delete Account button
+
+***** Bookmarks
+- Hide button
+
+***** Dashboard
+- See reviews submitted
+- Delete reviews
+
+***** Reviews
+- Edit review
+- Delete review
+
+*****
+- How will locations be deleted?
+ - Can all users delete the location?
+ [THIS] Users can submit a request to have a location deleted
+ [THIS] Sysadmin users AKA me will have the permission to remove them

@@ -95,9 +95,9 @@ class ReviewTypeSerializer(serializers.ModelSerializer):
         ]
 
 class ReviewSerializer(serializers.ModelSerializer):
-    owner = user_serializers.UserSerializer(read_only=True)
-    location = MinimalLocationSerializer(read_only=True)
-    review_type = ReviewTypeSerializer(read_only=True)
+    # owner = user_serializers.UserSerializer(read_only=True)
+    # location = MinimalLocationSerializer(read_only=True)
+    # review_type = ReviewTypeSerializer(read_only=True)
 
     class Meta:
         model = Review
@@ -108,6 +108,8 @@ class ReviewSerializer(serializers.ModelSerializer):
             "owner",
             "rating",
             "comments",
+            "date_edited",
+            "date_submitted",
         ]
 
 class DaySerializer(serializers.ModelSerializer):

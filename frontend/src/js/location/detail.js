@@ -1,14 +1,14 @@
-import "./components/cards/contact-card"
-import "./components/cards/service-hour-card"
+import "../components/cards/contact-card"
+import "../components/cards/service-hour-card"
 
-import "../scss/location.scss"
-import {timestrConvert, timeRangeToString} from "./utils"
+import "../../scss/location/detail.scss"
+import {timestrConvert, timeRangeToString} from "../utils"
 
-import CallableIcon from "../assets/icon-valid.svg"
-import UncallableIcon from "../assets/icon-invalid.svg"
-import CalendarIcon from "../assets/calendar.svg"
-import PhoneIcon from "../assets/phone-icon.svg"
-import MailIcon from "../assets/mail-icon.svg"
+import CallableIcon from "../../assets/icon-valid.svg"
+import UncallableIcon from "../../assets/icon-invalid.svg"
+import CalendarIcon from "../../assets/calendar.svg"
+import PhoneIcon from "../../assets/phone-icon.svg"
+import MailIcon from "../../assets/mail-icon.svg"
 
 var script = document.createElement('script')
 script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyC8i4Dw9T0XlIaLrF7-RpIV7yYkXaJLAso&callback=initMap&libraries=places'
@@ -50,28 +50,39 @@ const setObjectListText = function(elem, objList) {
     }
 }
 
-const setReviewsText = function(elem, reviews) {
-    let sum = 0
-    let length = Object.keys(reviews).length
-    if(length > 0) {
-        for(let rev of reviews) 
-            sum += rev.rating
+const setButtonLinks = function(wrapper, slug) {
+    let updateLink = wrapper.querySelector(".update-link")
+    let reviewLink = wrapper.querySelector(".review-link")
 
-        let avg = (sum / length).toFixed(2)
-        let slug = window.location.pathname.split("/")[2]
+    updateLink.setAttribute("href", `/locations/update/${slug}`)
 
-        const markup = `
-            <span>Average rating: </span>
-            <span
-            class="${avg > 4 ? 'good-reviews' : avg > 2 ? 'okay-reviews' : 'bad-reviews'}"
-            >${avg}</span>
-            <span> out of <a href="/locations/reviews/${slug}">${length}</a> reviews</span>
-        `       
-        elem.innerHTML = markup
-    } else {
-        const markup = `<span>No reviews yet!</span>`
-        elem.innerHTML = markup
-    }
+    reviewLink.addEventListener("click", event => {
+        window.open(`/locations/${slug}/review`, "_blank", `
+            location=yes,
+            height=800,
+            width=700, 
+            top=${(screen.height - 800) / 4}
+            left=${(screen.width - 700) / 2}
+        `)
+    })
+}
+
+const setReviewsText = function(wrapper) {
+    const slug = window.location.pathname.split("/")[2]
+    fetch(`http://127.0.0.1:8000/api/review_stats/?location=${slug}`)
+    .then(response => response.json())
+    .then(json => {
+        let starsFill = wrapper.querySelector(".stars-inner")
+        let average = json["average_rating"]
+        let link = `<a href="/locations/reviews/${slug}" target="_blank">out of ${json["total_reviews"]} reviews</a>`
+
+        // There are 5 stars to fill
+        let starsPercent = (average / 5.0) * 100
+        starsPercent = `${Math.round(starsPercent/10) * 10}%`
+
+        starsFill.style.width = starsPercent
+        wrapper.insertAdjacentHTML("beforeend", link)
+    })
 }
 
 const sortServicesByCategory = function(objList) {
@@ -158,7 +169,7 @@ const setServiceHoursList = function(elem, objList) {
             }
 
             let markup = `
-                <li>
+                <li class="col-md-6">
                     <service-hour-card>
                         <span slot="service">${item.name}</span>
                         <span slot="time-range">${timeRangeToString(timestrConvert(item.start_time), timestrConvert(item.end_time))}</span>
@@ -184,7 +195,7 @@ const setContactsList = function(elem, objList) {
         subSection.setAttribute("class", "content__main__list row")
         for(let item of objList) {
             let markup = `
-                <li>
+                <li class="col-md-6">
                     <contact-card>
                         <span slot="name">${item.name}</span>
                         ${(item.title !== "" && item.title != null) ? 
@@ -253,7 +264,6 @@ const setAddress = function(elem, obj) {
 }
 
 const setBusinessHoursList = function(elem, objList) {
-    console.log(objList)
     if(objList.length > 0) {
 
         let list = document.createElement("ul")
@@ -268,19 +278,6 @@ const setBusinessHoursList = function(elem, objList) {
                     )}</span>
                 </li>
             `
-            // let entry = document.createElement("li")
-            // entry.setAttribute("class", "business-hour__entry")
-
-            // let label = document.createElement("strong")
-            // label.setAttribute("class", "business-hour__day")
-            // label.appendChild(document.createTextNode(obj.day.name + ": "))
-
-            // let timeRange = document.createElement("span")
-            // timeRange.setAttribute("class", "business-hour__time")
-            // setTimeRangeText(timeRange, obj.start_time, obj.end_time)
-
-            // entry.appendChild(label)
-            // entry.appendChild(timeRange)
             list.innerHTML += markup
         }
         elem.appendChild(list)
@@ -297,7 +294,6 @@ const getLocationContext = async function() {
     })
 
     if(location != null) {
-        console.log(location)
 
         document.title = (location.branch_name != "") ? 
         `${location.name} - ${location.branch_name}` :
@@ -308,8 +304,9 @@ const getLocationContext = async function() {
         setText(document.getElementById("location-category"), location.location_category.name)
         setObjectListText(document.getElementById("auth-method-list"), location.auth_method_list)
         setObjectListText(document.getElementById("ccf-category-list"), location.ccf_category_list)
-
-        setReviewsText(document.querySelector(".clinic-reviews"), location.reviews)
+    
+        setButtonLinks(document.querySelector(".buttons"), location.slug)
+        setReviewsText(document.querySelector(".clinic-reviews"))
         setServicesText(document.querySelector(".services-section"), location.service_list)
         setServiceHoursList(document.querySelector(".service-hours-section"), location.service_hours)
         setContactsList(document.querySelector(".contacts-section"), location.contacts)
@@ -384,4 +381,9 @@ document.addEventListener("DOMContentLoaded", function() {
         else
             box.style.display = "none"
     })
+    
+    const deleteButton = document.getElementById("delete-link")
+    if(deleteButton) {
+        deleteButton.setAttribute("href", `${window.location.pathname}delete/`)
+    }
 })

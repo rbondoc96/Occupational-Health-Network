@@ -315,12 +315,11 @@ class Review(models.Model):
     )
 
     rating = models.IntegerField(
-        "On a Scale of 1 (bad) to 5 (best), how was your experience?",
+        "Rating",
         validators=[
             MinValueValidator(1),
             MaxValueValidator(5)
         ],
-        default=1,
     )
     comments = models.TextField(blank=True, null=True)
     date_edited = models.DateField(
@@ -331,6 +330,9 @@ class Review(models.Model):
         'Date Submitted',
         auto_now_add=True
     )
+
+    def __str__(self):
+        return f"Review for {self.location}"
 
 class ReviewComment(models.Model):
     owner = models.ForeignKey(

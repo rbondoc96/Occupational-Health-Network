@@ -5,7 +5,7 @@
   "main": "webpack.common.js",
   "scripts": {
     "start": "nodemon -w webpack.dev.js --exec \"webpack-dev-server --config webpack.dev.js\"",
-    "build": "nodemon -w src --exec \"webpack --config webpack.prod.js\"",
+    "build": "nodemon -w src -w webpack.prod.js -w webpack.common.js --exec \"webpack --config webpack.prod.js\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "nodemonConfig": {

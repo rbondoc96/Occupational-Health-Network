@@ -9,14 +9,17 @@ module.exports = {
         home: "./src/js/home.js",
         dashboard: "./src/js/dashboard.js",
         explore: "./src/js/explore.js",
-        addLocation: "./src/js/add-location.js",
+        addLocation: "./src/js/location/create.js",
         settings: "./src/js/settings.js",
         disclaimer: "./src/js/disclaimer.js",
         login: "./src/js/login-register.js",
         logout: "./src/js/logout.js",
-        location: "./src/js/location.js",
+        location: "./src/js/location/detail.js",
         reviews: "./src/js/reviews.js",
         reviewLocation: "./src/js/review-location.js",
+        reviewSubmitted: "./src/js/popups/review-submitted.js",
+        updateLocation: "./src/js/location/update.js",
+        deleteLocation: "./src/js/location/delete.js",
         hideMainContent: "./src/js/hide-main-content.js",
     },
     module: {
@@ -62,6 +65,12 @@ module.exports = {
             favicon: "./src/assets/favicon.ico",
             chunks: ["main", "vendor", "home"]
         }),
+        new HtmlWebpackPlugin({
+            filename: "views/404.html",
+            template: "src/views/404.html",
+            favicon: "./src/assets/favicon.ico",
+            chunks: ["main", "vendor"]
+        }),        
         new HtmlWebpackPlugin({
             title: "Explore the Network",
             filename: "views/explore.html",
@@ -118,16 +127,33 @@ module.exports = {
             filename: "views/popups/review_location.html",
             template: "src/views/popups/review_location.html",
             chunks: ["main", "hideMainContent", "reviewLocation"]
-        }),                  
+        }),     
         new HtmlWebpackPlugin({
-            filename: "location.html",
-            template: "src/views/location_template.html",
+            filename: "views/popups/review_submitted.html",
+            template: "src/views/popups/review_submitted.html",
+            chunks: ["main", "hideMainContent", "reviewSubmitted"]
+        }),                      
+        new HtmlWebpackPlugin({
+            filename: "views/location/detail.html",
+            template: "src/views/location/detail.html",
             favicon: "./src/assets/favicon.ico",
             chunks: ["main", "location", "vendor"]
         }),
         new HtmlWebpackPlugin({
-            filename: "views/add_location.html",
-            template: "src/views/add_location.html",
+            filename: "views/location/update.html",
+            template: "src/views/location/update.html",
+            favicon: "./src/assets/favicon.ico",
+            chunks: ["main", "vendor", "updateLocation"]
+        }),          
+        new HtmlWebpackPlugin({
+            filename: "views/location/delete.html",
+            template: "src/views/location/delete.html",
+            favicon: "./src/assets/favicon.ico",
+            chunks: ["main", "vendor", "deleteLocation"]
+        }),        
+        new HtmlWebpackPlugin({
+            filename: "views/location/create.html",
+            template: "src/views/location/create.html",
             favicon: "./src/assets/favicon.ico",
             chunks: ["main", "vendor", "addLocation"]
         }),        

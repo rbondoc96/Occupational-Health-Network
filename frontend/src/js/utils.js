@@ -1,6 +1,5 @@
 const timestrConvert = function(timeStr) {
     var tokens = timeStr.split(":")
-    console.log("converting" + timeStr)
 
     let hour = parseInt(tokens[0])
     let meridian = "AM"

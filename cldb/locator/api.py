@@ -49,6 +49,19 @@ class SearchView(APIView):
         address = params.get("address")
         zipcode = params.get("zipcode")
         radius = params.get("radius")
+        services = params.get("services")
+        days = params.get("days")
+
+        if services is not None:
+            services = {int(num) for num in services.split(",")}
+        if days is not None:
+            days = {int(num) for num in days.split(",")}
+
+        print(services)
+
+        will_filter = False
+        if services is not None or days is not None:
+            will_filter = True
 
         if zipcode is not None and radius is not None:
             radius = int(radius)
@@ -72,8 +85,29 @@ class SearchView(APIView):
                 l_query = queryset.filter(zipcode=zcode.zipcode)
                 if l_query.exists():
                     for obj in l_query:
-                        serializer = DetailedLocationSerializer(obj)
-                        locations.append(serializer.data)
+                        if will_filter:
+                            q_set = obj.service_list.all()
+                            d_set = obj.daytimerange_set.all()
+                            service_ids = {q.id for q in q_set}
+                            day_ids = {d.day.id for d in d_set}
+
+                            if services is not None:
+                                if days is not None:
+                                    if services.issubset(service_ids) and \
+                                        days.issubset(day_ids):
+                                        serializer = DetailedLocationSerializer(obj)
+                                        locations.append(serializer.data)
+                                else:
+                                    if services.issubset(service_ids):
+                                        serializer = DetailedLocationSerializer(obj)
+                                        locations.append(serializer.data)
+                            elif days is not None:
+                                if days.issubset(day_ids):
+                                    serializer = DetailedLocationSerializer(obj)
+                                    locations.append(serializer.data)
+                        else:
+                            serializer = DetailedLocationSerializer(obj)
+                            locations.append(serializer.data)
             return Response(locations, status=status.HTTP_200_OK)
         
         elif address is not None and radius is not None:
@@ -95,11 +129,62 @@ class SearchView(APIView):
                 l_query = queryset.filter(zipcode=zcode.zipcode)
                 if l_query.exists():
                     for obj in l_query:
-                        serializer = DetailedLocationSerializer(obj)
-                        locations.append(serializer.data)
+                        if will_filter:
+                            q_set = obj.service_list.all()
+                            d_set = obj.daytimerange_set.all()
+                            service_ids = {q.id for q in q_set}
+                            day_ids = {d.day.id 
+                                if str(d.start_time) != "23:59:00" and \
+                                    str(d.end_time) != "23:59:00"
+                                else
+                                    -1
+                            for d in d_set}
+
+                            if services is not None:
+                                if days is not None:
+                                    if services.issubset(service_ids) and \
+                                        days.issubset(day_ids):
+                                        serializer = DetailedLocationSerializer(obj)
+                                        locations.append(serializer.data)
+                                else:
+                                    if services.issubset(service_ids):
+                                        serializer = DetailedLocationSerializer(obj)
+                                        locations.append(serializer.data)
+                            elif days is not None:
+                                if days.issubset(day_ids):
+                                    serializer = DetailedLocationSerializer(obj)
+                                    locations.append(serializer.data)
+                        else:
+                            serializer = DetailedLocationSerializer(obj)
+                            locations.append(serializer.data)
             return Response(locations, status=status.HTTP_200_OK)
         else:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response({}, status=status.HTTP_204_NO_CONTENT)
+
+class ReviewStatsView(APIView):
+    def get(self, request, *args, **kwargs): 
+        params = self.request.query_params
+        
+        # slug expected
+        slug = params.get("location")
+        try:
+            location = Location.objects.get(slug=slug)
+        except Location.DoesNotExist:
+            return Response({
+                "error": "Location does not exist",
+            }, status=status.HTTP_404_NOT_FOUND)
+
+        # List of all reviews for Location
+        query = Review.objects.filter(location=location)
+
+        length = len(query)
+        average = sum([q.rating for q in query]) / length if length != 0 else 0
+
+        return Response({
+            "average_rating": average,
+            "total_reviews": length,
+        }, status=status.HTTP_200_OK)
+
 
 class ServiceCategoryViewSet(
     ManagerCUDAuthorizationMixin, 

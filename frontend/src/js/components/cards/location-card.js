@@ -1,5 +1,5 @@
-import PhoneIcon from "../../assets/phone-icon.svg"
-import FaxIcon from "../../assets/fax-icon.svg"
+import PhoneIcon from "../../../assets/phone-icon.svg"
+import FaxIcon from "../../../assets/fax-icon.svg"
 
 var template = document.createElement("template")
 template.innerHTML = `
@@ -23,6 +23,35 @@ template.innerHTML = `
     }
     .branch-name {
         font-size: 1rem;
+    }
+
+    .stars-outer {
+        position: relative;
+        display: inline-block;
+    }
+
+    .stars-inner {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    .stars-outer::before {
+        content: "\\f005 \\f005 \\f005 \\f005 \\f005";
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        font-size: 1.2rem;
+        color: #ccc;
+    }
+    .stars-inner::before {
+        content: "\\f005 \\f005 \\f005 \\f005 \\f005";
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        font-size: 1.2rem;
+        color: #C0D735;
     }
 
     .info {
@@ -54,8 +83,8 @@ template.innerHTML = `
     
     @media only screen and (max-width: 600px) {
         ::slotted(a) {
-            width: 155px;
-        }
+            margin-right: 0px !important;
+        }        
         .wrapper {
             min-height: 300px;
             margin-right: 0;
@@ -81,6 +110,14 @@ template.innerHTML = `
                 <slot name="branch-name"></slot>
             </span>
         </div>
+        <div class="reviews">
+            <div class="stars-outer">
+                <div class="stars-inner">
+
+                </div>
+            </div>
+            <span class="total-reviews"></span>
+        </div>
         <div class="info">
             <div class="info__left">
                 <slot name="street1"></slot>
@@ -104,9 +141,6 @@ template.innerHTML = `
         <div class="footer">
             <slot name="detail-link"></slot>
             <slot name="review-link"></slot>
-            <div class="reviews">
-
-            </div>
         </div>
     </div>
 `
@@ -130,10 +164,27 @@ class LocationCard extends HTMLElement {
         `)
     }
 
+    setStarRating(average) {
+        const wrapper = this.shadowRoot.querySelector(".reviews")
+        let starsFill = wrapper.querySelector(".stars-inner")
+        
+        // There are 5 stars to fill
+        let starsPercent = (average / 5.0) * 100
+        starsPercent = `${Math.round(starsPercent/10) * 10}%`
+
+        starsFill.style.width = starsPercent
+        wrapper.appendChild(document.createTextNode(` out of ${this.totalReviews.value} reviews`))
+    }
+
     connectedCallback() {
         this.status = this.querySelector("[slot='is-open']")
         this.reviewLink = this.querySelector("[slot='review-link']")
         this.slug = this.reviewLink.getAttribute("data-slug")
+
+        this.avgReviews = this.querySelector(".avg-reviews")
+        this.totalReviews = this.querySelector(".total-reviews")
+
+        this.setStarRating(this.avgReviews.value)
 
         this.status.style.fontWeight = "700"
         this.status.style.textAlign = "right"

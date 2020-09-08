@@ -53,11 +53,11 @@ class ContactCard extends HTMLElement {
 
     connectedCallback() {
         var emailSlot = this.querySelector("[slot='email']")
-        if(emailSlot.textContent == "") 
+        if(!emailSlot) 
             this.shadowRoot.querySelector(".email").style.display = "none"
 
         var phoneSlot = this.querySelector("[slot='phone']")
-        if(phoneSlot.textContent == "") 
+        if(!phoneSlot) 
             this.shadowRoot.querySelector(".phone").style.display = "none"
     }
 

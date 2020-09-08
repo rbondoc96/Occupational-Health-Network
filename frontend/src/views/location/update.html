@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Location</title>
+</head>
+<body>
+    <div class="row">
+        <main id="content" class="col-12">
+            <div class="row">
+                <section class="col-12 content__header">
+                    <h1>Update Location Information</h1>
+                    <p>Recently called or visited and some information has changed? Change it here!</p>
+                </section>
+            </div>
+            <div class="row">
+                <section class="col-md-10">
+                    <form id="location-form" method="POST">
+                        <div class="row">
+                            <select-field class="col-md-12">
+                                <label slot="label"for="clinic-type">
+                                    Clinic Type
+                                </label>
+                                <select 
+                                required
+                                slot="select"
+                                id="clinic-type" 
+                                name="clinic-type">
+                                    <option value="">None</option>
+                                </select>
+                            </select-field>
+                        </div>
+                        <div class="row">
+                            <text-field class="col-md-6">
+                                <label slot="label" for="clinic-name">Clinic Name</label>
+                                <span slot="info">Name of the clinic or company</span>
+                                <input 
+                                required
+                                slot="input"
+                                id="clinic-name" 
+                                name="clinic-name" 
+                                type="text">
+                            </text-field>
+                            <text-field class="col-md-6">
+                                <label slot="label" for="branch-name">Branch Name</label>
+                                <span slot="info">Optional, usually applicable to larger companies</span>
+                                <input 
+                                slot="input"
+                                id="branch-name" 
+                                name="branch-name" 
+                                type="text">
+                            </text-field>
+                        </div>
+                        <div class="row">
+                            <text-field class="col-md-6">
+                                <label slot="label" for="street-line-1">Street Line 1</label>
+                                <input 
+                                required
+                                slot="input"
+                                id="street-line-1" 
+                                name="street-line-1" 
+                                type="text">
+                            </text-field>
+                            <text-field class="col-md-6">
+                                <label slot="label" for="street-line-2">Street Line 2</label>
+                                <span slot="info">Building, Suite #, etc.</span>
+                                <input 
+                                slot="input"
+                                id="street-line-2" 
+                                name="street-line-2" 
+                                type="text">
+                            </text-field>                            
+                        </div>                    
+                        <div class="row">
+                            <text-field  class="col-md-6">
+                                <label slot="label" for="city">City</label>
+                                <input 
+                                required
+                                slot="input"
+                                id="city" 
+                                name="city" 
+                                type="text">
+                            </text-field> 
+                            <select-field  class="col-md-2">
+                                <label slot="label" for="state">State</label>
+                                <select 
+                                required
+                                slot="select"
+                                id="state"
+                                name="state">
+                                    <option value=""></option>
+                                    <option value="AL">AL</option>
+                                    <option value="AK">AK</option>
+                                    <option value="AR">AR</option>	
+                                    <option value="AZ">AZ</option>
+                                    <option value="CA">CA</option>
+                                    <option value="CO">CO</option>
+                                    <option value="CT">CT</option>
+                                    <option value="DC">DC</option>
+                                    <option value="DE">DE</option>
+                                    <option value="FL">FL</option>
+                                    <option value="GA">GA</option>
+                                    <option value="HI">HI</option>
+                                    <option value="IA">IA</option>	
+                                    <option value="ID">ID</option>
+                                    <option value="IL">IL</option>
+                                    <option value="IN">IN</option>
+                                    <option value="KS">KS</option>
+                                    <option value="KY">KY</option>
+                                    <option value="LA">LA</option>
+                                    <option value="MA">MA</option>
+                                    <option value="MD">MD</option>
+                                    <option value="ME">ME</option>
+                                    <option value="MI">MI</option>
+                                    <option value="MN">MN</option>
+                                    <option value="MO">MO</option>	
+                                    <option value="MS">MS</option>
+                                    <option value="MT">MT</option>
+                                    <option value="NC">NC</option>	
+                                    <option value="NE">NE</option>
+                                    <option value="NH">NH</option>
+                                    <option value="NJ">NJ</option>
+                                    <option value="NM">NM</option>			
+                                    <option value="NV">NV</option>
+                                    <option value="NY">NY</option>
+                                    <option value="ND">ND</option>
+                                    <option value="OH">OH</option>
+                                    <option value="OK">OK</option>
+                                    <option value="OR">OR</option>
+                                    <option value="PA">PA</option>
+                                    <option value="RI">RI</option>
+                                    <option value="SC">SC</option>
+                                    <option value="SD">SD</option>
+                                    <option value="TN">TN</option>
+                                    <option value="TX">TX</option>
+                                    <option value="UT">UT</option>
+                                    <option value="VT">VT</option>
+                                    <option value="VA">VA</option>
+                                    <option value="WA">WA</option>
+                                    <option value="WI">WI</option>	
+                                    <option value="WV">WV</option>
+                                    <option value="WY">WY</option>
+                                <select>
+                            </select-field>
+                            <text-field class="col-md-4" validator="zipcode">
+                                <label slot="label" for="zipcode">Zipcode</label>
+                                <span slot="info">Ex: 12345 or 12345-6789</span>
+                                <input 
+                                required
+                                slot="input"
+                                id="zipcode" 
+                                name="zipcode" 
+                                type="text">
+                            </text-field>                            
+                        </div>     
+                        <div class="row">
+                            <text-field validator="phone-ext" class="col-md-6">
+                                <label slot="label" for="phone">Phone #</label>
+                                <span slot="info">Ex: (123) 343-3423 or 123-456-7890 x123456 (1-6 digit extension)</span>
+                                <input
+                                slot="input"
+                                id="phone"
+                                name="phone"
+                                type="text">
+                            </text-field >
+                            <text-field validator="phone" class="col-md-6">
+                                <label slot="label" for="fax">Fax #</label>
+                                <span slot="info">Ex: (123) 456-7890 or 123-456-7890</span>
+                                <input
+                                slot="input"
+                                id="fax"
+                                name="fax"
+                                type="text">
+                            </text-field> 
+                        </div> 
+                        <div class="row">
+                            <checkbox-field class="col-md-12">
+                                <label slot="label" for="is-phone-callable">Will a human answer this phone?</label>
+                                <input 
+                                slot="input"
+                                type="checkbox" 
+                                name="is-phone-callable" 
+                                id="is-phone-callable" 
+                                value="true">
+                            </checkbox-field>
+                        </div>           
+                        <div class="row">
+                            <text-field validator="url" class="col-md-12">
+                                <label slot="label" for="website">Website URL</label>
+                                <input 
+                                slot="input"
+                                id="website" 
+                                name="website" 
+                                type="url">
+                            </text-field> 
+                        </div>        
+                        <div class="row">
+                            <select-field class="col-md-12">
+                                <label slot="label" for="services">Services Offered</label>
+                                <select
+                                required 
+                                multiple
+                                slot="select"
+                                id="services" 
+                                name="services"></select>
+                            </select-field>
+                            <div id="services-selected" class="col-md-12">
+                                <div class="selected-label">Services Selected</div>
+                                <ul class="services-selected">
+                                </ul>
+                            </div>                             
+                        </div> 
+                        <!-- Service Hours -->  
+                        <div class="row">
+                            <div id="service-hours-form" class="col-md-12 subform">
+                                <div class="subform-header">
+                                    <h4>Service Hours</h4>
+                                    <button 
+                                    type="button"
+                                    id="service-hours-toggle"
+                                    class="button button-primary--blue col-md-12">Add a Service</button>
+                                </div>
+                                <div class="subform-content">
+                                    <div class="row">
+                                        <select-field class="col-md-12">
+                                            <label slot="label" for="simple-services">Select a Service</label>
+                                            <select 
+                                            slot="select"
+                                            name="simple-services"
+                                            class="no-send"></select>
+                                        </select-field>
+                                    </div>
+                                    <div class="row"> 
+                                        <text-field validator="time" class="col-md-6">
+                                            <label slot="label" for="service-start-time">Start Time</label>
+                                            <span slot="info">Format: 12:00 PM or 12:00 pm</span>
+                                            <input
+                                            slot="input"
+                                            type="text"
+                                            name="service-start-time"
+                                            class="no-send">
+                                        </text-field>
+                                        <text-field validator="time" class="col-md-6">
+                                            <label slot="label" for="service-end-time">End Time</label>
+                                            <span slot="info">Format: 12:00 PM or 12:00 pm</span>
+                                            <input
+                                            slot="input"
+                                            type="text"
+                                            name="service-end-time"
+                                            class="no-send">
+                                        </text-field>                                        
+                                    </div>
+                                    <div class="row">
+                                        <select-field class="col-md-12">
+                                            <label slot="label">Days Offered</label>
+                                            <select
+                                            slot="select"
+                                            name="service-days-offered"
+                                            class="no-send"
+                                            multiple>
+                                                <option value="1">Monday</option>
+                                                <option value="2">Tuesday</option>
+                                                <option value="3">Wednesday</option>
+                                                <option value="4">Thursday</option>
+                                                <option value="5">Friday</option>
+                                                <option value="6">Saturday</option>
+                                                <option value="7">Sunday</option>
+                                            </select>
+                                        </select-field>
+                                        <div id="days-selected" class="col-md-6">
+                                            <div class="selected-label">Days Selected</div>
+                                            <ul class="days-selected">
+                                            </ul>
+                                        </div>                                        
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <button type="button" id="service-hours-submit"
+                                            class="button button-secondary--blue col-md-12">Add Entry</button>
+                                        </div>
+                                    </div>                                       
+                                </div>
+                                <div class="row hidden-list">
+                                    <div class="col-md-12">
+                                        <h4>Service Hour Entries:</h4>
+                                        <p style="margin-bottom: 15px;">Double click an entry to delete it from the list</p>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <ul id="service-hours__list">
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Business Hours -->          
+                        <div class="row">
+                            <div id="business-hours-form" class="col-md-12 subform">
+                                <div class="subform-header">
+                                    <h4>Business Hours</h4>
+                                    <button type="button" id="business-hours-toggle"
+                                    class="button button-primary--blue col-md-12">
+                                        Add a Day
+                                    </button>
+                                </div>
+                                <div class="subform-content">
+                                    <div class="row">
+                                        <select-field class="col-md-12">
+                                            <label slot="label" for="business-day">Select a Day</label>
+                                            <select 
+                                            slot="select"
+                                            name="business-day"
+                                            class="no-send">
+                                                <option value="1">Monday</option>
+                                                <option value="2">Tuesday</option>
+                                                <option value="3">Wednesday</option>
+                                                <option value="4">Thursday</option>
+                                                <option value="5">Friday</option>
+                                                <option value="6">Saturday</option>
+                                                <option value="7">Sunday</option>
+                                            </select>
+                                        </select-field>
+                                    </div>
+                                    <div class="row">
+                                        <text-field class="col-md-6" validator="time">
+                                            <label slot="label"for="business-start-time">Start Time</label>
+                                            <span slot="info">Format: 12:00 PM or 12:00 pm</span>
+                                            <input 
+                                            slot="input"
+                                            type="text" 
+                                            name="business-start-time" 
+                                            class="no-send">
+                                        </text-field>
+                                        <text-field class="col-md-6" validator="time">
+                                            <label slot="label"for="business-end-time">End Time</label>
+                                            <span slot="info">Format: 12:00 PM or 12:00 pm</span>
+                                            <input 
+                                            slot="input"
+                                            type="text" 
+                                            name="business-end-time" 
+                                            class="no-send">
+                                        </text-field>                                        
+                                    </div>
+                                    <div class="row">
+                                        <checkbox-field class="col-md-6">
+                                            <label slot="label" for="is-closed">Closed</label>
+                                            <input
+                                            data-status="invalid"
+                                            slot="input" 
+                                            type="checkbox"  
+                                            name="is-closed" 
+                                            id="is-closed">
+                                        </checkbox-field>            
+                                        <checkbox-field class="col-md-6">
+                                            <label slot="label" for="is-24hours">Open 24 Hours</label>
+                                            <input
+                                            data-status="invalid"
+                                            slot="input" 
+                                            type="checkbox"  
+                                            name="is-24hours" 
+                                            id="is-24hours">
+                                        </checkbox-field>                                                                           
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <button type="button" id="business-hours-submit"
+                                            class="button button-secondary--blue col-md-12">Add Entry</button>
+                                        </div>
+                                    </div>                                    
+                                </div>
+                                <div class="hidden-list">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h4>Business Hour Entries:</h4>
+                                            <p style="margin-bottom: 15px;">Double click an entry to delete it from the list</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <ul id="business-hours__list">
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>      
+                        <!-- Contacts -->
+                        <div class="row">
+                            <div id="contacts-form" class="col-md-12 subform">
+                                <div class="subform-header">
+                                    <h4>Contacts</h4>
+                                    <button type="button" id="contacts-toggle"
+                                    class="button button-primary--blue col-md-12">
+                                        Add a Contact
+                                    </button>
+                                </div>
+                                <div class="subform-content">
+                                    <div class="row">
+                                        <text-field class="col-md-12">
+                                            <label slot="label" for="contact-name">Contact Name</label>
+                                            <input 
+                                            slot="input"
+                                            type="text" 
+                                            name="contact-name"
+                                            class="no-send">
+                                        </text-field>
+                                    </div>
+                                    <div class="row">
+                                        <text-field class="col-md-12">
+                                            <label slot="label" for="contact-title">Title/Position</label>
+                                            <span slot="info">(Optional) To specify people with special purposes</span>
+                                            <input 
+                                            slot="input"
+                                            type="text" 
+                                            name="contact-title"
+                                            class="no-send">
+                                        </text-field>
+                                    </div>
+                                    <div class="row">
+                                        <text-field class="col-md-12" validator="email">
+                                            <label slot="label" for="contact-email">Contact Email</label>
+                                            <input 
+                                            slot="input"
+                                            type="text" 
+                                            name="contact-email"
+                                            class="no-send">
+                                        </text-field>
+                                    </div>
+                                    <div class="row">
+                                        <text-field class="col-md-12" validator="phone-ext">
+                                            <label slot="label" for="contact-phone">Contact Phone</label>
+                                            <span slot="info">Ex: (123) 456-7890 x123456 or 123-456-7890</span>
+                                            <input 
+                                            slot="input"
+                                            type="text" 
+                                            name="contact-phone"
+                                            class="no-send">
+                                        </text-field>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <button type="button" id="contacts-submit"
+                                            class="button button-secondary--blue col-md-12">Add Entry</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="hidden-list">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h4>Contact Entries:</h4>
+                                            <p style="margin-bottom: 15px;">Double click an entry to delete it from the list</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <ul id="contacts-hours__list">
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>                                 
+                            </div>
+                        </div>       
+                        <div class="row mt-4">
+                            <div class="col-md-12">
+                                <h4>Authorization Methods</h4>
+                                <div id="auth-methods__wrapper">
+
+                                </div>
+                            </div>
+                        </div>  
+                        <div class="row mt-4">
+                            <div class="col-md-12">
+                                <h4>Chain of Custody Forms Accepted</h4>
+                                <div id="coc-forms__wrapper">
+
+                                </div>
+                            </div>
+                        </div>  
+                        <div class="row mt-2">
+                            <text-field class="col-md-12">
+                                <label slot="label" for="comments">Comments</label>
+                                <textarea 
+                                slot="input"
+                                id="comments" 
+                                name="comments"></textarea>
+                            </text-field>
+                        </div>      
+                        <div class="row">
+                            <div class="form-field col-md-8">
+                                <button type="submit" class="button button-primary--pink" id="submit-button">Update Location</button>
+                            </div>
+                        </div>   
+                    </form>
+                </section>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

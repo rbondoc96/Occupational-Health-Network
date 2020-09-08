@@ -1,4 +1,6 @@
-@import "./forms.scss";
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.css");
+
+@import "../forms.scss";
 
 @mixin reviews {
     text-decoration: underline;
@@ -35,6 +37,40 @@
     padding: 75px 0 !important;
 }
 
+.clinic-reviews {
+    a {
+        margin-left: 8px;
+    }
+}
+.stars-outer {
+    position: relative;
+    display: inline-block;
+}
+
+.stars-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.stars-outer::before {
+    content: "\f005 \f005 \f005 \f005 \f005";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: 1.2rem;
+    color: #ccc;
+}
+.stars-inner::before {
+    content: "\f005 \f005 \f005 \f005 \f005";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: 1.2rem;
+    color: #C0D735;
+}
+
 section.content__header {
     position: relative;
 
@@ -58,6 +94,16 @@ section.content__header {
     }
     .clinic-reviews {
         margin: 25px 0;
+    }
+
+    .buttons {
+        display: flex;
+        flex-direction: row;
+        a {
+            display: inline-block;
+            text-decoration: none;
+            margin: 8px 3px;
+        }
     }
 
     .employer__label {
@@ -200,14 +246,35 @@ section.content__main {
     }
 }
 
+#delete-link {
+    button {
+        margin-top: 15px;
+        width: 100%;
+    }
+}
+
 @media only screen and (max-width: 992px) {
     ul {
         display: flex;
         flex-direction: column;  
+        align-items: center;
     }
     .clinic-name {
-        display: flex;
         justify-content: center;
+        flex-direction: column !important;
+        align-items: center;
+    }
+    .buttons {
+        flex-direction: column !important;
+        align-items: center;
+        margin-top: 15px;
+
+        a {
+            width: 170px;
+        }
+        a button {
+            width: 170px;
+        }
     }
     .comments {
         margin: 25px 20px;

@@ -1,10 +1,9 @@
-import "./components/text-field"
-import "./components/select-field"
-import "./components/checkbox-field"
-import {getCookie, timeRangeToString, lookup} from "./utils"
+import "../components/text-field"
+import "../components/select-field"
+import "../components/checkbox-field"
+import {getCookie, timeRangeToString, lookup} from "../utils"
 
-import "../scss/add-location.scss"
-import "../scss/modals.scss"
+import "../../scss/location/create.scss"
 
 const daysOfTheWeek = ["__offset__", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
