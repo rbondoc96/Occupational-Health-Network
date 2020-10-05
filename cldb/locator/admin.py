@@ -6,6 +6,7 @@ from .models import (
     Service,
     ServiceCategory, 
     Location, 
+    LocationComment,
     LocationCategory, 
     CcfCategory, 
     DayTimeRange, 
@@ -44,6 +45,7 @@ admin.site.register(ReviewType)
 admin.site.register(Service)
 admin.site.register(ServiceCategory)
 admin.site.register(Location)
+admin.site.register(LocationComment)
 admin.site.register(LocationCategory)
 admin.site.register(CcfCategory)
 admin.site.register(DayTimeRange)

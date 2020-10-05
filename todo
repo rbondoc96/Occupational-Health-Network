@@ -39,3 +39,14 @@ x Fix Contact for when email/phone are not shown
  - Can all users delete the location?
  [THIS] Users can submit a request to have a location deleted
  [THIS] Sysadmin users AKA me will have the permission to remove them
+
+
+***** React JS Front End Integration 
+- 
+
+
+***** Backend Changes
+- Get rid of "CCF Category"
+ - Shouldn't need to store this information
+    [Alter, Electronic, Paper] -- This is Aya jargon
+- Replace location comment with a list of comments from different users

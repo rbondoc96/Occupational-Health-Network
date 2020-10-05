@@ -95,9 +95,9 @@ class ReviewTypeSerializer(serializers.ModelSerializer):
         ]
 
 class ReviewSerializer(serializers.ModelSerializer):
-    # owner = user_serializers.UserSerializer(read_only=True)
+    owner = user_serializers.UserSerializer(read_only=True)
     # location = MinimalLocationSerializer(read_only=True)
-    # review_type = ReviewTypeSerializer(read_only=True)
+    review_type = ReviewTypeSerializer(read_only=True)
 
     class Meta:
         model = Review
@@ -242,6 +242,7 @@ class DetailedLocationSerializer(serializers.ModelSerializer):
     service_list = ServiceSerializer(many=True, read_only=True)
     ccf_category_list = CcfCategorySerializer(many=True, read_only=True)
     auth_method_list = AuthMethodSerializer(many=True, read_only=True)
+    
 
     reviews = ReviewSerializer(
         source="review_set",

@@ -215,7 +215,44 @@ class Location(models.Model):
         if self.branch_name == "" or self.branch_name == None:
             return self.name
         return f"{self.name} - {self.branch_name}"
+
+class LocationComment(models.Model):
+    class Meta: 
+        verbose_name = "Location Comment"
+
+    owner = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+    )
     
+    location = models.ForeignKey(
+        Location,
+        on_delete=models.CASCADE,
+    )
+
+    comment = models.TextField(
+        verbose_name="Comment",
+        default="",
+    )
+
+    date_submitted = models.DateTimeField(
+        auto_now_add=True,
+        blank=True,
+        null=True,
+    )
+    date_edited = models.DateTimeField(
+        auto_now=True,
+        blank=True,
+        null=True,
+    )
+
+    def __str__(self):
+        if self.owner is not None:
+            return f"[{self.location}] {self.owner}'s comment"
+        else:
+            return f"[{self.location}] Anonymous comment"
+
 class ServiceTimeRange(models.Model):
     location = models.ForeignKey(
         Location, 
