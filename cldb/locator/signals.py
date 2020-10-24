@@ -8,23 +8,19 @@ from django.db.models.signals import post_save
 
 from locator.models import Location
 
-# Fix, doesn't run!
 @receiver(post_save, sender=Location)
 def create_slug(sender, instance, created, *args, **kwargs):
-    print("here")
     if created or instance.slug is None:
-        if instance.branch_name != "" and instance.branch_name != None:
-            full_name = instance.name + " " + instance.branch_name
-        else:
-            full_name = instance.name
-        instance.slug = slugify(full_name)
-        print("before")
+        name = instance.name + "-" + instance.branch_name \
+            if instance.branch_name \
+                else instance.name + str(instance.id)
+
+        slug = slugify(name)
+        instance.slug = slug   
 
         try:
-            super().save(*args, **kwargs)
+            instance.save()
         except IntegrityError:
-            instance.slug = instance.slug + "-" + instance.id
-            super().save(*args, **kwargs)
+            instance.slug = instance.slug + "-" + str(instance.id)
+            instance.save()
 
-        print("after")
-        print(instance.slug)

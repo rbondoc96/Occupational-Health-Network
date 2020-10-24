@@ -5,9 +5,6 @@ export default function ServiceCard({
     services,
 }) {
 
-    useEffect(() => {
-    }, [])
-
     return(
         <div className="service-card">
             <h3>{category}</h3>

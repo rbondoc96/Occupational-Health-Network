@@ -5,6 +5,7 @@ import "../fontawesome/library"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 
 import {UIContext} from "../context/ui-context"
+import {UserContext} from "../context/user-context"
 
 import LogoFull from "../../../public/assets/nav-main-logo.svg"
 import LogoMini from "../../../public/assets/nav-main-logo-mini.svg"
@@ -30,6 +31,7 @@ const SidebarLink = ({
 
 export default function Sidebar() {
     const [isMobile, setIsMobile] = useContext(UIContext)
+    const [auth, setAuth] = useContext(UserContext)
 
     const homeIcon = <FontAwesomeIcon icon="home" className="sidebar-icon" />
     const signinIcon = <FontAwesomeIcon icon="head-side-mask" className="sidebar-icon" />
@@ -50,10 +52,15 @@ export default function Sidebar() {
                     </a>
                 </div>
                 <SidebarLink href="/" children={"Home"} icon={homeIcon} />
-                <SidebarLink href="/signin" children={"Sign In"} icon={signinIcon} />
-                <SidebarLink href="/add" children={"Add Location"} icon={addIcon} />
+
+                {!auth.isAuthenticated && <SidebarLink href="/login" children={"Sign In"} icon={signinIcon} />}
+
+                {true && <SidebarLink href="/add" children={"Add Location"} icon={addIcon} />}
+
                 <SidebarLink href="/explore" children={"Explore"} icon={exploreIcon} />
-                <SidebarLink href="/signout" children={"Sign Out"} icon={signoutIcon} />
+
+                {auth.isAuthenticated && <SidebarLink href="/logout" children={"Sign Out"} icon={signoutIcon} />}
+                
             </nav>
         </div>
     )

@@ -11,7 +11,9 @@ from users import api as user_api
 from . import popups as popups
 
 urlpatterns = [
+    path("", include("users.urls")),
     path("", include("locator.urls")),
+    path("", include("frontend.urls")),
     path("api/", include(router.urls)),
     path("api/exists/", user_api.UserExistsView.as_view(), name="exists"),
     path("admin/", admin.site.urls),

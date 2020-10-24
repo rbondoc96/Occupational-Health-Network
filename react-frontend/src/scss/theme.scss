@@ -3,7 +3,19 @@
 @import url("https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&display=swap");
 
 :root {
+    --color-accent: rgb(255, 113, 147);
+
+    --color-bg: rgb(255, 255, 255);
     --color-text: rgb(68, 68, 68);
+    --color-danger: rgb(201, 48, 48);
+    --color-success: rgb(22, 223, 230);
+
+    --color-input-icon: rgb(105, 105, 105);
+    --color-input-border: rgb(138, 138, 138);
+    --color-input-bg: rgb(243, 243, 243);
+    --color-button: rgb(255, 113, 147);
+    --color-button-hover: rgb(255, 85, 124);
+    --color-button-darker: rgb(160, 79, 98);
 
     --width-nav-full: 250px;
     --width-nav-mini: 80px;
@@ -35,6 +47,7 @@ h5 {
 }
 
 h1 {
+    font-size: calc(34px + 0.3vw);
 }
 
 .container {
@@ -43,7 +56,7 @@ h1 {
     padding: 10px 40px;
 }
 
-@media only screen and (max-width: 960px) {
+@media only screen and (max-width: 968px) {
     .content {
         margin-left: var(--width-nav-mini);
         transition-duration: 0.3s;

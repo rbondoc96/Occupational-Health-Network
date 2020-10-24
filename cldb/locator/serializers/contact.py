@@ -18,6 +18,19 @@ class ContactSerializer(serializers.ModelSerializer):
             "email",
         ]
 
+class ContactCreateSerializer(serializers.ModelSerializer):    
+    class Meta:
+        model = models.Contacts
+        fields = [
+            "id",
+            "location",
+            "name",
+            "title",
+            "phone",
+            "email",
+        ]
+
+
 # class DetailedContactsSerializer(serializers.ModelSerializer):
 #     # location = MinimalLocationSerializer(read_only=True)
     

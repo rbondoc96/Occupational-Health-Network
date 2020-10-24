@@ -13,8 +13,9 @@ export default function ContactsSection({
         <section className="contacts-section">
             <h2>Contacts</h2>
             <div className="contact-cards">
-                {info.contacts && info.contacts.map(contact => {
-                    return <ContactCard name={contact.name} title={contact.title} phone={contact.phone} email={contact.email} />
+                {info.contacts && info.contacts.map((contact, idx) => {
+                    return <ContactCard name={contact.name} title={contact.title} phone={contact.phone} email={contact.email} 
+                    key={idx}/>
                 })}
             </div>
         </section>

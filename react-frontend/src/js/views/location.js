@@ -51,7 +51,7 @@ export default function Location({
                         }
                     }),
                     serviceCategories: json["service_list"].map(serviceObj => {
-                        return serviceObj["service_category"]["name"]
+                        return serviceObj["service_category"]
                     }).filter((value, index, self) => {
                         return self.indexOf(value) === index
                     }),
@@ -81,17 +81,6 @@ export default function Location({
                             title: contact["title"],
                             phone: contact["phone"],
                             email: contact["email"],
-                        }
-                    }),
-                    reviews: json["reviews"].map(review => {
-                        return {
-                            id: review["id"],
-                            owner: `${review["first_name"]} ${review["last_name"]}`,
-                            reviewType: review["review_type"]["name"],
-                            rating: review["rating"],
-                            comments: review["comments"],
-                            dateEdited: review["date_edited"],
-                            dateSubmitted: review["date_submitted"],
                         }
                     }),
                     paymentMethods: json["auth_method_list"].map(paymentMethod => {
@@ -128,9 +117,9 @@ export default function Location({
                 <div className="location-contacts">
                     {info.contacts && <ContactsSection />}
                 </div>
-                {/* <div>
+                <div>
                     {info.comments && <CommentsSection />}
-                </div> */}
+                </div>
             </div>
         </div>
     )

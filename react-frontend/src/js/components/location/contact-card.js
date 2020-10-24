@@ -7,12 +7,8 @@ export default function ContactCard({
     email,
 }) {
 
-    useEffect(() => {
-        console.log(name)
-    }, [])
-
     return(
-        <div className="service-hour-card">
+        <div className="contact-card">
             {name && <h3>{name}</h3>}
             {title && <div>Title: {title}</div>}
             {phone && <div>Phone: {phone}</div>}

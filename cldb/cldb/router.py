@@ -13,5 +13,6 @@ router.register(r"service_hours", locator_api.ServiceTimeRangeViewSet, basename=
 router.register(r"services", locator_api.ServiceViewSet, basename="services")
 router.register(r"service_categories", locator_api.ServiceCategoryViewSet)
 router.register(r"location_categories", locator_api.LocationCategoryViewSet)
+router.register(r"location_comments", locator_api.LocationCommentViewSet)
 router.register(r"ccf_categories", locator_api.CcfCategoryViewSet)
 router.register(r"auth_methods", locator_api.AuthMethodViewSet)

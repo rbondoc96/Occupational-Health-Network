@@ -1,0 +1,10 @@
+**** Unit Tests (White Box Testing)
+Add Location Page
+    - Time Range validity
+
+**** Functional Tests (Black Box Testing)
+Add Location Page
+    - Can the page send a FULL form and get back a FULL response?
+
+Login Page
+    - Will I get a successful login?

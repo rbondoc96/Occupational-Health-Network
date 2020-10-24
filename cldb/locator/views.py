@@ -32,16 +32,25 @@ from .forms import (
     ReviewForm,
 )
 
-from .serializers import (
+from locator.serializers.location import (
+    LocationSerializer,
     LocationCreateSerializer,
-    DetailedLocationSerializer, 
+)
+from locator.serializers.service import (
     ServiceSerializer,
-    ContactsCreateSerializer,
-    DayTimeRangeCreateSerializer,
-    ServiceTimeRangeCreateSerializer,
+)
+from locator.serializers.review import (
     ReviewSerializer,
 )
-
+from locator.serializers.daytimerange import (
+    DayTimeRangeCreateSerializer,
+)
+from locator.serializers.servicetimerange import (
+    ServiceTimeRangeCreateSerializer,
+)
+from locator.serializers.contact import (
+    ContactCreateSerializer,
+)
 from locator.utils import get_ratings_by_location, convert_to_time24
 
 import users.permissions as user_permissions
@@ -200,7 +209,7 @@ def add_location(request):
                 for item in contacts_list:
                     obj = json.loads(item)
                     obj["location"] = loc_id
-                    serializer = ContactsCreateSerializer(data=obj)
+                    serializer = ContactCreateSerializer(data=obj)
                     if serializer.is_valid(raise_exception=True):
                         serializer.save()
         

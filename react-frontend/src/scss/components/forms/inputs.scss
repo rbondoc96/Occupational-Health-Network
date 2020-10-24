@@ -1,0 +1,99 @@
+.textInput > label,
+.selectInput > label,
+.listSelectInput > label {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+.listSelectInput > label {
+    font-size: 1.2rem;
+    margin: 0.5em 0;
+}
+.required-label:after {
+    content: " - Required";
+    font-size: 0.7em;
+    color: var(--color-danger);
+}
+ 
+.textInput,
+.selectInput {
+    display: flex;
+    flex-direction: column;
+    padding: 1em 0;
+}
+.textInput input,
+.selectInput select {
+    border: 1px solid var(--color-input-border);
+
+    border-top-color: var(--color-bg);
+    border-left-color: var(--color-bg);
+    border-right-color: var(--color-bg); 
+    background-color: var(--color-input-bg);
+
+    padding: 0.5em 0.6em; 
+    font-size: 1rem;
+    box-sizing: content-box;
+    
+    &:focus {
+       outline: none;
+       border: 1px solid var(--color-accent);
+    }   
+}
+.textInput > .helper-message {
+    font-size: 0.9em;
+    font-style: italic;
+}
+.textInput > .validation-message {
+    margin-top: 0.4em;
+    margin-left: 0.1em;
+    font-size: 0.9em;
+}
+
+.textInput--md,
+.selectInput--md {
+    padding: 1.2em 0;
+ 
+    > input, > label, > div, > select {
+       font-size: 1.1rem;
+    }
+}
+.textInput--lg,
+.selectInput--lg {
+    padding: 1.4em 0;   
+    > input, > label, > div, > select {
+       font-size: 1.2rem;
+    }
+}
+
+.checkboxInput label {
+    display: flex;
+    flex-direction: row;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+.checkboxInput-label {
+    margin-left: 10px;
+}
+
+.listSelectInput {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5em 0;
+ }
+ .listSelect {
+    border: 1px solid var(--color-input-border);
+
+    max-height: 350px;
+    overflow-y: auto;
+ }
+
+ .listSelect > .checkboxInput {
+    padding: 1.2em 0.8em;
+    border-bottom: 1px solid var(--color-input-border);
+
+    &:last-child {
+        border-bottom: 0;
+    }
+ }

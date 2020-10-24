@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+from datetime import timedelta
 from django.contrib.staticfiles.storage import ManifestStaticFilesStorage
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -35,6 +36,7 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 INSTALLED_APPS = [
     'locator.apps.LocatorConfig',
     'users.apps.UsersConfig',
+    'frontend.apps.FrontendConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
+    'knox',
 ]
 
 MIDDLEWARE = [
@@ -133,14 +136,15 @@ USE_L10N = True
 USE_TZ = True
 
 # Uncomment below for build location
-STATIC_URL = "/static/"
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-]
+# STATIC_URL = "/static/"
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, "static"),
+# ]
 
-# Serves webpack-dev-server
-# STATIC_URL = "http://127.0.0.1:8080/"
-# STATICFILES_DIRS = ["static"]
+STATIC_URL = "/frontend/static/"
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "frontend/static/frontend/assets"),
+]
 
 
 # STATICFILES_STORAGE = ManifestStaticFilesStorage
@@ -159,11 +163,12 @@ if DEBUG:
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework.authentication.BasicAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+        "knox.auth.TokenAuthentication",
     ],
     "DEFAULT_PERMISSION_CLASSES":[
-        "rest_framework.permissions.IsAuthenticatedOrReadOnly",
+
     ],
     "DEFAULT_RENDERER_CLASSES": DEFAULT_RENDERER_CLASSES
 }

@@ -4,17 +4,7 @@ from rest_framework import serializers
 
 import locator.models as models
 
-class DayTimeRangeSerializer(serializers.ModelSerializer):
-    day = DaySerializer(read_only=True)
-
-    class Meta:
-        model = DayTimeRange
-        fields = [
-            "id",
-            "day",
-            "start_time",
-            "end_time",
-        ]
+from locator.serializers.day import DaySerializer
 
 class DayTimeRangeCreateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -27,12 +17,15 @@ class DayTimeRangeCreateSerializer(serializers.ModelSerializer):
             "end_time",
         ]
 
-class DetailedDayTimeRangeSerializer(serializers.ModelSerializer):
-    location = MinimalLocationSerializer(read_only=True)
-    day = DaySerializer(read_only=True)
+class DayTimeRangeSerializer(serializers.ModelSerializer):
+    location = serializers.StringRelatedField()
+    day = DaySerializer()
 
+    start_time = serializers.TimeField(format="%I:%M %p")
+    end_time = serializers.TimeField(format="%I:%M %p")    
+    
     class Meta:
-        model = DayTimeRange
+        model = models.DayTimeRange
         fields = [
             "id",
             "location",

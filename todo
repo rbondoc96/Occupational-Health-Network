@@ -1,38 +1,28 @@
 ***** Explore Page
-x Add stars to LocationCard
-x Pull all reviews per location
-x Average all reviews per location
-x Fill stars based on average reviews
+- LocationCard set up
+   - NEEDS
+         - Location Name
+         - Distance from Zip
+         - Average reviews
+
+         - Address
+         - phone
+         - Fax
+
+         - Business Hours
+         - Clinic Open Status
 [L8R] Add Clinic Open Status based on current time
  - Closed red
  - Currently Open green
  - Unknown grey
  - Closing soon yellow
-x Add Filters option
- x Services Offered
- x Days Open
- x Added "No locations found" on empty list
+- Add Filters option
+ - Services Offered
+ - Days Open
+ - Added "No locations found" on empty list
 
-***** Location Detail Page
-x Fix Contact for when email/phone are not shown
-
-***** Update Location Page
-- Create Page
-- Redirect if not logged in
-
-***** Settings Page 
-- Delete Account button
-
-***** Bookmarks
-- Hide button
-
-***** Dashboard
-- See reviews submitted
-- Delete reviews
-
-***** Reviews
-- Edit review
-- Delete review
+***** ALL PAGES
+- Add loading screen for when page is rendering
 
 *****
 - How will locations be deleted?
@@ -50,3 +40,17 @@ x Fix Contact for when email/phone are not shown
  - Shouldn't need to store this information
     [Alter, Electronic, Paper] -- This is Aya jargon
 - Replace location comment with a list of comments from different users
+
+
+- User Types
+ - Default is a Patient
+    - For an Employer or Personnel account, they must seek verification
+
+
+
+*** For Oct 21
+- Create basic home page
+- Basic terms and conditions page
+- Make better location cards for the search function
+- Change anchor tags to a component to change to an underline
+   - Just make the anchors more distinguishable

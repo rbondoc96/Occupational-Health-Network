@@ -7,16 +7,12 @@ export default function ServiceHourCard({
     days,
 }) {
 
-    useEffect(() => {
-        console.log(service)
-    }, [])
-
     return(
-        <div className="service-hour-card">
+        <div className="service-hours-card">
             <h3>{service}</h3>
             <div>Start Time: {startTime}</div>
             <div>End Time: {endTime}</div>
-            {days.length > 0 && <div>Days: {days.map(day => day.slice(0,3)).join(", ")}</div>}
+            {days.length > 0 && <div>Offered On: {days.map(day => day.slice(0,3)).join(", ")}</div>}
         </div>
     )
 }

@@ -13,7 +13,7 @@ class ServiceCategorySerializer(serializers.ModelSerializer):
         ]
 
 class ServiceSerializer(serializers.ModelSerializer):
-    service_category = ServiceCategorySerializer(read_only=True)
+    service_category = serializers.StringRelatedField()
     class Meta:
         model = models.Service
         fields = [
@@ -28,7 +28,7 @@ class ServiceSerializer(serializers.ModelSerializer):
 class MinimalServiceSerializer(serializers.ModelSerializer):
     service_category = ServiceCategorySerializer(read_only=True)
     class Meta:
-        model = Service
+        model = models.Service
         fields = [
             "id",
             "service_category",

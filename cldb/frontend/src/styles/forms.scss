@@ -1,0 +1,46 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    // padding: 0 40px;
+}
+
+.form-header {
+    font-size: 2rem;
+}
+
+.form-row-1,
+.form-row-2,
+.form-row-3 {
+    align-items: end;
+
+    > .selectInput {
+        align-self: stretch;
+    }
+}
+
+.form-row-1 {
+    display: grid;
+    grid-template-columns: auto 8%;
+    column-gap: 20px;
+}
+
+.form-row-2 {
+    display: grid;
+    grid-template-columns: auto auto 8%;
+    column-gap: 20px;
+}
+.form-row-3 {
+    display: grid;
+    grid-template-columns: auto auto auto 8%;
+    column-gap: 20px;
+}
+
+@media only screen and (max-width: 968px) {
+    .form-row-1,
+    .form-row-2,
+    .form-row-3 {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+    }
+}

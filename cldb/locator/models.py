@@ -218,9 +218,10 @@ class Location(models.Model):
 
 class LocationComment(models.Model):
     class Meta: 
+        ordering = ["-date_edited"]
         verbose_name = "Location Comment"
 
-    owner = models.ForeignKey(
+    author = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,
         null=True,
@@ -248,8 +249,8 @@ class LocationComment(models.Model):
     )
 
     def __str__(self):
-        if self.owner is not None:
-            return f"[{self.location}] {self.owner}'s comment"
+        if self.author is not None:
+            return f"[{self.location}] {self.author}'s comment"
         else:
             return f"[{self.location}] Anonymous comment"
 
@@ -259,7 +260,11 @@ class ServiceTimeRange(models.Model):
         on_delete=models.CASCADE
     )
 
-    name = models.CharField(max_length=30)
+    name = models.ForeignKey(
+        ServiceCategory,
+        on_delete=models.CASCADE
+    )
+
     start_time = models.TimeField(
         default="0:00 AM", 
         verbose_name="Start Time"

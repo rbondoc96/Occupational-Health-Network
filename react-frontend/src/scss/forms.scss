@@ -1,0 +1,147 @@
+.label {
+    font-weight: 500;
+}
+.required-label:after {
+    content: "*";
+    
+    font-weight: 600;
+    color: var(--color-danger);
+}
+
+.text-input {
+    max-width: 100%;
+}
+
+.text-input,
+.select-input {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+.input-icon {
+    position: absolute;
+    top: 0.9em;
+    left: 0.6em;
+    font-size: 22px; 
+    color: var(--color-input-icon);
+}
+.input-icon--green {
+    color: var(--color-success);
+}
+.text-input input,
+.select-input select {
+    border: 1px solid var(--color-text);
+    border-radius: 5px;
+    padding: 1em 3.3em;
+    margin: 0.3em 0;
+
+    font-size: 1rem;
+    color: var(--color-text);
+
+    &:focus {
+        outline: none;
+    }
+}
+.text-input input.iconless-input {
+    padding: 1em 1em;
+}
+.text-input p,
+.select-input p {
+    position: relative;
+    left: 2px;
+    margin-top: 0;
+}
+
+// Select Input Styles //----------
+.select-input {
+    max-width: 100%;
+}
+.select-input select {
+    padding: 1em 0.5em;
+
+    &:focus {
+        outline: none;
+    }
+}
+.select-input select[multiple] {
+    height: 150px;
+}
+.select-input option:hover {
+    cursor: pointer;
+}
+
+.checkbox-input {
+    padding: 0.6em 0.6em;
+}
+.checkbox-input label {
+    width: 100%;
+}
+.checkbox-input-label {
+    margin-left: 8px;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.sublist-entry {
+
+    &:active {
+        border: 1px solid var(--color-success);
+    }
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.button {
+    border: 0;
+    border-radius: 5px;
+    padding: 0.8em 1.6em;
+    margin: 0.7em 0;
+    width: 100%;
+
+    font-size: 1.1rem;
+    color: #fff;
+
+    background-color: var(--color-button);
+    transition-property: background-color;
+    transition-duration: 0.3s;
+
+    &:hover {
+        cursor: pointer;
+
+        background-color: var(--color-button-hover);
+        transition-property: background-color;
+        transition-duration: 0.3s;
+    }
+
+    &:focus {
+        outline: none;
+    }
+}
+.button-secondary {
+    border: 1px solid var(--color-button);
+    background-color: #fff;
+    color: var(--color-button);
+
+    &:hover {
+        background-color: var(--color-button);
+        color: #fff;
+    }
+}
+.button--small {
+    font-size: 0.9em;
+}
+
+// .form-header {
+//     font-size: calc(26px + 1vw);
+//     text-align: center;
+// }
+// .form-container {
+//     display: flex;
+//     flex-direction: column;
+//     justify-content: center;
+//     align-items: center;
+// }

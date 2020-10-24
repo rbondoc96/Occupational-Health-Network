@@ -1,0 +1,69 @@
+.subform-container {
+    border: 1px solid var(--color-input-border);
+    margin: 1em 0;
+}
+ 
+.subform-toolbar {
+   background-color: var(--color-button-darker);
+   color: #fff;
+   padding: 0.3em 1em 0.2em 1em;
+
+   transition-property: background-color;
+   transition-duration: 0.3s;
+
+   &:hover {
+      cursor: pointer;
+      background-color: var(--color-button);
+
+      transition-property: background-color;
+      transition-duration: 0.3s;
+   }
+}
+.subform-title {
+   margin: 0;
+   font-size: 1.3rem;
+   font-weight: 600;
+}
+ 
+.subform-content {
+   display: grid;
+   grid-template-columns: auto auto;
+   column-gap: 30px;
+
+   padding: 1em 1.4em;
+}
+ 
+ .subform,
+ .subform-entries {
+   //  padding: 1em 1.5em 1.5em 1em;
+ }
+ 
+ .subform-entries {
+    height: 100%;
+ }
+ .subform-entries-box {
+    margin: 0.9em 0;
+    border: 1px solid var(--color-input-border);
+    border-radius: 4px;
+    height: 250px;
+    overflow-y: auto;
+ }
+ 
+ .subform-entry {
+    padding: 0.6em 1em;
+    
+    &:hover {
+       cursor: pointer;
+    }
+ }
+ 
+ @media only screen and (max-width: 968px) {
+   .subform-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+   }
+   .subform-entries-box {
+      width: 100% !important;
+   }    
+ }

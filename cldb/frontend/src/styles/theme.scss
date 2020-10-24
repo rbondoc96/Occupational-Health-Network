@@ -1,0 +1,97 @@
+@import url("https://fonts.googleapis.com/css2?family=Varta:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&display=swap");
+
+:root {
+    --color-accent: rgb(255, 113, 147);
+
+    --color-bg: rgb(255, 255, 255);
+    --color-footer-bg: rgb(223, 223, 223);
+    --color-text: rgb(68, 68, 68);
+    --color-text-light: rgb(212, 212, 212);
+    --color-danger: rgb(201, 48, 48);
+    --color-success: rgb(22, 154, 230);
+
+    --color-input-icon: rgb(105, 105, 105);
+    --color-input-border: rgb(138, 138, 138);
+    --color-input-bg: rgb(243, 243, 243);
+    --color-button: rgb(255, 113, 147);
+    --color-button-hover: rgb(255, 85, 124);
+    --color-button-darker: rgb(160, 79, 98);
+
+    --width-nav-full: 250px;
+    --width-nav-mini: 80px;
+}
+
+body {
+    margin: 0;
+
+    font-family: "Varta", sans-serif;
+}
+
+.app {
+    min-height: 100vh;
+}
+.content {
+    position: relative;
+
+    margin-left: var(--width-nav-full);
+    padding-bottom: 40px;
+
+    transition-duration: 0s;
+    transition-property: margin;
+
+    min-height: 100vh;
+}
+
+.content a {    
+    text-decoration: none;
+    color: var(--color-text);
+    font-weight: 600;
+
+    transition-property: color;
+    transition-duration: 0.3s;
+
+    &:hover {
+        color: var(--color-success);
+        transition-property: color;
+        transition-duration: 0.3s;
+    }
+}
+
+h1,
+h2 {
+    font-family: "Archivo Black", sans-serif;
+}
+
+h3, 
+h4, 
+h5 {
+    font-family: "Archivo", sans-serif;
+}
+
+h1 {
+    font-size: calc(34px + 0.3vw);
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 40px;
+}
+
+@media only screen and (max-width: 968px) {
+    .content {
+        margin-left: var(--width-nav-mini);
+        transition-duration: 0.3s;
+        transition-property: margin;
+    }
+
+    .container {
+        justify-content: center;
+    }
+
+    h1 {
+        font-size: 30px;
+    }
+}
