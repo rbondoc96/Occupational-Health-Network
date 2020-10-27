@@ -7,12 +7,12 @@ verify_ssl = true
 pylint = "*"
 pytest = "*"
 selenium = "*"
+faker = "*"
+pylint-django = "*"
 
 [packages]
 django = "*"
 psycopg2 = "*"
-pylint-django = "*"
-django-crispy-forms = "*"
 uszipcode = "*"
 djangorestframework = "*"
 django-rest-knox = "*"
@@ -20,7 +20,6 @@ django-filter = "*"
 requests = "*"
 googlemaps = "*"
 pillow = "*"
-faker = "*"
 django-cors-headers = "*"
 
 [requires]

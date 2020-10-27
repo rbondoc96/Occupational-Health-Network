@@ -439,19 +439,6 @@ class LocationViewSet(viewsets.ModelViewSet):
                 payload, 
                 status=status.HTTP_201_CREATED)            
 
-    # def update(self, request, *args, **kwargs):
-    #     partial = kwargs.pop("partial", False)
-    #     instance = self.get_object()
-    #     serializer = LocationCreateSerializer(
-    #         instance, 
-    #         data=request.data,
-    #         partial=partial
-    #     )
-
-    #     if serializer.is_valid(raise_exception=True):
-    #         serializer.save()
-    #         return Response(serializer.data, status=status.HTTP_200_OK)
-
     def retrieve(self, request, pk=None, *args, **kwargs):
         queryset = self.queryset
         if pk is not None:

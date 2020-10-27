@@ -22,13 +22,19 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '@%u&xvb(oyjnrrpi+_m%w8igiqf_m5$b+w$-dad^#xy6+v&d=h'
+SECRET_KEY = os.environ.get(
+    "DJANGO_SECRET_KEY", 
+    "@%u&xvb(oyjnrrpi+_m%w8igiqf_m5$b+w$-dad^#xy6+v&d=h")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-# DEBUG = False
+# DEBUG = True
+DEBUG = int(os.environ.get("DJANGO_DEBUG", default=1))
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+# ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = []
+ALLOWED_HOSTS_ENV = os.environ.get("ALLOWED_HOSTS")
+if ALLOWED_HOSTS_ENV:
+    ALLOWED_HOSTS.extend(ALLOWED_HOSTS_ENV.split(","))
 
 
 # Application definition
@@ -86,13 +92,14 @@ WSGI_APPLICATION = 'cldb.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+# HOST : name of Postgres service in docker-compose.yml
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'cldb',
         'USER': 'postgres',
-        'PASSWORD': '#bbp69',
-        'HOST': '127.0.0.1',
+        'PASSWORD': 'postgres',
+        'HOST': 'db',
         'PORT': '5432'
     }
 }

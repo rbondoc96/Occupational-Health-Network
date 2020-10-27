@@ -14,6 +14,10 @@ cldb/static/
 
 test_db/
 
+# Persist Docker DB
+.pgdata
+.pgadmin-data
+
 # misc
 .DS_Store
 .env.local
